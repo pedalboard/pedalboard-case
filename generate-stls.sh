@@ -5,5 +5,5 @@ for file in ./parts/*.scad; do
     # For debugging
     # echo "$filePath -> $inferredPath"
     openscad "$filePath.scad" -o "./generated/$inferredPath.stl"
-    openscad "$filePath.scad" -o "./generated/$inferredPath.png"
+    openscad "$filePath.scad" -o "./generated/$inferredPath.svg"
 done
