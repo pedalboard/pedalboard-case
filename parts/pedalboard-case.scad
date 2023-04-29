@@ -71,6 +71,12 @@ module lugs(length, width, height, margin, radius) {
     translate([margin,width-margin]){
         cylinder(r=radius, h=height);
     }
+    translate([margin,width/2]){
+        cylinder(r=radius, h=height);
+    }
+    translate([length-margin,width/2]){
+        cylinder(r=radius, h=height);
+    }
     translate([length-margin,margin]){
         cylinder(r=radius, h=height);
     }
