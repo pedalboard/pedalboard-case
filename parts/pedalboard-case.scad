@@ -5,68 +5,76 @@ $fn=200;
 length = 180;
 width= 100;
 height = 30;
-cornerRadius = 3;
+cornerRadius = 9;
 thickness = 2;
+screwHoleRadius = 1.6;
+screwRadius = 1.25;
 
 
 // box
-translate([cornerRadius, cornerRadius, 0]){
-    difference() {
-            roundedBox(length, width, height, cornerRadius);
+difference() {
+    union() {
+        difference() {
+            roundedBox(width, length, height, cornerRadius);
             translate([thickness,thickness,thickness]) {
-                roundedBox(length-(2*thickness), width-(2*thickness), height, cornerRadius);
+                roundedBox(width-(2*thickness), length-(2*thickness), height, cornerRadius);
             }
+        }
+        lugs(width, length, height, cornerRadius, cornerRadius);
     }
-    lugs(width, length, height, cornerRadius);
+    translate([0,0,2*thickness]){
+        lugs(width, length, height, cornerRadius, screwRadius);
+    }
 }
 
 // lid
-translate([width*2 + 10 + cornerRadius, cornerRadius , 0]){
-    mirror([1,0,0]) {
-        roundedBox(length, width, thickness, cornerRadius);
-        difference() {
-            translate([thickness,thickness,0]) {
-                roundedBox(length-2*thickness,width-2*thickness,2*thickness,cornerRadius);
-            }
-            lugs(width, length, height, cornerRadius);
-            translate([2*thickness-cornerRadius,2*thickness-cornerRadius,1*thickness]) {
+translate([width + 10, 0, 0]){
+    difference() {
+        union(){
+            roundedBox(width, length, thickness, cornerRadius);
+            difference() {
+                translate([thickness,thickness]) {
+                    roundedBox(width-2*thickness,length-2*thickness,2*thickness,cornerRadius);
+                }
+                lugs(width, length, 3*thickness, cornerRadius, cornerRadius);
                 difference() {
-                    translate([0,0,-0.5*thickness]){
+                    translate([2*thickness,2*thickness]){
                         cube([width-4*thickness,length-4*thickness, 3*thickness]);
                     }
-                    lugs(width+2*thickness, length+2*thickness, thickness, cornerRadius+thickness);
+                    lugs(width,length,2*thickness,cornerRadius,cornerRadius+thickness);
                 }
             }
+        }
+        translate([0,0,-thickness]){
+            lugs(width, length, 4*thickness, cornerRadius, screwHoleRadius);
+        }
+    }
+
+}
+
+
+module roundedBox(width, length, height, radius) {
+    dRadius = 2*radius;
+
+    translate([radius,radius]){
+        minkowski() {
+            cube(size=[width-dRadius,length-dRadius, height]);
+            cylinder(r=radius, h=0.0001);
         }
     }
 }
 
-
-module roundedBox(length, width, height, radius)
-{
-    dRadius = 2*radius;
-
-    //base rounded shape
-    minkowski() {
-        cube(size=[width-dRadius,length-dRadius, height]);
-        cylinder(r=radius, h=0.0001);
-    }
-}
-
-module lugs(length, width, height, radius)
-{
-    dRadius = 2*radius;
-    translate([0,0]){
+module lugs(length, width, height, margin, radius) {
+    translate([margin,margin]){
         cylinder(r=radius, h=height);
     }
-
-    translate([0,width-dRadius]){
+    translate([margin,width-margin]){
         cylinder(r=radius, h=height);
     }
-    translate([length-dRadius,0]){
+    translate([length-margin,margin]){
         cylinder(r=radius, h=height);
     }
-    translate([length-dRadius,width-dRadius]){
+    translate([length-margin,width-margin]){
         cylinder(r=radius, h=height);
     }
 }
