@@ -5,7 +5,7 @@ $fn=200;
 length = 180;
 width= 100;
 height = 30;
-cornerRadius = 9;
+cornerRadius = 3.2;
 thickness = 2;
 screwHoleRadius = 1.6;
 screwRadius = 1.25;
@@ -37,13 +37,13 @@ translate([width + 10, 0, 0]){
                     roundedBox(width-2*thickness,length-2*thickness,2*thickness,cornerRadius);
                 }
                 lugs(width, length, 3*thickness, cornerRadius, cornerRadius);
-                difference() {
-                    translate([2*thickness,2*thickness]){
-                        cube([width-4*thickness,length-4*thickness, 3*thickness]);
-                    }
-                    lugs(width,length,2*thickness,cornerRadius,cornerRadius+thickness);
-                }
+           }
+        }
+        difference() {
+            translate([2*thickness,2*thickness, 0.5*thickness]){
+                cube([width-4*thickness,length-4*thickness, 3*thickness]);
             }
+            lugs(width,length,2*thickness,cornerRadius,cornerRadius+thickness);
         }
         translate([0,0,-thickness]){
             lugs(width, length, 4*thickness, cornerRadius, screwHoleRadius);
