@@ -12,9 +12,9 @@ thickness = 2;
 // box
 translate([cornerRadius, cornerRadius, 0]){
     difference() {
-            roundedBox(length, width, height, cornerRadius); 
+            roundedBox(length, width, height, cornerRadius);
             translate([thickness,thickness,thickness]) {
-                roundedBox(length-(2*thickness), width-(2*thickness), height-thickness, cornerRadius); 
+                roundedBox(length-(2*thickness), width-(2*thickness), height, cornerRadius);
             }
     }
     lugs(width, length, height, cornerRadius);
@@ -31,7 +31,9 @@ translate([width*2 + 10 + cornerRadius, cornerRadius , 0]){
             lugs(width, length, height, cornerRadius);
             translate([2*thickness-cornerRadius,2*thickness-cornerRadius,1*thickness]) {
                 difference() {
-                    cube([width-4*thickness,length-4*thickness,thickness]);
+                    translate([0,0,-0.5*thickness]){
+                        cube([width-4*thickness,length-4*thickness, 3*thickness]);
+                    }
                     lugs(width+2*thickness, length+2*thickness, thickness, cornerRadius+thickness);
                 }
             }
@@ -57,7 +59,7 @@ module lugs(length, width, height, radius)
     translate([0,0]){
         cylinder(r=radius, h=height);
     }
- 
+
     translate([0,width-dRadius]){
         cylinder(r=radius, h=height);
     }
