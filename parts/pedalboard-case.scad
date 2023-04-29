@@ -17,6 +17,7 @@ translate([cornerRadius, cornerRadius, 0]){
                 roundedBox(length-(2*thickness), width-(2*thickness), height-thickness, cornerRadius); 
             }
     }
+    lugs(width, length, height, cornerRadius);
 }
 
 // lid
@@ -27,9 +28,13 @@ translate([width*2 + 10 + cornerRadius, cornerRadius , 0]){
             translate([thickness,thickness,0]) {
                 roundedBox(length-2*thickness,width-2*thickness,2*thickness,cornerRadius);
             }
-            translate([2*thickness,2*thickness,0]) {
-                roundedBox(length-4*thickness,width-4*thickness,4*thickness,cornerRadius);
-            }    
+            lugs(width, length, height, cornerRadius);
+            translate([2*thickness-cornerRadius,2*thickness-cornerRadius,1*thickness]) {
+                difference() {
+                    cube([width-4*thickness,length-4*thickness,thickness]);
+                    lugs(width+2*thickness, length+2*thickness, thickness, cornerRadius+thickness);
+                }
+            }
         }
     }
 }
@@ -44,9 +49,24 @@ module roundedBox(length, width, height, radius)
         cube(size=[width-dRadius,length-dRadius, height]);
         cylinder(r=radius, h=0.0001);
     }
-  
-    
-  
+}
+
+module lugs(length, width, height, radius)
+{
+    dRadius = 2*radius;
+    translate([0,0]){
+        cylinder(r=radius, h=height);
+    }
+ 
+    translate([0,width-dRadius]){
+        cylinder(r=radius, h=height);
+    }
+    translate([length-dRadius,0]){
+        cylinder(r=radius, h=height);
+    }
+    translate([length-dRadius,width-dRadius]){
+        cylinder(r=radius, h=height);
+    }
 }
 
 
