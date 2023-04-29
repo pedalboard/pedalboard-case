@@ -5,5 +5,4 @@ for file in ./parts/*.scad; do
     # For debugging
     # echo "$filePath -> $inferredPath"
     openscad "$filePath.scad" -o "./generated/$inferredPath.stl"
-    openscad "$filePath.scad" -o "./generated/$inferredPath.png" --imgsize=100,100
 done
