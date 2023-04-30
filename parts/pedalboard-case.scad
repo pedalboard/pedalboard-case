@@ -60,10 +60,12 @@ difference() {
 
     midi_jack(11);
     midi_jack(-11);
+
+    power_jack(70);
 }
 
 // lid
-translate([width + 10, 0, 0]){
+translate([width + 20, 0, 0]){
     difference() {
         union(){
             roundedBox(width, length, thickness, cornerRadius);
@@ -133,6 +135,15 @@ module midi_jack(x){
         }
     }
 }
+
+module power_jack(x){
+    translate([width-height/2, x+length/2,pcbHeight]){
+        rotate(a=90, v=[0,1,0]) {
+            # cube([11.1,9.4,height]);
+        }
+    }
+}
+
 
 module roundedBox(width, length, height, radius) {
     dRadius = 2*radius;
