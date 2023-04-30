@@ -23,7 +23,9 @@ difference() {
                 roundedBox(width-(2*thickness), length-(2*thickness), height, cornerRadius);
             }
         }
-        lugs(width, length, height, lugRadius, lugRadius);
+        translate([0,0, height-10]) {
+            lugs(width, length, 10, lugRadius, lugRadius);
+        }
     }
     translate([0,0,2*thickness]){
         screwRadius = 1.25; // M3 tapping drill size
