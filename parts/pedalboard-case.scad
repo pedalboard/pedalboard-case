@@ -3,7 +3,7 @@
 $fn=200;
 
 length = 180;
-width= 100;
+width= 115;
 height = 30;
 cornerRadius = 1;
 thickness = 2;
@@ -11,6 +11,7 @@ screwHoleRadius = 1.6;
 lugRadius = 3.2;
 screwRadius = 1.25;
 lidTolerance = 0.3;
+pcbBottom = 10;
 
 
 // box
@@ -27,6 +28,34 @@ difference() {
     translate([0,0,2*thickness]){
         lugs(width, length, height, lugRadius, screwRadius);
     }
+    button(0,6);
+    button(0,58);
+    button(-75,6);
+    button(-75,58);
+    button(75,6);
+    button(75,58);
+
+    led(0,19);
+    led(0,46);
+    led(61,19);
+    led(61,46);
+    led(-61,19);
+    led(-61,46);
+    led(12.5,77);
+    led(-12.5,77);
+    led(-(12.5+25),77);
+    led((12.5+25),77);
+
+    rotary(75/2,91);
+    rotary(-75/2,91);
+
+    jack(0,21.9);
+    jack(0,42.1);
+    jack(length,21.9);
+    jack(length,42.1);
+    jack(length,83);
+
+
 }
 
 // lid
@@ -60,6 +89,33 @@ translate([width + 10, 0, 0]){
     }
 
 }
+
+module button(x,y){
+    translate([pcbBottom+y, length/2+x,-height/2]){
+        cylinder(r=4, h=height);
+    }
+} 
+
+module led(x,y){
+    translate([pcbBottom+y, length/2+x,-height/2]){
+        cylinder(r=2.5, h=height);
+    }
+}
+
+module rotary(x,y){
+    translate([pcbBottom+y, length/2+x,-height/2]){
+        cylinder(r=3.5, h=height);
+    }
+}
+
+module jack(x,y){
+
+    translate([pcbBottom+y, height/2+x ,10]){
+        rotate(a=90, v=[1,0,0]) { 
+            cylinder(r=5, h=height);
+        }
+    }
+}   
 
 
 module roundedBox(width, length, height, radius) {
@@ -98,5 +154,6 @@ module lugs(length, width, height, margin, radius) {
         cylinder(r=radius, h=height);
     }
 }
+
 
 
