@@ -12,6 +12,7 @@ lugRadius = 3.2;
 screwRadius = 1.25;
 lidTolerance = 0.3;
 pcbBottom = 6;
+pcbHeight = thickness+15.8;
 
 
 // box
@@ -117,7 +118,7 @@ module rotary(x,y){
 }
 
 module jack(x,y){
-    translate([pcbBottom+y, height/2+x ,10]){
+    translate([pcbBottom+y, height/2+x ,pcbHeight-8]){
         rotate(a=90, v=[1,0,0]) {
             cylinder(r=5.6, h=height);
         }
@@ -125,7 +126,7 @@ module jack(x,y){
 }
 
 module midi_jack(x){
-    translate([width-height/2, x+length/2,14]){
+    translate([width-height/2, x+length/2,pcbHeight-2.5]){
         rotate(a=90, v=[0,1,0]) {
             cylinder(r=1.9, h=height);
         }
