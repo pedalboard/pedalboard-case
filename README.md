@@ -4,7 +4,10 @@
 
 This project is created with openscad 2021.01
 
-preview [3D model](./generated/pedalboard-case.stl)
+
+[rendered](./generated/pedalboard-case.png)
+
+interactive [3D model](./generated/pedalboard-case.stl) preview
 
 
 ## Additional mechanical components
