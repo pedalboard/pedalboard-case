@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Install OpenSCAD
+      - name: OpenSCAD STL converter
         run: |
           sudo apt-get install -y --no-install-recommends openscad
           chmod +x ./generate-stls.sh
