@@ -133,7 +133,7 @@ module jack(x,y){
 module midi_jack(x){
     translate([width-height/2, x+length/2,pcbHeight-2.5]){
         rotate(a=90, v=[0,1,0]) {
-            cylinder(r=1.9, h=height);
+            cylinder(r=2.1, h=height);
         }
     }
 }
