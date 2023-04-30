@@ -7,12 +7,11 @@ width= 115;
 height = 30;
 cornerRadius = 1;
 thickness = 2;
-screwHoleRadius = 1.6;
 lugRadius = 3.2;
-screwRadius = 1.25;
 lidTolerance = 0.3;
 pcbBottom = 6;
-pcbHeight = thickness+15.8;
+
+pcbHeight = thickness+15.8; // given by the button
 
 
 // box
@@ -27,6 +26,7 @@ difference() {
         lugs(width, length, height, lugRadius, lugRadius);
     }
     translate([0,0,2*thickness]){
+        screwRadius = 1.25; // M3 tapping drill size
         lugs(width, length, height, lugRadius, screwRadius);
     }
 
@@ -82,6 +82,7 @@ translate([width + 10, 0, 0]){
             lugs(width,length,2*thickness,lugRadius,lugRadius+thickness);
         }
         translate([0,0,-5*thickness]){
+            screwHoleRadius = 1.6; // M3 close fit clearance hole size
             lugs(width, length, 10*thickness, lugRadius, screwHoleRadius);
         }
 
