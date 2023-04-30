@@ -5,7 +5,7 @@
 This project is created with openscad 2021.01
 
 
-[rendered](./generated/pedalboard-case.png)
+![rendered](./generated/pedalboard-case.png)
 
 interactive [3D model](./generated/pedalboard-case.stl) preview
 
