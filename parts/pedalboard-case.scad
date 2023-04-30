@@ -139,7 +139,7 @@ module midi_jack(x){
 module power_jack(x){
     translate([width-height/2, x+length/2,pcbHeight]){
         rotate(a=90, v=[0,1,0]) {
-            # cube([11.1,9.4,height]);
+            cube([11.1,9.4,height]);
         }
     }
 }
