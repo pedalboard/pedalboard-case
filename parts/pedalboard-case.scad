@@ -80,7 +80,7 @@ translate([width + 20, 0, 0]){
            }
         }
         difference() {
-            translate([2*thickness,2*thickness, 0.5*thickness]){
+            translate([2*thickness,2*thickness, 1*thickness]){
                 roundedBox(width-4*thickness,length-4*thickness, 3*thickness, cornerRadius);
             }
             lugs(width,length,2*thickness,lugRadius,lugRadius+thickness);
