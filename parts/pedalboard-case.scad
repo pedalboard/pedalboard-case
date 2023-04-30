@@ -5,11 +5,12 @@ $fn=200;
 length = 180;
 width= 100;
 height = 30;
-cornerRadius = 2;
+cornerRadius = 1;
 thickness = 2;
 screwHoleRadius = 1.6;
 lugRadius = 3.2;
 screwRadius = 1.25;
+lidTolerance = 0.3;
 
 
 // box
@@ -35,21 +36,27 @@ translate([width + 10, 0, 0]){
             roundedBox(width, length, thickness, cornerRadius);
             lugs(width, length, thickness, lugRadius, lugRadius);
             difference() {
-                translate([thickness,thickness]) {
-                    roundedBox(width-2*thickness,length-2*thickness,2*thickness,cornerRadius);
+                translate([thickness+lidTolerance,thickness+lidTolerance]) {
+                    roundedBox(width-2*(thickness+lidTolerance),length-2*(thickness+lidTolerance),2*thickness,cornerRadius);
                 }
-                lugs(width, length, 3*thickness, lugRadius, lugRadius);
+                lugs(width, length, 3*thickness, lugRadius, lugRadius+lidTolerance);
            }
         }
         difference() {
             translate([2*thickness,2*thickness, 0.5*thickness]){
-                cube([width-4*thickness,length-4*thickness, 3*thickness]);
+                roundedBox(width-4*thickness,length-4*thickness, 3*thickness, cornerRadius);
             }
             lugs(width,length,2*thickness,lugRadius,lugRadius+thickness);
         }
-        translate([0,0,-thickness]){
-            lugs(width, length, 4*thickness, lugRadius, screwHoleRadius);
+        translate([0,0,-5*thickness]){
+            lugs(width, length, 10*thickness, lugRadius, screwHoleRadius);
         }
+
+      // FIXME 
+      //  translate([0,0,-10*thickness]){
+      //      lugs(width, length, 10*thickness, lugRadius, lugRadius);
+      //  }
+
     }
 
 }
@@ -61,7 +68,12 @@ module roundedBox(width, length, height, radius) {
     translate([radius,radius]){
         minkowski() {
             cube(size=[width-dRadius,length-dRadius, height]);
-            cylinder(r=radius, h=0.0001);
+            difference() {
+                sphere(r=radius);
+                translate([-radius,-radius,0]) {
+                  cube([2*radius,2*radius,radius]);
+                }
+            }
         }
     }
 }
