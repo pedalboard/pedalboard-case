@@ -11,7 +11,7 @@ screwHoleRadius = 1.6;
 lugRadius = 3.2;
 screwRadius = 1.25;
 lidTolerance = 0.3;
-pcbBottom = 10;
+pcbBottom = 6;
 
 
 // box
@@ -28,6 +28,7 @@ difference() {
     translate([0,0,2*thickness]){
         lugs(width, length, height, lugRadius, screwRadius);
     }
+
     button(0,6);
     button(0,58);
     button(-75,6);
@@ -56,6 +57,8 @@ difference() {
     jack(length,83);
 
 
+    midi_jack(11);
+    midi_jack(-11);
 }
 
 // lid
@@ -81,7 +84,7 @@ translate([width + 10, 0, 0]){
             lugs(width, length, 10*thickness, lugRadius, screwHoleRadius);
         }
 
-      // FIXME 
+      // FIXME add counterbore
       //  translate([0,0,-10*thickness]){
       //      lugs(width, length, 10*thickness, lugRadius, lugRadius);
       //  }
@@ -94,7 +97,7 @@ module button(x,y){
     translate([pcbBottom+y, length/2+x,-height/2]){
         cylinder(r=4, h=height);
     }
-} 
+}
 
 module led(x,y){
     translate([pcbBottom+y, length/2+x,-height/2]){
@@ -109,14 +112,20 @@ module rotary(x,y){
 }
 
 module jack(x,y){
-
     translate([pcbBottom+y, height/2+x ,10]){
-        rotate(a=90, v=[1,0,0]) { 
+        rotate(a=90, v=[1,0,0]) {
             cylinder(r=5, h=height);
         }
     }
-}   
+}
 
+module midi_jack(x){
+    translate([width-height/2, x+length/2,14]){
+        rotate(a=90, v=[0,1,0]) {
+            cylinder(r=2, h=height);
+        }
+    }
+}
 
 module roundedBox(width, length, height, radius) {
     dRadius = 2*radius;
@@ -141,12 +150,14 @@ module lugs(length, width, height, margin, radius) {
     translate([margin,width-margin]){
         cylinder(r=radius, h=height);
     }
+    /*
     translate([margin,width/2]){
         cylinder(r=radius, h=height);
     }
     translate([length-margin,width/2]){
         cylinder(r=radius, h=height);
     }
+    */
     translate([length-margin,margin]){
         cylinder(r=radius, h=height);
     }
