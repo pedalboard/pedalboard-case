@@ -90,10 +90,10 @@ translate([width + 20, 0, 0]){
             lugs(width, length, 10*thickness, lugRadius, screwHoleRadius);
         }
 
-      // FIXME add counterbore
-      //  translate([0,0,-10*thickness]){
-      //      lugs(width, length, 10*thickness, lugRadius, lugRadius);
-      //  }
+        translate([0,0,-2.5]){
+            // counterbore
+            lugs(width, length, 4, lugRadius,  4, 0);
+        }
 
     }
 
@@ -163,26 +163,48 @@ module roundedBox(width, length, height, radius) {
     }
 }
 
-module lugs(length, width, height, margin, radius) {
+module lugs(length, width, height, margin, radius,radius2="undefined") {
     translate([margin,margin]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
     translate([margin,width-margin]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
-    /*
     translate([margin,width/2]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
     translate([length-margin,width/2]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
-    */
     translate([length-margin,margin]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
     translate([length-margin,width-margin]){
-        cylinder(r=radius, h=height);
+        if (radius2=="undefined") {
+            cylinder(r=radius, h=height);
+        } else {
+            cylinder(h=height, r1=radius, r2=radius2);
+        }
     }
 }
 
