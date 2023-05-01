@@ -11,10 +11,10 @@ PNGS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.png,$(SRCS))
 all: $(STLS) $(PNGS) ## generate all parts
 
 $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
-	openscad -o $@ $< 
+	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	openscad -o $@ $<  --autocenter --viewall
+	openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=400,400 --camera=90,90,-13,220,0,120,682 $<
 
 clean:
 	rm -f $(PNGS) $(STLS)

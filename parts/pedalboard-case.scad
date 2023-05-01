@@ -1,9 +1,6 @@
 // pedalboard case
 
 $fn=200;
-$viewport_transform = [ 91.42, 90.65, -12.64 ];
-$viewport_rotation = [ 42.40, 191.10, 290.50 ];
-$viewport_distance = 682.36;
 
 length = 180;
 width= 113;
