@@ -24,8 +24,7 @@ jobs:
       - name: OpenSCAD STL converter
         run: |
           sudo apt-get install -y --no-install-recommends openscad
-          chmod +x ./generate-stls.sh
-          ./generate-stls.sh
+          make all 
           ls ./generated
           
       - name: Create Pull Request
