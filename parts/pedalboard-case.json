@@ -1,0 +1,16 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "$fn": "20",
+            "cornerRadius": "1",
+            "height": "33",
+            "length": "180",
+            "lidTolerance": "0.3",
+            "lugRadius": "3.2",
+            "pcbBottom": "6",
+            "thickness": "2",
+            "width": "113"
+        }
+    },
+    "fileFormatVersion": "1"
+}
