@@ -70,28 +70,29 @@ translate([width + 20, 0, 0]){
     difference() {
         union(){
             roundedBox(width, length, thickness, cornerRadius);
-            lugs(width, length, thickness, lugRadius, lugRadius);
+            place_lugs(width, length, lugRadius) cylinder(r=lugRadius, h=thickness);
             difference() {
                 translate([thickness+lidTolerance,thickness+lidTolerance]) {
                     roundedBox(width-2*(thickness+lidTolerance),length-2*(thickness+lidTolerance),2*thickness,cornerRadius);
                 }
-                lugs(width, length, 3*thickness, lugRadius, lugRadius+lidTolerance);
+                place_lugs(width, length, lugRadius) cylinder(r=lugRadius+lidTolerance, h=3*thickness);
            }
         }
         difference() {
             translate([2*thickness,2*thickness, 1*thickness]){
                 roundedBox(width-4*thickness,length-4*thickness, 3*thickness, cornerRadius);
             }
-            lugs(width,length,2*thickness,lugRadius,lugRadius+thickness);
+            place_lugs(width, length, lugRadius) cylinder(r=lugRadius+thickness, h=2*thickness);
         }
-        translate([0,0,-5*thickness]){
-            screwHoleRadius = 1.6; // M3 close fit clearance hole size
-            lugs(width, length, 10*thickness, lugRadius, screwHoleRadius);
+        // screw hole
+        translate([0,0,-height/2]){
+            screwHole = 3.2; // M3 close fit clearance hole size
+            place_lugs(width, length, lugRadius) cylinder(d=screwHole, h=height);
         }
 
+        // counterbore
         translate([0,0,-2.5]){
-            // counterbore
-            lugs(width, length, 4, lugRadius,  4, 0);
+            place_lugs(width, length, lugRadius) cylinder(h=4, r1=4, r2=0);
         }
 
     }
