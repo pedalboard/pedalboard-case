@@ -15,6 +15,7 @@ pcbHeight = thickness+15.8; // given by the button
 
 // box
 difference() {
+    lugHeight = 10;
     union() {
         difference() {
             roundedBox(width, length, height, cornerRadius);
@@ -22,13 +23,13 @@ difference() {
                 roundedBox(width-(2*thickness), length-(2*thickness), height, cornerRadius);
             }
         }
-        translate([0,0, height-10]) {
-            lugs(width, length, 10, lugRadius, lugRadius);
+        translate([0,0, height-lugHeight]) {
+            place_lugs(width, length, lugRadius) cylinder(r=lugRadius, h=lugHeight);
         }
     }
-    translate([0,0,height-10+2*thickness]){
+    translate([0,0,height-lugHeight+2*thickness]){
         screwRadius = 1.25; // M3 tapping drill size
-        lugs(width, length, 10, lugRadius, screwRadius);
+        place_lugs(width, length, lugRadius) cylinder(r=screwRadius, h=lugHeight);
     }
 
     button(0,6);
