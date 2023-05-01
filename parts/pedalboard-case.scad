@@ -58,7 +58,6 @@ difference() {
     jack(length,42.1);
     jack(length,83);
 
-
     midi_jack(11);
     midi_jack(-11);
 
@@ -145,7 +144,6 @@ module power_jack(x){
     }
 }
 
-
 module roundedBox(width, length, height, radius) {
     dRadius = 2*radius;
 
@@ -163,47 +161,31 @@ module roundedBox(width, length, height, radius) {
 }
 
 module lugs(length, width, height, margin, radius,radius2="undefined") {
+    if (radius2=="undefined") {
+        place_lugs(length, width, margin) cylinder(r=radius, h=height);
+    } else {
+        place_lugs(length, width, margin) cylinder(h=height, r1=radius, r2=radius2);
+    }
+}
+
+module place_lugs(length=80, width=40, margin=3) {
     translate([margin,margin]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
     translate([margin,width-margin]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
     translate([margin,width/2]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
     translate([length-margin,width/2]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
     translate([length-margin,margin]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
     translate([length-margin,width-margin]){
-        if (radius2=="undefined") {
-            cylinder(r=radius, h=height);
-        } else {
-            cylinder(h=height, r1=radius, r2=radius2);
-        }
+        children();
     }
 }
 
