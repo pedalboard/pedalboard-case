@@ -102,7 +102,7 @@ translate([width + 20, 0, 0]){
 module button(x,y){
     translate([pcbBottom+y, length/2+x,-height/2]){
         difference() {
-            cylinder(r=6.1, h=height);
+            cylinder(d=12.2, h=height);
             translate([-7.1,-0.9,0]) {
                  cube([2,1.8,height]);
             }
@@ -112,20 +112,20 @@ module button(x,y){
 
 module led(x,y){
     translate([pcbBottom+y, length/2+x,-height/2]){
-        cylinder(r=2.56, h=height);
+        cylinder(d=5.1, h=height);
     }
 }
 
 module rotary(x,y){
     translate([pcbBottom+y, length/2+x,-height/2]){
-        cylinder(r=3.7, h=height);
+        cylinder(d=7.4, h=height);
     }
 }
 
 module jack(x,y){
     translate([pcbBottom+y, height/2+x ,pcbHeight-8]){
         rotate(a=90, v=[1,0,0]) {
-            cylinder(r=5.6, h=height);
+            cylinder(d=11.2, h=height);
         }
     }
 }
@@ -133,7 +133,7 @@ module jack(x,y){
 module midi_jack(x){
     translate([width-height/2, x+length/2,pcbHeight-2.5]){
         rotate(a=90, v=[0,1,0]) {
-            cylinder(r=1.9, h=height);
+            cylinder(d=3.8, h=height);
         }
     }
 }
