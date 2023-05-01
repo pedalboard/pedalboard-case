@@ -162,14 +162,6 @@ module roundedBox(width, length, height, radius) {
     }
 }
 
-module lugs(length, width, height, margin, radius,radius2="undefined") {
-    if (radius2=="undefined") {
-        place_lugs(length, width, margin) cylinder(r=radius, h=height);
-    } else {
-        place_lugs(length, width, margin) cylinder(h=height, r1=radius, r2=radius2);
-    }
-}
-
 module place_lugs(length=80, width=40, margin=3) {
     translate([margin,margin]){
         children();
