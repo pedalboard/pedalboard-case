@@ -7,7 +7,7 @@ width= 113;
 height = 33;
 cornerRadius = 1;
 thickness = 2;
-lugRadius = 3.2;
+lugRadius = 3.5;
 lidTolerance = 0.3;
 pcbBottom = 6;
 
@@ -15,7 +15,8 @@ pcbHeight = thickness+15.8; // given by the button
 
 // box
 difference() {
-    lugHeight = 10;
+    lugHeight = 6;
+    nutTrapHeight = 3.1;
     union() {
         difference() {
             roundedBox(width, length, height, cornerRadius);
@@ -26,10 +27,18 @@ difference() {
         translate([0,0, height-lugHeight]) {
             place_lugs(width, length, lugRadius) cylinder(r=lugRadius, h=lugHeight);
         }
+        translate([0,0, height-lugHeight-2*nutTrapHeight]) {
+            place_lugs(width, length, lugRadius) cylinder(r=lugRadius, h=nutTrapHeight);
+        }
+
     }
     translate([0,0,height-lugHeight+2*thickness]){
-        screwRadius = 1.25; // M3 tapping drill size
-        place_lugs(width, length, lugRadius) cylinder(r=screwRadius, h=lugHeight);
+        tappingDrill = 2.5; // M3 tapping drill size
+        place_lugs(width, length, lugRadius) cylinder(d=tappingDrill, h=lugHeight);
+    }
+
+    translate([0,0,height-lugHeight-nutTrapHeight]){
+        place_lugs(width, length, lugRadius) nut_trap(w=5.5, h=nutTrapHeight);
     }
 
     button(0,6);
@@ -94,9 +103,7 @@ translate([width + 20, 0, 0]){
         translate([0,0,-2.5]){
             place_lugs(width, length, lugRadius) cylinder(h=4, r1=4, r2=0);
         }
-
     }
-
 }
 
 module button(x,y){
@@ -160,6 +167,15 @@ module roundedBox(width, length, height, radius) {
             }
         }
     }
+}
+
+//default values are for M3 nut
+module nut_trap (
+        w = 5.5,
+        h = 3.1
+        )
+{
+        cylinder(r = w / 2 / cos(180 / 6) + 0.05, h=h, $fn=6);
 }
 
 module place_lugs(length=80, width=40, margin=3) {
