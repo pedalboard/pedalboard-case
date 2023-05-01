@@ -26,9 +26,9 @@ difference() {
             lugs(width, length, 10, lugRadius, lugRadius);
         }
     }
-    translate([0,0,2*thickness]){
+    translate([0,0,height-10+2*thickness]){
         screwRadius = 1.25; // M3 tapping drill size
-        lugs(width, length, height, lugRadius, screwRadius);
+        lugs(width, length, 10, lugRadius, screwRadius);
     }
 
     button(0,6);
