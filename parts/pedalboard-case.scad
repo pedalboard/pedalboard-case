@@ -13,7 +13,6 @@ pcbBottom = 6;
 
 pcbHeight = thickness+15.8; // given by the button
 
-
 // box
 difference() {
     union() {
