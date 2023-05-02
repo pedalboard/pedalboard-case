@@ -16,7 +16,7 @@ pcbHeight = thickness+15.8; // given by the button
 // box
 difference() {
     lugHeight = 6;
-    nutTrapHeight = 3.1;
+    nutTrapHeight = 2.5; // M3 mmax=2.4
     union() {
         difference() {
             roundedBox(width, length, height, cornerRadius);
