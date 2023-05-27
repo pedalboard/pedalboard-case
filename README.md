@@ -4,6 +4,7 @@
 
 This project is created with openscad 2021.01
 
+## 3d printable case
 
 ![rendered](./generated/pedalboard-case.png)
 
@@ -19,6 +20,6 @@ See [source](./parts/pedalboard-case.scad#L5-L12) for some of the interesting pa
 
 ## Additional mechanical components
 
-* Button: https://www.cliffuk.co.uk/products/switches/FC7125.pdf
+* Actuator Button: https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
-
+![rendered](./generated/actuator.png)
