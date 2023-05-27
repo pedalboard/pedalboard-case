@@ -5,8 +5,7 @@ include <BOSL2/threading.scad>
 
 $fn=200;
 
-module actuator()
-{
+module actuator() {
     screwlen = 14.3;
     up(screwlen/2) threaded_rod(d=12,l=screwlen,pitch=0.75);
     up(screwlen+2.05+5) cyl(l=5.1, d=10, chamfer=0.4);
