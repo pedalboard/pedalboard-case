@@ -23,3 +23,5 @@ See [source](./parts/pedalboard-case.scad#L5-L12) for some of the interesting pa
 * Actuator Button: https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
 ![rendered](./generated/actuator.png)
+
+interactive [3D model](./generated/actuator.stl) preview
