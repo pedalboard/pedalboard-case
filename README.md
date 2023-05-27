@@ -1,10 +1,10 @@
 # pedalboard-case
 
-3d model for the case which holds pedalboard-hw
-
 This project is created with openscad 2021.01
 
-## 3d printable case
+## 3D printable case
+
+3d model for the case which holds pedalboard-hw
 
 ![rendered](./generated/pedalboard-case.png)
 
