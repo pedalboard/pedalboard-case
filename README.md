@@ -20,7 +20,7 @@ See [source](./parts/pedalboard-case.scad#L5-L12) for some of the interesting pa
 
 ## Additional mechanical components
 
-* Actuator Button: https://www.cliffuk.co.uk/products/switches/FC7125.pdf
+* Foot switch actuator button: https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
 ![rendered](./generated/actuator.png)
 
