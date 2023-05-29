@@ -1,5 +1,7 @@
 # pedalboard-case
 
+Mechanical 3D models enclosing the hardware.
+
 This project is created with openscad 2021.01
 
 ## 3D printable case
@@ -31,3 +33,10 @@ interactive [3D model](./generated/actuator.stl) preview
 ![rendered](./generated/actuator-nut.png)
 
 interactive [3D model](./generated/actuator-nut.stl) preview
+
+### LED Ring Washer
+
+
+![rendered](./generated/led-ring-washer.png)
+
+interactive [3D model](./generated/led-ring-washer.stl) preview
