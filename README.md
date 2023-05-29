@@ -26,17 +26,10 @@ See [source](./parts/pedalboard-case.scad#L5-L12) for some of the interesting pa
 
 https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
-![rendered](./generated/actuator.png)
+![rendered](./generated/actuator-assembly.png)
 
-interactive [3D model](./generated/actuator.stl) preview
+interactive [3D model](./generated/actuator-assembly.stl) model
 
-![rendered](./generated/actuator-nut.png)
-
-interactive [3D model](./generated/actuator-nut.stl) preview
-
-### LED Ring Washer
-
-
-![rendered](./generated/led-ring-washer.png)
-
-interactive [3D model](./generated/led-ring-washer.stl) preview
+* [Actutator](./generated/actuator.stl)
+* [Nut](./generated/actuator-nut.stl)
+* [LED Ring Washer](./generated/led-ring-washer.stl)
