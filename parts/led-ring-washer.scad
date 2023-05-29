@@ -10,7 +10,7 @@ module led_ring_washer() {
         cyl(d=24, h=3, rounding1=1);
         cyl(d=13, h=4);
         up(1) tube(od=25, id=22.2, h=2);
-        up(1.5) tube(od=19, id=17, h=1);
+        up(1) tube(od=20, id=16, h=2);
     }
 }
 
