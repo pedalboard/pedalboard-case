@@ -30,6 +30,5 @@ https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
 interactive [3D model](./generated/actuator-assembly.stl) model
 
-* [Actutator](./generated/actuator.stl)
-* [Nut](./generated/actuator-nut.stl)
+* [Actuator](./generated/actuator.stl) with [Nut](./generated/actuator-nut.stl)
 * [LED Ring Washer](./generated/led-ring-washer.stl)
