@@ -14,7 +14,7 @@ $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=400,400 --camera=90,90,-13,220,0,120,682 $<
+	openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=800,800 --camera=90,90,-13,220,0,120,682 $<
 
 clean:
 	rm -f $(STLS)
