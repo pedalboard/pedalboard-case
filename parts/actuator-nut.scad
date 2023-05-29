@@ -6,7 +6,14 @@ include <BOSL2/screws.scad>
 $fn=200;
 
 module actuator_nut() {
-    nut(nut_info("M12x0.75",thickness=2), bevang=15, bevel=true, ibevel=true, blunt_start=false);
+    spec = [["system","ISO"],
+           ["type","nut_info"],
+           ["shape", "hex"],
+           ["pitch", 0.75],
+           ["width",14],
+           ["diameter",12],
+           ["thickness",2]];
+    nut(spec, bevang=15, bevel=true, ibevel=true, blunt_start=false);
 }
 
 actuator_nut();
