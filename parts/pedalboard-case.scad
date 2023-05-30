@@ -9,7 +9,7 @@ cornerRadius = 1;
 thickness = 2;
 lugRadius = 3.5;
 lidTolerance = 0.3;
-pcbBottom = 6;
+pcbBottom = 10;
 
 pcbHeight = thickness+15.8; // given by the button
 
