@@ -3,13 +3,13 @@
 $fn=200;
 
 length = 180;
-width= 113;
+width= 120;
 height = 33;
 cornerRadius = 1;
 thickness = 2;
 lugRadius = 3.5;
 lidTolerance = 0.3;
-pcbBottom = 10;
+pcbBottom = 13;
 
 pcbHeight = thickness+15.8; // given by the button
 
