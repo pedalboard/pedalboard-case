@@ -1,6 +1,6 @@
 include <lib/actuator.scad>
 
-$fn=200;
+$fn=100;
 
 pcb_thickness = 1.6;
 
