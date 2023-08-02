@@ -25,10 +25,10 @@ module actuator() {
 
 module led_ring_washer() {
     color([0.5,0.5,0,0.5]) difference() {
-        cyl(d=24, h=3, rounding2=1);
-        cyl(d=13, h=4);
-        down(1) tube(od=25, id=22.2, h=2);
-        down(1) tube(od=20, id=16, h=2);
+        cyl(d=24, h=4, rounding2=1);
+        cyl(d=13, h=5);
+        down(1) tube(od=25, id=22.2, h=3);
+        down(1) tube(od=20, id=16, h=3);
     }
 }
 
