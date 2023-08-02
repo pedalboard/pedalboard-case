@@ -15,7 +15,7 @@ interactive [3D model](./generated/pedalboard-case.stl) preview
 The model is tuned to have a minimal possible height, i.e. the connectors of the HiFi Berry sound card have be 
 be removed. 
 
-However, the model can be paramterizes in its size (e.g. the height), material thickness, etc.
+However, the model can be parameterized in its size (e.g. the height), material thickness, etc.
 
 See [source](./parts/pedalboard-case.scad#L5-L12) for some of the interesting paramteters.
 
@@ -32,3 +32,7 @@ interactive [3D model](./generated/actuator-assembly.stl) model
 
 * [Actuator](./generated/actuator.stl) with [Nut](./generated/actuator-nut.stl)
 * [LED Ring Washer](./generated/led-ring-washer.stl)
+
+### Future compatibility to commercial case
+
+Future versions of the project will be compatible with the [Hammond Manufacturing 1590DD](https://www.hammfg.com/files/parts/pdf/1590DD.pdf) case.
