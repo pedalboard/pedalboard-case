@@ -95,7 +95,7 @@ module bushings() {
                 right(15) children();
             }
         };
-        pcb();
+        // pcb();
     }
 }
 
