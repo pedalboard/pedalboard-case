@@ -19,8 +19,10 @@ pcb_width=111;
 pcb_length=174;
 pcb_height=1.6;
 
-// the angle of the side walls is 88 deg
-d = 2 * case_height / tan(88);
+jack_height = 25; // FIXME calculate value
+midi_height = 25; // FIXME calculate value 
+
+d = 2 * ang();
 
 difference() {
     prismoid(
@@ -59,33 +61,41 @@ module bushings() {
                 left(12.5+25) children();
             };
         };
-        up(25) { // FIXME up value
-            left((case_length+bushing_length)/2+wall) yrot(90) {
+        up(jack_height) { 
+            left((case_length+bushing_length)/2+wall-ang(jack_height)) 
+                yrot(90) {
                 back(28) children();
                 back(48) children();
                 back(89) children();
             }
-            right((case_length+bushing_length)/2+wall) yrot(90) {
+            right((case_length+bushing_length)/2+wall-ang(jack_height)) 
+                yrot(90) {
                 back(28) children();
                 back(48) children();
                 back(89) children();
             }
         }
-        up(25) { // FIXME up value
-            back(111+case_wall+wall+bushing_length/2) xrot(90) {
+        up(midi_height) { 
+            back(111+case_wall+wall+bushing_length/2-ang(midi_height)) 
+                xrot(90) {
                 left(15) children();
                 right(15) children();
             }
         };
-        // pcb
-        // left(pcb_length/2) color("green") cube([pcb_length, pcb_width, pcb_height]);
+        pcb();
     }
 }
 
-
+// the angle of the side walls is 88 deg
+function ang(h=case_height) = h / tan(88);
 
 module bushing() {
     tube(h=bushing_length,wall=6,id=bushing_d);
+}
+
+module pcb() {
+    left(pcb_length/2) color("green") 
+        cube([pcb_length, pcb_width, pcb_height]);
 }
 
 
