@@ -4,7 +4,7 @@ include <BOSL2/std.scad>
 
 $fn=100;
 
-ff=0.001;
+ff=0.01;
 
 // outer hight of 1599DD case
 case_height=37;
@@ -19,14 +19,24 @@ case_wall=2.5;
 // wasll thickness of the jig
 wall=2;
 
+
+// the length of the bushing
 bushing_length=6;
+// the innder diameter of the bushing
 bushing_id=8;
+// the outer diameter of the bushing
 bushing_od=20;
 
+// the width of the PCB
 pcb_width=111;
+// the length of the PCB
 pcb_length=174;
+// the thickness of the PCB
 pcb_height=1.6;
+// should the PCB be rendered
+pcb_render=false;
 
+// the height of the PCB's top surface
 pcb_top=20; // FIXME calculate value
 
 jack_height = pcb_top + 8;
@@ -54,7 +64,7 @@ difference() {
     bushings() down(bushing_length/2+1) cylinder(h=wall+10,d=bushing_id);
 }
 
-
+if (pcb_render) pcb();
 
 module bushings() {
     fwd(pcb_width/2-(case_width-pcb_width)/2+case_wall) {
@@ -99,7 +109,6 @@ module bushings() {
                 right(15) children();
             }
         };
-        //pcb();
     }
 }
 
@@ -114,11 +123,10 @@ module bushing() {
 }
 
 module pcb() {
-    left(pcb_length/2)
-        fwd(ang(pcb_top))
+    fwd(ang(pcb_top)-4.5+case_wall)
         up(pcb_top-pcb_height)
         color("green")
-        cube([pcb_length, pcb_width, pcb_height]);
+        cube([pcb_length, pcb_width, pcb_height], center=true);
 }
 
 
