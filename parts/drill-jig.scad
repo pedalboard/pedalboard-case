@@ -21,7 +21,7 @@ wall=2;
 // the length of the bushing
 bushing_length=6;
 // the innder diameter of the bushing
-bushing_id=8;
+bushing_id=8.1;
 // the outer diameter of the bushing
 bushing_od=20;
 
