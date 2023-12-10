@@ -5,35 +5,48 @@ include <BOSL2/std.scad>
 $fn=100;
 
 ff=0.001;
+
+// outer hight of 1599DD case
 case_height=37;
+// max width 1599DD case (bottom)
 case_width=120;
+// max length 1599DD case (bottom)
 case_length=188;
+// wall thickness of the case
 case_wall=2.5;
 
+
+// wasll thickness of the jig
 wall=2;
 
 bushing_length=6;
-bushing_d=8;
+bushing_id=8;
+bushing_od=20;
 
 pcb_width=111;
 pcb_length=174;
 pcb_height=1.6;
 
-jack_height = 25; // FIXME calculate value
-midi_height = 25; // FIXME calculate value 
+pcb_top=20; // FIXME calculate value
+
+jack_height = pcb_top + 8;
+midi_height = pcb_top + 2.5;
+
+// the angle of the side walls is 88 deg
+side_angle = 88;
 
 d = 2 * ang();
 
 difference() {
     prismoid(
-        size1=[case_length+wall*2,case_width+wall*2], 
-        size2=[case_length+wall*2-d,case_width+wall*2-d], 
+        size1=[case_length+wall*2,case_width+wall*2],
+        size2=[case_length+wall*2-d,case_width+wall*2-d],
         h=case_height+wall);
     down(ff) prismoid(
-        size1=[case_length,case_width], 
-        size2=[case_length-d,case_width-d], 
+        size1=[case_length,case_width],
+        size2=[case_length-d,case_width-d],
         h=case_height);
-   bushings() down(10) cylinder(h=20,d=bushing_d);
+   bushings() down(10) cylinder(h=20,d=bushing_id);
 }
 
 
@@ -61,22 +74,22 @@ module bushings() {
                 left(12.5+25) children();
             };
         };
-        up(jack_height) { 
-            left((case_length+bushing_length)/2+wall-ang(jack_height)) 
+        up(jack_height) {
+            left((case_length+bushing_length)/2+wall-bushing_ang(jack_height))
                 yrot(90) {
                 back(28) children();
                 back(48) children();
                 back(89) children();
             }
-            right((case_length+bushing_length)/2+wall-ang(jack_height)) 
+            right((case_length+bushing_length)/2+wall-bushing_ang(jack_height))
                 yrot(90) {
                 back(28) children();
                 back(48) children();
                 back(89) children();
             }
         }
-        up(midi_height) { 
-            back(111+case_wall+wall+bushing_length/2-ang(midi_height)) 
+        up(midi_height) {
+            back(111+case_wall+wall+bushing_length/2-bushing_ang(midi_height))
                 xrot(90) {
                 left(15) children();
                 right(15) children();
@@ -86,15 +99,20 @@ module bushings() {
     }
 }
 
-// the angle of the side walls is 88 deg
-function ang(h=case_height) = h / tan(88);
+// bushing correction for wall angle
+function bushing_ang(h) = ang(h+bushing_od/2);
+
+// correction for wall angle
+function ang(h=case_height) = h / tan(side_angle);
 
 module bushing() {
-    tube(h=bushing_length,wall=6,id=bushing_d);
+    tube(h=bushing_length,od=bushing_od,id=bushing_id);
 }
 
 module pcb() {
-    left(pcb_length/2) color("green") 
+    left(pcb_length/2)
+        up(pcb_top-pcb_height)
+        color("green")
         cube([pcb_length, pcb_width, pcb_height]);
 }
 
