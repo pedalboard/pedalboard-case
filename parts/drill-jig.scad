@@ -45,18 +45,20 @@ difference() {
             h=case_height+wall);
         bushings() bushing();
     }
+    // remove the case
     down(ff) prismoid(
         size1=[case_length,case_width],
         size2=[case_length-d,case_width-d],
         h=case_height);
-    bushings() down(bushing_length/2+2*wall) cylinder(h=5*wall,d=bushing_id);
+    // drill holes
+    bushings() down(bushing_length/2+1) cylinder(h=wall+10,d=bushing_id);
 }
 
 
 
 module bushings() {
     fwd(pcb_width/2-(case_width-pcb_width)/2+case_wall) {
-        up(case_height+wall+bushing_length/2) {
+        up(case_height+bushing_length/2) {
             back(12) {
                 children();
                 right(75) children();
@@ -77,13 +79,13 @@ module bushings() {
             };
         };
         up(jack_height) {
-            left((case_length+bushing_length)/2+wall-bushing_ang(jack_height))
+            left((case_length+bushing_length)/2-bushing_ang(jack_height))
                 yrot(-90) {
                 back(28) children();
                 back(48) children();
                 back(89) children();
             }
-            right((case_length+bushing_length)/2+wall-bushing_ang(jack_height))
+            right((case_length+bushing_length)/2-bushing_ang(jack_height))
                 yrot(90) {
                 back(28) children();
                 back(48) children();
@@ -91,7 +93,7 @@ module bushings() {
             }
         }
         up(midi_height) {
-            back(111+case_wall+wall+bushing_length/2-bushing_ang(midi_height))
+            back(111+case_wall+bushing_length/2-bushing_ang(midi_height))
                 xrot(-90) {
                 left(15) children();
                 right(15) children();
