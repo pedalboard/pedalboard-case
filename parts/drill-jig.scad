@@ -112,7 +112,7 @@ module bushings() {
                     right(15) children();
                 }
             }
-            up(pcb_top + (case_height - case_wall - pcb_top)/2 ) left(55) xrot(-90) children();
+            up(pcb_top + (case_height - case_wall - pcb_top)/2 ) right(55) xrot(-90) children();
         }
     }
 }
