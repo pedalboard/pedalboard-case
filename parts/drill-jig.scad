@@ -105,13 +105,15 @@ module bushings() {
                 back(89) children();
             }
         }
-        up(midi_height) {
-            back(111+case_wall+bushing_length/2-bushing_ang(midi_height))
+        back(111+case_wall+bushing_length/2-bushing_ang(midi_height)) {
+            up(midi_height) {
                 xrot(-90) {
-                left(15) children();
-                right(15) children();
+                    left(15) children();
+                    right(15) children();
+                }
             }
-        };
+            up(pcb_top + (case_height - case_wall - pcb_top)/2 ) left(55) xrot(-90) children();
+        }
     }
 }
 
