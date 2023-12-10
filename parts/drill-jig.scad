@@ -15,10 +15,8 @@ case_length=188;
 // wall thickness of the case
 case_wall=2.5;
 
-
 // wasll thickness of the jig
 wall=2;
-
 
 // the length of the bushing
 bushing_length=6;
@@ -36,8 +34,13 @@ pcb_height=1.6;
 // should the PCB be rendered
 pcb_render=false;
 
+// push button height above PCB
+button_height = 5;
+// Actuator s-nut + spring
+actuator_height = 5 + 6.5; // https://www.cliffuk.co.uk/products/switches/FC7125.pdf
+
 // the height of the PCB's top surface
-pcb_top=20; // FIXME calculate value
+pcb_top=case_height - case_wall - pcb_height - button_height - actuator_height;
 
 jack_height = pcb_top + 8;
 midi_height = pcb_top + 2.5;
