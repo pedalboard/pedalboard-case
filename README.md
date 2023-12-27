@@ -2,7 +2,7 @@
 
 Mechanical 3D models enclosing the hardware.
 
-This project is created with openscad 2021.01
+The parts are created with openscad 2021.01
 
 ## Drill Jig
 
