@@ -27,7 +27,7 @@ module led_ring_washer() {
     color([0.5,0.5,0,0.5]) difference() {
         cyl(d=24, h=4, rounding2=1);
         cyl(d=13, h=5);
-        down(1) tube(od=25, id=22.2, h=3);
+        down(1.5) tube(od=25, id=22.2, h=3);
         down(1) tube(od=20, id=16, h=3);
     }
 }
@@ -39,7 +39,7 @@ module led_ring_rotary_washer() {
             down(4) threaded_rod(d=12, l=5, pitch=0.75);
         }
         cyl(d=8, h=20);
-        down(1) tube(od=25, id=22.2, h=3);
+        down(1.5) tube(od=25, id=22.2, h=3);
         down(1) tube(od=20, id=16, h=3);
     }
 }
