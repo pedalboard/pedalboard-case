@@ -1,6 +1,8 @@
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
 
+$fn=200;
+
 display_bezel();
 
 module display_bezel() {
