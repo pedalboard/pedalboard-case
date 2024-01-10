@@ -8,7 +8,7 @@ SRCS    := $(wildcard $(SRC)/*.scad)
 STLS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.stl,$(SRCS))
 PNGS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.png,$(SRCS))
 
-all: $(STLS) $(PNGS) ## generate all parts
+all: $(STLS) ## generate all parts
 
 $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
