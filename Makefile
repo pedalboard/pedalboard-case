@@ -11,22 +11,9 @@ PNGS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.png,$(SRCS))
 all: $(STLS) $(PNGS) ## generate all parts
 
 $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
-	docker run \
-    -it \
-    --rm \
-    -v $(shell pwd):/openscad \
-    -u $(shell id -u ${USER}):$(shell id -g ${USER}) \
-    openscad/openscad:latest \
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	docker run \
-    -it \
-    --rm \
-    --init \
-    -v $(shell pwd):/openscad \
-    -u $(shell id -u ${USER}):$(shell id -g ${USER}) \
-    openscad/openscad:latest \
     xvfb-run -a openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=800,800 --camera=90,90,-13,220,0,120,682 $<
 
 clean:
