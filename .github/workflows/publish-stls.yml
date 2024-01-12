@@ -22,7 +22,7 @@ jobs:
       - name: Install git on container
         run: |
           apt update
-          apt install -y git    
+          apt install -y git make
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
