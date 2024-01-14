@@ -3,8 +3,10 @@ include <../BOSL2/screws.scad>
 
 // based on https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
+actuator_color = [219,226,233];
+
 module actuator_nut() {
-    spec = [["system","ISO"],
+    color(actuator_color) spec = [["system","ISO"],
            ["type","nut_info"],
            ["shape", "hex"],
            ["pitch", 0.75],
@@ -15,7 +17,7 @@ module actuator_nut() {
 }
 
 module actuator() {
-    screwlen = 14.3;
+    color(actuator_color) screwlen = 14.3;
     up(screwlen/2) threaded_rod(d=12,l=screwlen,pitch=0.75);
     up(screwlen+2.05+5) cyl(l=5.1, d=10, chamfer=0.4);
     up(screwlen+2.6) cyl(l=5.2, d=8, chamfer=0.2);
