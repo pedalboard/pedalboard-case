@@ -4,15 +4,23 @@ Mechanical 3D models enclosing the hardware.
 
 The parts are created with openscad 2021.01
 
-## Drill Jig
+## Parts
 
-3d model for a drill jig for a - [Hammond Manufacturing 1590DD](https://www.hammfg.com/files/parts/pdf/1590DD.pdf) case.
+<table>
+<tr>
+    <th>Part</th>
+    <th>Description</th>
+    <th>Image</th></tr>
+<tr>
+    <td>[Drill Jig](./generated/drill-jig.stl)</td>
+    <td>
+        3d model for a drill jig for a - [Hammond Manufacturing 1590DD](https://www.hammfg.com/files/parts/pdf/1590DD.pdf) case.
+    </td>
+    <td>![rendered](./generated/drill-jig.png)</td>
+</tr>
+</table>
 
-![rendered](./generated/drill-jig.png)
 
-interactive [3D model](./generated/drill-jig.stl) preview
-
-See [source](./parts/drill-jig.scad#L5-L12) for some of the interesting paramteters.
 
 
 ## Additional mechanical components
