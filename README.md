@@ -20,9 +20,9 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/drill-jig.png"/></td>
 </tr>
 <tr>
-    <td><a href="./generated/actuator-assembly.stl">Drill Jig</a></td>
+    <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
     <td>
-       <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Switch Actuator</a>.
+       <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Manufactured from Cliff</a>.
     </td>
     <td><img src="./generated/actuator-assembly.png"/></td>
 </tr>
