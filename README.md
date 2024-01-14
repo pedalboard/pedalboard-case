@@ -12,11 +12,11 @@ The parts are created with openscad 2021.01
     <th>Description</th>
     <th>Image</th></tr>
 <tr>
-    <td>[Drill Jig](./generated/drill-jig.stl)</td>
+    <td><a href="./generated/drill-jig.stl">Drill Jig</a></td>
     <td>
-        3d model for a drill jig for a - [Hammond Manufacturing 1590DD](https://www.hammfg.com/files/parts/pdf/1590DD.pdf) case.
+        3d model for a drill jig for a - <a href="generated/display-bezel.png">Hammond Manufacturing 1590DD</a> case.
     </td>
-    <td>![rendered](./generated/drill-jig.png)</td>
+    <td><img src="./generated/drill-jig.png"/></td>
 </tr>
 </table>
 
