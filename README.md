@@ -40,6 +40,13 @@ The parts are created with openscad 2021.01
     </td>
     <td><img src="./generated/led-ring-rotary-washer.png"/></td>
 </tr>
+<tr>
+    <td><a href="./generated/display-bezel.stl">Display Bezel</a></td>
+    <td>
+       Display bezel for 128x128 pixel OLED Display (1.5") 
+    </td>
+    <td><img src="./generated/display-bezel.png"/></td>
+</tr>
 </table>
 
 
