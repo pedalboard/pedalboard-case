@@ -23,8 +23,10 @@ module actuator() {
     down(3) thread_helix(d2=3, d1=4.8, pitch=1, thread_depth=0.3, flank_angle=35, turns=6.5);
 }
 
+washer_color = [0.7,0.7,0.7,0.6];
+
 module led_ring_washer() {
-    color([0.5,0.5,0,0.5]) difference() {
+    color(washer_color) difference() {
         down(0.3) cyl(d=24, h=3, rounding2=1);
         cyl(d=13, h=5);
         down(2) tube(od=25, id=22.2, h=4);
@@ -33,7 +35,7 @@ module led_ring_washer() {
 }
 
 module led_ring_rotary_washer() {
-    color([0.5,0.5,0,0.5]) difference() {
+    color(washer_color) difference() {
         union() {
             down (0.3) cyl(d=24, h=3, rounding2=1);
             down(4) threaded_rod(d=12, l=5, pitch=0.75);
