@@ -3,7 +3,7 @@ include <../BOSL2/screws.scad>
 
 // based on https://www.cliffuk.co.uk/products/switches/FC7125.pdf
 
-actuator_color = [219,226,233];
+actuator_color = [0.9,0.9,0.9,0.6];
 
 module actuator_nut() {
     spec = [["system","ISO"],
