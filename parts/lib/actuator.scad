@@ -23,7 +23,7 @@ module actuator() {
     down(3) thread_helix(d2=3, d1=4.8, pitch=1, thread_depth=0.3, flank_angle=35, turns=6.5);
 }
 
-washer_color = [0.7,0.7,0.7,0.6];
+washer_color = [0.9,0.9,0.9,0.6];
 
 module led_ring_washer() {
     color(washer_color) difference() {
