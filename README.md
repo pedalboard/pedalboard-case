@@ -26,7 +26,20 @@ The parts are created with openscad 2021.01
     </td>
     <td><img src="./generated/actuator-assembly.png"/></td>
 </tr>
-
+<tr>
+    <td><a href="./generated/led-ring-washer.stl">Button Washer</a></td>
+    <td>
+       LED ring washer for Switch Actuator.
+    </td>
+    <td><img src="./generated/led-ring-washer.png"/></td>
+</tr>
+<tr>
+    <td><a href="./generated/led-ring-rotary-washer.stl">Rotary Encoder Washer</a></td>
+    <td>
+       LED ring washer for Rotary Encoder.
+    </td>
+    <td><img src="./generated/led-ring-rotary-washer.png"/></td>
+</tr>
 </table>
 
 
@@ -36,7 +49,6 @@ The parts are created with openscad 2021.01
 
 ### Foot switch actuator button
 
-* [Actuator](./generated/actuator.stl) with [Nut](./generated/actuator-nut.stl)
 * [LED Ring Washer](./generated/led-ring-washer.stl)
 
 ### Future compatibility to commercial case
