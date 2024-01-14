@@ -50,7 +50,7 @@ side_angle = 88;
 
 d = 2 * ang();
 
-difference() {
+color([0.3,0.3,0.3,1]) difference() {
     union() {
         prismoid(
            size1=[case_length+wall*2,case_width+wall*2],
