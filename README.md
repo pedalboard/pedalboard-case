@@ -29,14 +29,14 @@ The parts are created with openscad 2021.01
 <tr>
     <td><a href="./generated/led-ring-washer.stl">Button Washer</a></td>
     <td>
-       LED ring washer for Switch Actuator.
+       LED ring washer for Switch Actuator. Print with transparent PETG.
     </td>
     <td><img src="./generated/led-ring-washer.png"/></td>
 </tr>
 <tr>
     <td><a href="./generated/led-ring-rotary-washer.stl">Rotary Encoder Washer</a></td>
     <td>
-       LED ring washer for Rotary Encoder.
+       LED ring washer for Rotary Encoder. Print with transparent PETG.
     </td>
     <td><img src="./generated/led-ring-rotary-washer.png"/></td>
 </tr>
