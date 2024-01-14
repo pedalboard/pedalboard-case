@@ -14,7 +14,7 @@ $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	xvfb-run -a openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=1200,800 --camera=90,90,-13,220,0,120,682 $<
+	xvfb-run -a openscad -o $@ --autocenter --viewall --colorscheme=Metallic --imgsize=1200,800 $<
 
 clean:
 	rm -f $(STLS)
