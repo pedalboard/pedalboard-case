@@ -49,15 +49,3 @@ The parts are created with openscad 2021.01
 </tr>
 </table>
 
-
-
-
-## Additional mechanical components
-
-### Foot switch actuator button
-
-* [LED Ring Washer](./generated/led-ring-washer.stl)
-
-### Future compatibility to commercial case
-
-Future versions of the project will be compatible with the [Hammond Manufacturing 1590DD](https://www.hammfg.com/files/parts/pdf/1590DD.pdf) case.
