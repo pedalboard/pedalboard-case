@@ -60,4 +60,3 @@ The parts are created with openscad 2021.01
 ## 3D printable files
 
 See [STL files](./generated)
-
