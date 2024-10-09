@@ -22,7 +22,7 @@ The parts are created with openscad 2021.01
 <tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
     <td>
-       <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Manufactured from Cliff</a>.
+       <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Manufactured by Cliff</a>.
     </td>
     <td><img src="./generated/actuator-assembly.png"/></td>
 </tr>
