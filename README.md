@@ -51,9 +51,16 @@ The parts are created with openscad 2021.01
 <tr>
     <td><a href="./generated/display-bezel.stl">Display Bezel</a></td>
     <td>
-       Display bezel for 128x128 pixel OLED Display (1.5") 
+       Display bezel for 128x128 pixel OLED Display (1.5")
     </td>
     <td><img src="./generated/display-bezel.png"/></td>
+</tr>
+<tr>
+    <td><a href="./generated/oled-display.stl">Display Bezel</a></td>
+    <td>
+      Model of the 128x128 pixel OLED display (1.5")
+    </td>
+    <td><img src="./generated/oled-display..png"/></td>
 </tr>
 </table>
 
