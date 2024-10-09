@@ -2,6 +2,8 @@
 
 .DEFAULT_GOAL := help
 
+DISPLAY_WRAPPER ?= xfbr-run -a
+
 GEN     := ./generated
 SRC     := ./parts
 SRCS    := $(wildcard $(SRC)/*.scad)
@@ -14,7 +16,7 @@ $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	xvfb-run -a openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
+	$(DISPLAY_WRARPPER) openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
 
 clean:
 	rm -f $(STLS)
