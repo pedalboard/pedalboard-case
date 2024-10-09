@@ -13,13 +13,13 @@ module display_bezel()
 {
     color([ 0.3, 0.3, 0.3, 1 ]) difference()
     {
-        up(1) cuboid(size = [ 38, 52, 2 ], rounding = 1, except = BOTTOM);
+        up(1) cuboid(size = [ 38, 48, 2 ], rounding = 1, except = BOTTOM);
         up(0.5) cuboid(size = [ 34, 37.5, 2 ]);
         up(0.5) cuboid(size = [ 15, 45.5, 2 ]);
-        fwd(3) cuboid(size = [ 28, 28, 6 ]);
-        fwd(21) right(13.5) up(2) screw_hole("M2", head = "flat", counterbore = 0, length = 10, anchor = TOP);
-        fwd(21) left(13.5) up(2) screw_hole("M2", head = "flat", counterbore = 0, length = 10, anchor = TOP);
-        back(21) right(13.5) up(2) screw_hole("M2", head = "flat", counterbore = 0, length = 10, anchor = TOP);
-        back(21) left(13.5) up(2) screw_hole("M2", head = "flat", counterbore = 0, length = 10, anchor = TOP);
+        fwd(3) cuboid(size = [ 27.86, 27.86, 6 ]);
+        fwd(20.75) right(15.14) up(2) screw_hole("M1.6", head = "flat", counterbore = 0, length = 10, anchor = TOP);
+        fwd(20.75) left(15.14) up(2) screw_hole("M1.6", head = "flat", counterbore = 0, length = 10, anchor = TOP);
+        back(20.75) right(15.14) up(2) screw_hole("M1.6", head = "flat", counterbore = 0, length = 10, anchor = TOP);
+        back(20.75) left(15.14) up(2) screw_hole("M1.6", head = "flat", counterbore = 0, length = 10, anchor = TOP);
     }
 }
