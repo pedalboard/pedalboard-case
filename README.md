@@ -56,11 +56,11 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/display-bezel.png"/></td>
 </tr>
 <tr>
-    <td><a href="./generated/oled-display.stl">Display Bezel</a></td>
+    <td><a href="./generated/oled-display.stl">OLED Display</a></td>
     <td>
       Model of the 128x128 pixel OLED display (1.5")
     </td>
-    <td><img src="./generated/oled-display..png"/></td>
+    <td><img src="./generated/oled-display.png"/></td>
 </tr>
 </table>
 
