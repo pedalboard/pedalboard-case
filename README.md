@@ -15,7 +15,7 @@ The parts are created with openscad 2021.01
 <tr>
     <td><a href="./generated/drill-jig.stl">Drill Jig</a></td>
     <td>
-        3d model for a drill jig for a - <a href="">Hammond Manufacturing 1590DD</a> case.
+        3d model for a drill jig for a - <a href="https://www.hammfg.com/part/1590DD">Hammond Manufacturing 1590DD</a> case.
     </td>
     <td><img src="./generated/drill-jig.png"/></td>
 </tr>
