@@ -2,7 +2,8 @@
 
 .DEFAULT_GOAL := help
 
-DISPLAY_WRAPPER ?= xvfb-run -a
+// on CI DISPLAY_WRAPPER ?= xvfb-run -a
+DISPLAY_WRAPPER ?=
 
 GEN     := ./generated
 SRC     := ./parts
