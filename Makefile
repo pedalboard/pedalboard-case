@@ -16,7 +16,7 @@ $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
-	$(DISPLAY_WRARPPER) openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
+	$(DISPLAY_WRAPPER) openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
 
 clean:
 	rm -f $(STLS)
