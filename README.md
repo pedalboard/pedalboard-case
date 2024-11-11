@@ -60,7 +60,7 @@ The parts are created with openscad 2021.01
     <td>
        Display mounting rack for 128x128 pixel OLED Display (1.5")
     </td>
-    <td><img src="./generated/display-bezel.png"/></td>
+    <td><img src="./generated/display-mounting-rack.png"/></td>
 </tr>
 <tr>
     <td><a href="./generated/oled-display.stl">OLED Display</a></td>
