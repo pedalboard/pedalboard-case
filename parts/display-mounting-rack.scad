@@ -15,7 +15,7 @@ module display_bezel()
     {
         up(1) cuboid(size = [ 40, 58, 2 ], rounding = 0.5);
         cuboid(size = [ 30, 30, 6 ]);
-        fwd(24) cuboid(size = [ 22, 10, 6 ]);
+        fwd(24) cuboid(size = [ 22, 12, 6 ]);
         fwd(20.75) right(15.14) trap();
         fwd(20.75) left(15.14) trap();
         back(20.75) right(15.14) trap();
