@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-DISPLAY_WRAPPER ?= xfbr-run -a
+DISPLAY_WRAPPER ?= xvfb-run -a
 
 GEN     := ./generated
 SRC     := ./parts

@@ -2,8 +2,8 @@ name: Publish STLs
 
 on:
   push:
-    branches: [ "main" ]
-    paths: [ "parts/*", "Makefile", ".github/workflows/*" ]
+    branches: ["main"]
+    paths: ["parts/*", "Makefile", ".github/workflows/*"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,7 +18,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
       - name: Install git on container
         run: |
           apt update
@@ -34,7 +33,7 @@ jobs:
         run: |
           make clean all
           ls ./generated
- 
+
       - name: update file and push to remote
         run: |
           git config --global --add safe.directory '*'
