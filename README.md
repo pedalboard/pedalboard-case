@@ -26,7 +26,7 @@ The parts are created with openscad 2021.01
        2 encoder holes (ø12.5mm), and 2 display cutouts (34.5×36.7mm for OLED glass pass-through).
        Print at 100% scale on A4.
     </td>
-    <td></td>
+    <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
 </tr>
 <tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
