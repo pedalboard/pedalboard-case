@@ -17,11 +17,15 @@ def load_coords(json_path=None):
         return json.load(f)
 
 
-def cnc_coords(data):
+def cnc_coords(data, origin="corner"):
     """Convert all positions to CNC coordinates.
 
-    Origin: front-left corner of case top flat surface.
-    X+ = right, Y+ = toward rear.
+    Args:
+        data: loaded JSON data
+        origin: "corner" — front-left corner of case top flat surface
+                "center" — case center (for probe-both-sides workflow)
+
+    X+ = right, Y+ = toward rear. Z=0 = top surface.
     """
     case = data["case"]
     pcb = data["pcb"]
@@ -32,10 +36,20 @@ def cnc_coords(data):
     pcb_offset_x = (case["top_surface_width"] - pcb["width"]) / 2.0
     pcb_offset_y = (case["top_surface_height"] - pcb["height"]) / 2.0
 
-    def to_cnc(kicad_x, kicad_y):
-        pcb_x = kicad_x - pcb["kicad_origin_x"]
-        pcb_y = kicad_y - pcb["kicad_origin_y"]
-        return (pcb_offset_x + pcb_x, pcb_offset_y + pcb_y)
+    if origin == "center":
+        # Origin at case center (probe both sides, compute midpoint)
+        def to_cnc(kicad_x, kicad_y):
+            pcb_x = kicad_x - pcb["kicad_origin_x"]
+            pcb_y = kicad_y - pcb["kicad_origin_y"]
+            cnc_x = pcb_x - pcb["width"] / 2.0
+            cnc_y = pcb_y - pcb["height"] / 2.0
+            return (cnc_x, cnc_y)
+    else:
+        # Origin at front-left corner of flat surface
+        def to_cnc(kicad_x, kicad_y):
+            pcb_x = kicad_x - pcb["kicad_origin_x"]
+            pcb_y = kicad_y - pcb["kicad_origin_y"]
+            return (pcb_offset_x + pcb_x, pcb_offset_y + pcb_y)
 
     result = {
         "case": case,

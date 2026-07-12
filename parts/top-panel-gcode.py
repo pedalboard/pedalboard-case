@@ -3,15 +3,16 @@
 Generate G-code for pedalboard case top panel (Hammond 1590DD).
 
 All coordinates derived from pedalboard-display KiCad PCB.
-Origin: front-left corner of the top flat surface (case mounted open-side-down).
-X+ = right, Y+ = rear, Z=0 = top surface, Z- = into material.
+Case mounted open-side-down. Z=0 = top surface, Z- = into material.
 
-Top flat surface: 181.8 × 113.8 mm (from STEP model).
-Bottom plate thickness: 2.5 mm.
-PCB (174 × 111 mm) centered in the surface.
+Origin modes:
+  --origin center  (default) Probe both sides of case at Z=-2,
+                   compute midpoint. Best accuracy.
+  --origin corner  Front-left corner of top flat surface.
 
 Usage:
     python3 top-panel-gcode.py > top-panel.nc
+    python3 top-panel-gcode.py --origin corner > top-panel.nc
     python3 top-panel-gcode.py --tool-dia 3 --feed-xy 200 > top-panel.nc
 """
 
@@ -67,6 +68,8 @@ def parse_args():
                    help="Bezel mounting hole diameter (default: 4.0)")
     p.add_argument("--coords", type=str, default=None,
                    help="Path to top-panel-coords.json (default: auto-detect)")
+    p.add_argument("--origin", type=str, default="center", choices=["corner", "center"],
+                   help="Origin mode: 'center' (probe both sides) or 'corner' (front-left) (default: center)")
 
     return p.parse_args()
 
@@ -76,10 +79,10 @@ def parse_args():
 # Origin: front-left corner of case top flat surface.
 # All coordinates computed by panel_coords.cnc_coords().
 
-def load_positions(coords_path=None):
+def load_positions(coords_path=None, origin="center"):
     """Load and transform all positions from JSON."""
     data = load_coords(coords_path)
-    return cnc_coords(data)
+    return cnc_coords(data, origin=origin)
 
 BUTTONS = []
 ENCODERS = []
@@ -102,9 +105,10 @@ class GCode:
 
     def header(self):
         a = self.args
+        origin_desc = "case center (probe both sides)" if a.origin == "center" else "front-left corner of top flat surface"
         self.emit(f"(Pedalboard case top panel)")
-        self.emit(f"(Origin: front-left corner of top flat surface)")
-        self.emit(f"(Case mounted open-side-down, surface 181.8 x 113.8 mm)")
+        self.emit(f"(Origin: {origin_desc})")
+        self.emit(f"(Case mounted open-side-down)")
         self.emit(f"(Tool: {a.tool_dia}mm single flute downcut)")
         self.emit(f"(Feed XY: {a.feed_xy} mm/min, Z: {a.feed_z} mm/min)")
         self.emit(f"(Spindle: {a.spindle_rpm} RPM)")
@@ -279,7 +283,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Load positions from JSON
-    coords = load_positions(args.coords)
+    coords = load_positions(args.coords, origin=args.origin)
     BUTTONS = coords["buttons"]
     ENCODERS = coords["encoders"]
     DISPLAYS = coords["displays"]
