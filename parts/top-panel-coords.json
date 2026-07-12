@@ -1,0 +1,121 @@
+{
+  "_comment": "Auto-generated from pedalboard-display KiCad PCB. Do not edit manually.",
+  "_source": "/home/laenzi/projects/gh/pedalboard/pedalboard-display/pedalboard-display.kicad_pcb",
+  "case": {
+    "model": "Hammond 1590DD",
+    "top_surface_width": 181.8,
+    "top_surface_height": 113.8,
+    "bottom_plate_thickness": 2.5,
+    "outer_width": 188.0,
+    "outer_height": 120.0
+  },
+  "pcb": {
+    "width": 174.0,
+    "height": 111.0,
+    "kicad_origin_x": 20.0,
+    "kicad_origin_y": 25.0
+  },
+  "features": {
+    "button_hole_diameter": 22.3,
+    "encoder_hole_diameter": 22.3,
+    "display_cutout_width": 34.5,
+    "display_cutout_height": 36.7,
+    "lightpipe_hole_diameter": 6.0,
+    "bezel_hole_diameter": 4.0,
+    "bezel_hole_offset_x": 15.0,
+    "bezel_hole_offset_y": 26.0,
+    "led_ring_outer_diameter": 24.0
+  },
+  "positions": {
+    "buttons": [
+      {
+        "x": 32.0,
+        "y": 72.0
+      },
+      {
+        "x": 32.0,
+        "y": 124.0
+      },
+      {
+        "x": 107.0,
+        "y": 72.0
+      },
+      {
+        "x": 107.0,
+        "y": 124.0
+      },
+      {
+        "x": 182.0,
+        "y": 72.0
+      },
+      {
+        "x": 182.0,
+        "y": 124.0
+      }
+    ],
+    "encoders": [
+      {
+        "x": 70.0,
+        "y": 39.0
+      },
+      {
+        "x": 145.0,
+        "y": 39.0
+      }
+    ],
+    "displays": [
+      {
+        "x": 69.5,
+        "y": 101.2
+      },
+      {
+        "x": 144.5,
+        "y": 101.2
+      }
+    ],
+    "single_leds": [
+      {
+        "x": 94.5,
+        "y": 53.0
+      },
+      {
+        "x": 119.5,
+        "y": 53.0
+      }
+    ],
+    "bezel_holes": [
+      {
+        "x": 54.5,
+        "y": 75.2
+      },
+      {
+        "x": 54.5,
+        "y": 127.2
+      },
+      {
+        "x": 84.5,
+        "y": 75.2
+      },
+      {
+        "x": 84.5,
+        "y": 127.2
+      },
+      {
+        "x": 129.5,
+        "y": 75.2
+      },
+      {
+        "x": 129.5,
+        "y": 127.2
+      },
+      {
+        "x": 159.5,
+        "y": 75.2
+      },
+      {
+        "x": 159.5,
+        "y": 127.2
+      }
+    ]
+  }
+}
