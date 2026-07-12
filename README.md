@@ -22,11 +22,28 @@ The parts are created with openscad 2021.01
 <tr>
     <td><a href="./generated/display-cutout-template.pdf">Front Panel Cutting Template</a></td>
     <td>
-       1:1 printable PDF for marking all front panel holes: 6 button holes (ø12.5mm),
-       2 encoder holes (ø12.5mm), and 2 display cutouts (34.5×36.7mm for OLED glass pass-through).
-       Print at 100% scale on A4.
+       1:1 printable PDF for marking all front panel holes: 6 button holes (ø22.3mm),
+       2 encoder holes (ø22.3mm), 2 display cutouts (34.5×36.7mm), 2 light pipe holes (ø6mm),
+       and 8 bezel mount holes (ø4mm). Print at 100% scale on A4.
     </td>
     <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
+</tr>
+<tr>
+    <td><a href="./generated/top-panel.nc">CNC G-code</a></td>
+    <td>
+       G-code for CNC milling the top panel. Default: 4mm single flute downcut,
+       300mm/min feed, 0.3mm depth/pass. Origin: front-left corner of top flat surface.
+       Regenerate with <code>cd parts && make gcode</code>.
+    </td>
+    <td></td>
+</tr>
+<tr>
+    <td><a href="./generated/top-panel.dxf">CNC Shop DXF</a></td>
+    <td>
+       2D DXF with all cut profiles for sending to a CNC shop.
+       Layers: CUT (through-cut profiles), DRILL (bezel holes), OUTLINE (reference).
+    </td>
+    <td></td>
 </tr>
 <tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
@@ -83,3 +100,21 @@ The parts are created with openscad 2021.01
 ## 3D printable files
 
 See [STL files](./generated)
+
+## Top panel generation
+
+All top panel machining outputs are derived from the [pedalboard-display](https://github.com/pedalboard/pedalboard-display) KiCad PCB:
+
+```
+pedalboard-display.kicad_pcb
+  → extract-coords.py → top-panel-coords.json
+  → top-panel-gcode.py → top-panel.nc
+  → top-panel-dxf.py   → top-panel.dxf
+  → top-panel-template.py → display-cutout-template.svg/.pdf
+```
+
+Regenerate after PCB changes:
+
+```bash
+cd parts && make panel
+```
