@@ -40,6 +40,11 @@ display_cutout_w = 34.5;
 display_cutout_h = 36.7;
 // corner drill diameter for display cutouts
 display_corner_drill = 3;
+// bezel mounting holes (M1.6)
+// offset ±15mm X, ±26mm Y from display footprint center
+bezel_hole_offset_x = 15;
+bezel_hole_offset_y = 26;
+bezel_hole_drill = 1.7;
 
 // push button height above PCB
 button_height = 5;
@@ -65,6 +70,7 @@ color([0.3,0.3,0.3,1]) difference() {
             h=case_height+wall);
         bushings() bushing();
         display_corners() bushing(id=display_corner_drill);
+        bezel_holes() bushing(id=bezel_hole_drill);
     }
     // remove the case
     down(ff) prismoid(
@@ -75,6 +81,8 @@ color([0.3,0.3,0.3,1]) difference() {
     bushings() down(bushing_length/2+1) cylinder(h=wall+10,d=bushing_id);
     // display corner drill holes
     display_corners() down(bushing_length/2+1) cylinder(h=wall+10,d=display_corner_drill);
+    // bezel mounting holes
+    bezel_holes() down(bushing_length/2+1) cylinder(h=wall+10,d=bezel_hole_drill);
 }
 
 if (pcb_render) pcb();
@@ -152,6 +160,25 @@ module display_corners() {
             back(34.8 - display_cutout_h/2) right(37.5 + display_cutout_w/2) children();
             back(34.8 + display_cutout_h/2) right(37.5 - display_cutout_w/2) children();
             back(34.8 + display_cutout_h/2) right(37.5 + display_cutout_w/2) children();
+        }
+    }
+}
+
+// bezel M1.6 mounting holes (4 holes × 2 displays)
+// offset ±15mm X, ±26mm Y from display footprint center
+module bezel_holes() {
+    fwd(pcb_width/2-(case_width-pcb_width)/2+case_wall) {
+        up(case_height+bushing_length/2) {
+            // Display 1 (left) - center at back(34.8) left(37.5)
+            back(34.8 - bezel_hole_offset_y) left(37.5 + bezel_hole_offset_x) children();
+            back(34.8 - bezel_hole_offset_y) left(37.5 - bezel_hole_offset_x) children();
+            back(34.8 + bezel_hole_offset_y) left(37.5 + bezel_hole_offset_x) children();
+            back(34.8 + bezel_hole_offset_y) left(37.5 - bezel_hole_offset_x) children();
+            // Display 2 (right) - center at back(34.8) right(37.5)
+            back(34.8 - bezel_hole_offset_y) right(37.5 - bezel_hole_offset_x) children();
+            back(34.8 - bezel_hole_offset_y) right(37.5 + bezel_hole_offset_x) children();
+            back(34.8 + bezel_hole_offset_y) right(37.5 - bezel_hole_offset_x) children();
+            back(34.8 + bezel_hole_offset_y) right(37.5 + bezel_hole_offset_x) children();
         }
     }
 }
