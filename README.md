@@ -20,6 +20,15 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/drill-jig.png"/></td>
 </tr>
 <tr>
+    <td><a href="./generated/display-cutout-template.pdf">Front Panel Cutting Template</a></td>
+    <td>
+       1:1 printable PDF for marking all front panel holes: 6 button holes (ø12.5mm),
+       2 encoder holes (ø12.5mm), and 2 display cutouts (34.5×36.7mm for OLED glass pass-through).
+       Print at 100% scale on A4.
+    </td>
+    <td></td>
+</tr>
+<tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
     <td>
        <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Manufactured by Cliff</a>.
