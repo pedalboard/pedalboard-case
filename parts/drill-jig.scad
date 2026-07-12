@@ -34,6 +34,13 @@ pcb_height=1.6;
 // should the PCB be rendered
 pcb_render=false;
 
+// display cutout (OLED glass pass-through)
+// glass: 34.3 x 36.5 mm + 0.1mm clearance per side
+display_cutout_w = 34.5;
+display_cutout_h = 36.7;
+// corner drill diameter for display cutouts
+display_corner_drill = 3;
+
 // push button height above PCB
 button_height = 5;
 // Actuator s-nut + spring
@@ -57,6 +64,7 @@ color([0.3,0.3,0.3,1]) difference() {
             size2=[case_length+wall*2-d,case_width+wall*2-d],
             h=case_height+wall);
         bushings() bushing();
+        display_corners() bushing(id=display_corner_drill);
     }
     // remove the case
     down(ff) prismoid(
@@ -65,6 +73,8 @@ color([0.3,0.3,0.3,1]) difference() {
         h=case_height);
     // drill holes
     bushings() down(bushing_length/2+1) cylinder(h=wall+10,d=bushing_id);
+    // display corner drill holes
+    display_corners() down(bushing_length/2+1) cylinder(h=wall+10,d=display_corner_drill);
 }
 
 if (pcb_render) pcb();
@@ -123,8 +133,27 @@ function bushing_ang(h) = ang(h+bushing_od/2);
 // correction for wall angle
 function ang(h=case_height) = h / tan(side_angle);
 
-module bushing() {
-    tube(h=bushing_length,od=bushing_od,id=bushing_id);
+module bushing(id=bushing_id) {
+    tube(h=bushing_length,od=bushing_od,id=id);
+}
+
+// display cutout corner positions (4 corners × 2 displays)
+// displays centered at back(34.8), left/right(37.5) from PCB reference
+module display_corners() {
+    fwd(pcb_width/2-(case_width-pcb_width)/2+case_wall) {
+        up(case_height+bushing_length/2) {
+            // Display 1 (left) - center at back(34.8) left(37.5)
+            back(34.8 - display_cutout_h/2) left(37.5 + display_cutout_w/2) children();
+            back(34.8 - display_cutout_h/2) left(37.5 - display_cutout_w/2) children();
+            back(34.8 + display_cutout_h/2) left(37.5 + display_cutout_w/2) children();
+            back(34.8 + display_cutout_h/2) left(37.5 - display_cutout_w/2) children();
+            // Display 2 (right) - center at back(34.8) right(37.5)
+            back(34.8 - display_cutout_h/2) right(37.5 - display_cutout_w/2) children();
+            back(34.8 - display_cutout_h/2) right(37.5 + display_cutout_w/2) children();
+            back(34.8 + display_cutout_h/2) right(37.5 - display_cutout_w/2) children();
+            back(34.8 + display_cutout_h/2) right(37.5 + display_cutout_w/2) children();
+        }
+    }
 }
 
 module pcb() {
