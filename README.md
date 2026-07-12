@@ -35,7 +35,7 @@ The parts are created with openscad 2021.01
        300mm/min feed, 0.3mm depth/pass. Origin: front-left corner of top flat surface.
        Regenerate with <code>cd parts && make gcode</code>.
     </td>
-    <td></td>
+    <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
 </tr>
 <tr>
     <td><a href="./generated/top-panel.dxf">CNC Shop DXF</a></td>
@@ -43,7 +43,7 @@ The parts are created with openscad 2021.01
        2D DXF with all cut profiles for sending to a CNC shop.
        Layers: CUT (through-cut profiles), DRILL (bezel holes), OUTLINE (reference).
     </td>
-    <td></td>
+    <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
 </tr>
 <tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
