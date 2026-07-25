@@ -70,6 +70,10 @@ def parse_args():
                    help="Path to top-panel-coords.json (default: auto-detect)")
     p.add_argument("--origin", type=str, default="center", choices=["corner", "center"],
                    help="Origin mode: 'center' (probe both sides) or 'corner' (front-left) (default: center)")
+    p.add_argument("--angle", type=float, default=0.0,
+                   help="Fixture rotation angle in degrees CCW (default: 0.0). "
+                        "Measure by probing two points on the same edge: "
+                        "angle = atan2(y2-y1, x2-x1) in degrees.")
 
     return p.parse_args()
 
@@ -79,10 +83,10 @@ def parse_args():
 # Origin: front-left corner of case top flat surface.
 # All coordinates computed by panel_coords.cnc_coords().
 
-def load_positions(coords_path=None, origin="center"):
+def load_positions(coords_path=None, origin="center", angle_deg=0.0):
     """Load and transform all positions from JSON."""
     data = load_coords(coords_path)
-    return cnc_coords(data, origin=origin)
+    return cnc_coords(data, origin=origin, angle_deg=angle_deg)
 
 BUTTONS = []
 ENCODERS = []
@@ -108,6 +112,7 @@ class GCode:
         origin_desc = "case center (probe both sides)" if a.origin == "center" else "front-left corner of top flat surface"
         self.emit(f"(Pedalboard case top panel)")
         self.emit(f"(Origin: {origin_desc})")
+        self.emit(f"(Angle correction: {a.angle:.3f} deg)")
         self.emit(f"(Case mounted open-side-down)")
         self.emit(f"(Tool: {a.tool_dia}mm single flute downcut)")
         self.emit(f"(Feed XY: {a.feed_xy} mm/min, Z: {a.feed_z} mm/min)")
@@ -283,7 +288,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Load positions from JSON
-    coords = load_positions(args.coords, origin=args.origin)
+    coords = load_positions(args.coords, origin=args.origin, angle_deg=args.angle)
     BUTTONS = coords["buttons"]
     ENCODERS = coords["encoders"]
     DISPLAYS = coords["displays"]

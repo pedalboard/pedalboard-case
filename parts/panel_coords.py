@@ -6,6 +6,7 @@ for all features. Used by G-code, DXF, and SVG generators.
 """
 
 import json
+import math
 from pathlib import Path
 
 
@@ -17,13 +18,34 @@ def load_coords(json_path=None):
         return json.load(f)
 
 
-def cnc_coords(data, origin="corner"):
+def rotate_point(x, y, angle_deg):
+    """Rotate (x, y) around origin by angle_deg degrees (CCW positive).
+
+    Used to compensate for case rotation in fixture.
+    A positive angle means the case is rotated CCW relative to the
+    machine axes — we apply a CW correction to the toolpaths.
+    """
+    if angle_deg == 0.0:
+        return (x, y)
+    θ = math.radians(-angle_deg)  # negate: correct for case rotation
+    cos_θ = math.cos(θ)
+    sin_θ = math.sin(θ)
+    return (
+        x * cos_θ - y * sin_θ,
+        x * sin_θ + y * cos_θ,
+    )
+
+
+def cnc_coords(data, origin="corner", angle_deg=0.0):
     """Convert all positions to CNC coordinates.
 
     Args:
         data: loaded JSON data
         origin: "corner" — front-left corner of case top flat surface
                 "center" — case center (for probe-both-sides workflow)
+        angle_deg: fixture rotation angle in degrees (CCW positive).
+                   Measured by probing two points on the same edge.
+                   Applied as a counter-rotation to all toolpath coordinates.
 
     X+ = right, Y+ = toward rear. Z=0 = top surface.
     """
@@ -43,13 +65,15 @@ def cnc_coords(data, origin="corner"):
             pcb_y = kicad_y - pcb["kicad_origin_y"]
             cnc_x = pcb_x - pcb["width"] / 2.0
             cnc_y = pcb_y - pcb["height"] / 2.0
-            return (cnc_x, cnc_y)
+            return rotate_point(cnc_x, cnc_y, angle_deg)
     else:
         # Origin at front-left corner of flat surface
         def to_cnc(kicad_x, kicad_y):
             pcb_x = kicad_x - pcb["kicad_origin_x"]
             pcb_y = kicad_y - pcb["kicad_origin_y"]
-            return (pcb_offset_x + pcb_x, pcb_offset_y + pcb_y)
+            cnc_x = pcb_offset_x + pcb_x
+            cnc_y = pcb_offset_y + pcb_y
+            return rotate_point(cnc_x, cnc_y, angle_deg)
 
     result = {
         "case": case,
