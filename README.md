@@ -95,6 +95,17 @@ The parts are created with openscad 2021.01
     </td>
     <td><img src="./generated/oled-display.png"/></td>
 </tr>
+ <tr>
+    <td><a href="./generated/fixture-plate.stl">CNC Fixture Plate</a></td>
+    <td>
+       15mm MDF fixture plate for milling the top panel on the SRcnc.
+       Screws to wasteboard via M5 carriage holes (±60×±90mm pattern).
+       Case screws down via #6-32 corner holes (±89×±57mm pattern).
+       Registration pocket (188.5×120.5×2mm) locates the case in XY.
+       Mill this plate first before using it as a fixture.
+    </td>
+    <td></td>
+</tr>
 </table>
 
 ## 3D printable files
@@ -118,3 +129,45 @@ Regenerate after PCB changes:
 ```bash
 cd parts && make panel
 ```
+
+## CNC milling workflow
+
+The top panel is milled on the SRcnc machine (Hammond 1590DD die cast aluminium,
+4mm single flute downcut, open-side-down fixture).
+
+**Setup** (from the [cnc repo](https://github.com/laenzlinger/cnc)):
+
+```bash
+cd ~/projects/gh/laenzlinger/cnc/probe
+python3 probe-setup.py
+```
+
+The setup script:
+1. Homes the machine
+2. Probes the spoilboard reference Z
+3. Finds the case center and rotation angle from 4 edge probes
+4. Sets G54 X0 Y0 at case center
+5. Probes the case top surface
+6. Probes Z with touch plate (cross-checks against 3D probe)
+7. Regenerates `top-panel.nc` with rotation correction applied
+8. Launches UGS for job execution
+
+**Manual G-code generation** (if angle is known):
+
+```bash
+# Default: center origin, no rotation
+python3 parts/top-panel-gcode.py > top-panel.nc
+
+# With measured rotation angle
+python3 parts/top-panel-gcode.py --angle 0.37 > top-panel.nc
+
+# Corner origin (simpler fixture, no center probing needed)
+python3 parts/top-panel-gcode.py --origin corner > top-panel.nc
+
+# Custom tool or feeds
+python3 parts/top-panel-gcode.py --tool-dia 3 --feed-xy 200 > top-panel.nc
+```
+
+**Origin modes:**
+- `center` (default) — G54 X0 Y0 at case center, requires probing both X edges
+- `corner` — G54 X0 Y0 at front-left corner of case top surface
