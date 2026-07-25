@@ -53,9 +53,13 @@ module carriage_holes() {
 }
 
 module case_holes() {
+    // 4 corner screws
     for (x = [-case_hole_x, case_hole_x])
         for (y = [-case_hole_y, case_hole_y])
             translate([x, y, 0]) children();
+    // 2 center screws on long sides (X=0, Y=±57)
+    for (y = [-case_hole_y, case_hole_y])
+        translate([0, y, 0]) children();
 }
 
 module fixture_plate() {

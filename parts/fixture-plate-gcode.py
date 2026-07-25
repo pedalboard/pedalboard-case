@@ -137,14 +137,17 @@ class GCode:
     def generate(self):
         self.header()
 
-        # Case screw holes — counterbore for washer+head, peck drill for shank
+        # Case screw holes — 4 corners + 2 center long sides
         self.emit("(=== CASE SCREW HOLES (ø11mm counterbore 11mm deep + ø4mm through) ===)")
-        for i, (x, y) in enumerate([
+        case_positions = [
             (-CASE_HOLE_X, -CASE_HOLE_Y),
             ( CASE_HOLE_X, -CASE_HOLE_Y),
             ( CASE_HOLE_X,  CASE_HOLE_Y),
             (-CASE_HOLE_X,  CASE_HOLE_Y),
-        ]):
+            (0,            -CASE_HOLE_Y),  # center long side
+            (0,             CASE_HOLE_Y),  # center long side
+        ]
+        for i, (x, y) in enumerate(case_positions):
             self.helical_bore(x, y, CASE_CBORE_D, CASE_CBORE_DEPTH,
                               f"Case hole {i+1} counterbore")
             self.through_hole(x, y, CASE_CLEARANCE_D,
