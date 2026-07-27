@@ -10,9 +10,9 @@
 DISPLAY_PCB := ../../pedalboard-display/pedalboard-display.kicad_pcb
 COORDS := top-panel-coords.json
 
-.PHONY: panel coords gcode dxf template fixture clean
+.PHONY: panel coords gcode dxf template clean
 
-panel: coords gcode dxf template fixture ## generate all panel outputs
+panel: coords gcode dxf template ## generate all panel outputs
 
 coords: $(COORDS) ## extract positions from KiCad PCB
 
@@ -28,10 +28,6 @@ dxf: $(COORDS) ## generate DXF for CNC shop
 template: $(COORDS) ## generate printable SVG/PDF cutting template
 	python3 top-panel-template.py --output ../generated/display-cutout-template.svg
 	rsvg-convert -f pdf ../generated/display-cutout-template.svg -o ../generated/display-cutout-template.pdf
-
-fixture: ## generate fixture plate STL and G-code
-	openscad -o ../generated/fixture-plate.stl fixture-plate.scad
-	python3 fixture-plate-gcode.py > ../generated/fixture-plate.nc
 
 clean: ## remove generated panel files
 	rm -f $(COORDS)

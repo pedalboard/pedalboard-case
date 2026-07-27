@@ -96,13 +96,10 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/oled-display.png"/></td>
 </tr>
  <tr>
-    <td><a href="./generated/fixture-plate.stl">CNC Fixture Plate</a></td>
+    <td><a href="https://github.com/laenzlinger/cnc/tree/main/parts/fixture-plate">CNC Fixture Plate</a></td>
     <td>
        15mm MDF fixture plate for milling the top panel on the SRcnc.
-       Screws to wasteboard via M5 carriage holes (±60×±90mm pattern).
-       Case screws down via #6-32 corner holes (±89×±57mm pattern).
-       Registration pocket (188.5×120.5×2mm) locates the case in XY.
-       Mill this plate first before using it as a fixture.
+       Maintained in the <a href="https://github.com/laenzlinger/cnc">cnc repo</a>.
     </td>
     <td></td>
 </tr>
