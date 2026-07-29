@@ -34,8 +34,8 @@ plexi_thickness = 2.0   # mm
 total_depth = plexi_thickness + extra_depth
 
 def through_depths():
-    """Z depths for through-cuts: passes at 0.5mm increments, skipping 2.0mm,
-    final pass goes directly to -2.5mm for clean separation."""
+    """Z depths for through-cuts: regular passes then final deep cut.
+    Skips Z at material thickness — jumps from last regular pass to total_depth."""
     depths = []
     z = 0
     while z > -(plexi_thickness - depth_per_pass):
