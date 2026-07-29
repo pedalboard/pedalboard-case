@@ -103,6 +103,16 @@ The parts are created with openscad 2021.01
     </td>
     <td></td>
 </tr>
+<tr>
+    <td><a href="./parts/led-ring-flush.scad">LED Ring (flush mount)</a></td>
+    <td>
+       2mm plexiglass stepped ring for flush-mounted LED illumination.
+       ø24mm top lip (1mm) sits in case recess, ø22mm bottom (1mm) drops into button hole,
+       ø14mm center hole for actuator. Acts as light diffuser for SK6805-EC15 LEDs.
+       CNC cut from plexiglass sheet with 4mm downcut endmill.
+    </td>
+    <td></td>
+</tr>
 </table>
 
 ## 3D printable files
