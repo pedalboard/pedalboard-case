@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate G-code for test-cutting all plexiglass parts in one job.
+Generate G-code for cutting plexiglass parts in one job.
 
-Cuts one of each part from a single 2mm plexiglass sheet:
-- 1x LED ring (ø24mm, stepped, ø14mm center hole)
-- 1x Display window (36.5×38.7mm, stepped)
-- 1x Light pipe disc (ø6mm solid)
+Cuts from 2mm acrylic sheet (translucent black tea / smoke):
+- LED rings (ø24mm, stepped, ø14mm center hole)
+- Display windows (36.5×38.7mm, stepped, 2mm corner radius)
+- Light pipe discs (ø6mm solid)
 
-Parts are laid out in a row with spacing between them.
+Parts are laid out in rows with spacing between them.
 Origin: left edge of layout, Z0 = top of plexiglass.
+Tool: 4mm single flute downcut endmill.
+
+Tested cutting parameters:
+- Makita router dial 3 (~17,000 RPM)
+- Feed: 500mm/min XY, 100mm/min Z
+- Depth per pass: 0.25mm
+- Material: 2mm acrylic (PMMA), leave protective film on during cutting
+- Fixturing: double-sided tape or hot glue, screws in waste area
 Tool: 4mm single flute downcut endmill.
 
 Usage:
