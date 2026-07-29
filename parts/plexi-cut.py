@@ -172,9 +172,11 @@ def cut_led_ring(cx, cy):
 
 
 def rect_external_at(cx, cy, width, height, depth):
-    """Cut a rectangular external contour (tool outside the part)."""
+    """Cut a rectangular external contour with 2mm corner radius (tool outside the part)."""
+    # Tool offset (external = tool center outside part edge)
     hw = width / 2.0 + tool_r
     hh = height / 2.0 + tool_r
+    cr = tool_r  # corner radius = tool radius (2mm)
 
     start_x = cx
     start_y = cy - hh
@@ -191,17 +193,30 @@ def rect_external_at(cx, cy, width, height, depth):
 
     for z in depths:
         emit(f"G1 Z{z:.3f} F{feed_z}")
-        emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{feed_xy}")
-        emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
-        emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
-        emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
+        # Bottom edge → bottom-right corner (arc)
+        emit(f"G1 X{cx + hw - cr:.3f} Y{cy - hh:.3f} F{feed_xy}")
+        emit(f"G2 X{cx + hw:.3f} Y{cy - hh + cr:.3f} I0 J{cr:.3f}")
+        # Right edge → top-right corner (arc)
+        emit(f"G1 X{cx + hw:.3f} Y{cy + hh - cr:.3f}")
+        emit(f"G2 X{cx + hw - cr:.3f} Y{cy + hh:.3f} I{-cr:.3f} J0")
+        # Top edge → top-left corner (arc)
+        emit(f"G1 X{cx - hw + cr:.3f} Y{cy + hh:.3f}")
+        emit(f"G2 X{cx - hw:.3f} Y{cy + hh - cr:.3f} I0 J{-cr:.3f}")
+        # Left edge → bottom-left corner (arc)
+        emit(f"G1 X{cx - hw:.3f} Y{cy - hh + cr:.3f}")
+        emit(f"G2 X{cx - hw + cr:.3f} Y{cy - hh:.3f} I{cr:.3f} J0")
+        # Back to start
         emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
 
     # Spring pass
-    emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{feed_xy}")
-    emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
-    emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
-    emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
+    emit(f"G1 X{cx + hw - cr:.3f} Y{cy - hh:.3f} F{feed_xy}")
+    emit(f"G2 X{cx + hw:.3f} Y{cy - hh + cr:.3f} I0 J{cr:.3f}")
+    emit(f"G1 X{cx + hw:.3f} Y{cy + hh - cr:.3f}")
+    emit(f"G2 X{cx + hw - cr:.3f} Y{cy + hh:.3f} I{-cr:.3f} J0")
+    emit(f"G1 X{cx - hw + cr:.3f} Y{cy + hh:.3f}")
+    emit(f"G2 X{cx - hw:.3f} Y{cy + hh - cr:.3f} I0 J{-cr:.3f}")
+    emit(f"G1 X{cx - hw:.3f} Y{cy - hh + cr:.3f}")
+    emit(f"G2 X{cx - hw + cr:.3f} Y{cy - hh:.3f} I{cr:.3f} J0")
     emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
     emit(f"G0 Z{safe_z}")
 
