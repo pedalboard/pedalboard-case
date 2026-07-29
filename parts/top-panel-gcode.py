@@ -62,6 +62,14 @@ def parse_args():
                    help="Display cutout width (default: 34.5)")
     p.add_argument("--display-h", type=float, default=36.7,
                    help="Display cutout height (default: 36.7)")
+    p.add_argument("--display-recess-w", type=float, default=36.5,
+                   help="Display recess width for flush window (default: 36.5)")
+    p.add_argument("--display-recess-h", type=float, default=38.7,
+                   help="Display recess height for flush window (default: 38.7)")
+    p.add_argument("--button-recess-dia", type=float, default=24.0,
+                   help="Button LED ring recess diameter (default: 24.0)")
+    p.add_argument("--recess-depth", type=float, default=1.0,
+                   help="Recess depth for flush-mount parts (default: 1.0)")
     p.add_argument("--lightpipe-dia", type=float, default=6.0,
                    help="Light pipe hole diameter (default: 6.0)")
     p.add_argument("--bezel-hole-dia", type=float, default=4.0,
@@ -247,6 +255,77 @@ class GCode:
         self.emit(f"G1 Z{-self.total_depth:.3f} F{a.feed_z}")
         self.emit(f"G0 Z{a.safe_z}")
 
+    def circular_pocket(self, cx, cy, diameter, depth, label=""):
+        """Cut a circular pocket (recess) to a specified depth."""
+        a = self.args
+        r = diameter / 2.0
+        cut_r = r - self.tool_r
+
+        if cut_r <= 0:
+            return  # can't pocket smaller than tool
+
+        self.emit()
+        self.emit(f"({label}: circular pocket ø{diameter}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
+
+        start_x = cx + cut_r
+        start_y = cy
+        self.rapid_to(start_x, start_y)
+
+        n_passes = math.ceil(depth / a.depth_per_pass)
+        self.emit(f"G0 Z{a.retract_z}")
+
+        current_z = 0
+        for i in range(n_passes):
+            current_z -= a.depth_per_pass
+            if current_z < -depth:
+                current_z = -depth
+            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
+            self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
+
+        # Spring pass
+        self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 F{a.feed_xy}")
+        self.emit(f"G0 Z{a.safe_z}")
+
+    def rectangular_pocket(self, cx, cy, width, height, depth, label=""):
+        """Cut a rectangular pocket (recess) to a specified depth."""
+        a = self.args
+        corner_r = self.tool_r
+
+        hw = width / 2.0 - self.tool_r
+        hh = height / 2.0 - self.tool_r
+
+        self.emit()
+        self.emit(f"({label}: rect pocket {width}×{height}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
+
+        start_x = cx
+        start_y = cy - hh
+        self.rapid_to(start_x, start_y)
+
+        n_passes = math.ceil(depth / a.depth_per_pass)
+        self.emit(f"G0 Z{a.retract_z}")
+
+        current_z = 0
+        for i in range(n_passes):
+            current_z -= a.depth_per_pass
+            if current_z < -depth:
+                current_z = -depth
+
+            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
+            self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
+
+        # Spring pass
+        self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+        self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
+        self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
+        self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
+        self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
+
+        self.emit(f"G0 Z{a.safe_z}")
+
     def generate(self):
         a = self.args
         self.header()
@@ -265,6 +344,15 @@ class GCode:
 
         # 3. Button/encoder holes
         self.emit()
+        self.emit("(=== BUTTON LED RING RECESSES (1mm deep) ===)")
+        for i, (x, y) in enumerate(BUTTONS):
+            self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
+                                 f"Button {i+1} recess")
+        for i, (x, y) in enumerate(ENCODERS):
+            self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
+                                 f"Encoder {i+1} recess")
+
+        self.emit()
         self.emit("(=== BUTTON HOLES ===)")
         for i, (x, y) in enumerate(BUTTONS):
             self.circular_profile(x, y, a.button_dia, f"Button {i+1}")
@@ -275,6 +363,12 @@ class GCode:
             self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
 
         # 4. Display cutouts (largest, do last)
+        self.emit()
+        self.emit("(=== DISPLAY RECESSES (1mm deep) ===)")
+        for i, (x, y) in enumerate(DISPLAYS):
+            self.rectangular_pocket(x, y, a.display_recess_w, a.display_recess_h,
+                                    a.recess_depth, f"Display {i+1} recess")
+
         self.emit()
         self.emit("(=== DISPLAY CUTOUTS ===)")
         for i, (x, y) in enumerate(DISPLAYS):
