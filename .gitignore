@@ -2,3 +2,4 @@
 .kiro
 parts/__pycache__/
 parts/*.nc
+*.nc
