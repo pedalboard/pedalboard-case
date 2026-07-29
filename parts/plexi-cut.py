@@ -172,11 +172,14 @@ def cut_led_ring(cx, cy):
 
 
 def rect_external_at(cx, cy, width, height, depth):
-    """Cut a rectangular external contour with 2mm corner radius (tool outside the part)."""
-    # Tool offset (external = tool center outside part edge)
+    """Cut a rectangular external contour with 2mm corner radius on the PART."""
+    # For external cut: tool path corner radius = part corner radius + tool radius
+    part_corner_r = 2.0  # mm — desired corner radius on the part
+    cr = part_corner_r + tool_r  # tool path corner radius = 4mm
+
+    # Tool offset (external = tool center outside part edge by tool_r)
     hw = width / 2.0 + tool_r
     hh = height / 2.0 + tool_r
-    cr = tool_r  # corner radius = tool radius (2mm)
 
     start_x = cx
     start_y = cy - hh
