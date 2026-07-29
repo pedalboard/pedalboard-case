@@ -132,10 +132,10 @@ def cut_led_ring(cx, cy):
     """Cut one LED ring at (cx, cy)."""
     emit(f"")
     emit(f"(--- LED ring at X{cx:.1f} Y{cy:.1f} ---)")
-    # 1. Center hole (internal contour)
+    # 1. Center hole (internal contour, full depth)
     circle_at(cx, cy, led_ring_center_d, total_depth)
-    # 2. Outer lip (external contour, 1mm deep)
-    cut_r = (led_ring_od + tool_dia) / 2.0
+    # 2. Step cut at ø22mm (external, 1mm deep — creates the ledge)
+    cut_r = (led_ring_step_od + tool_dia) / 2.0
     start_x = cx + cut_r
     rapid_to(start_x, cy)
     z = 0
@@ -146,8 +146,8 @@ def cut_led_ring(cx, cy):
         emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
     emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
     emit(f"G0 Z{safe_z}")
-    # 3. Through cut at step diameter (external contour)
-    cut_r = (led_ring_step_od + tool_dia) / 2.0
+    # 3. Outer cut at ø24mm (external, full depth — separates the part)
+    cut_r = (led_ring_od + tool_dia) / 2.0
     start_x = cx + cut_r
     rapid_to(start_x, cy)
     z = 0
@@ -193,10 +193,10 @@ def cut_display_window(cx, cy):
     """Cut one display window at (cx, cy)."""
     emit(f"")
     emit(f"(--- Display window at X{cx:.1f} Y{cy:.1f} ---)")
-    # 1. Outer lip (external contour, 1mm deep)
-    rect_external_at(cx, cy, display_top_w, display_top_h, step_depth)
-    # 2. Through cut at step size (external contour)
-    rect_external_at(cx, cy, display_step_w, display_step_h, total_depth)
+    # 1. Step cut at smaller size (external, 1mm deep — creates the ledge)
+    rect_external_at(cx, cy, display_step_w, display_step_h, step_depth)
+    # 2. Outer cut at larger size (external, full depth — separates the part)
+    rect_external_at(cx, cy, display_top_w, display_top_h, total_depth)
 
 
 def cut_lightpipe_disc(cx, cy):
