@@ -72,8 +72,8 @@ def parse_args():
                    help="Recess depth for flush-mount parts (default: 1.0)")
     p.add_argument("--lightpipe-dia", type=float, default=6.0,
                    help="Light pipe recess diameter (default: 6.0)")
-    p.add_argument("--lightpipe-through-dia", type=float, default=4.5,
-                   help="Light pipe through-hole diameter (default: 4.5)")
+    p.add_argument("--lightpipe-through-dia", type=float, default=5.0,
+                   help="Light pipe through-hole diameter (default: 5.0)")
     p.add_argument("--lightpipe-recess-depth", type=float, default=0.5,
                    help="Light pipe recess depth (default: 0.5)")
     p.add_argument("--bezel-hole-dia", type=float, default=4.0,
