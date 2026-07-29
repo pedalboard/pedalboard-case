@@ -71,7 +71,9 @@ def parse_args():
     p.add_argument("--recess-depth", type=float, default=1.0,
                    help="Recess depth for flush-mount parts (default: 1.0)")
     p.add_argument("--lightpipe-dia", type=float, default=6.0,
-                   help="Light pipe hole diameter (default: 6.0)")
+                   help="Light pipe recess diameter (default: 6.0)")
+    p.add_argument("--lightpipe-through-dia", type=float, default=4.0,
+                   help="Light pipe through-hole diameter (default: 4.0)")
     p.add_argument("--bezel-hole-dia", type=float, default=4.0,
                    help="Bezel mounting hole diameter (default: 4.0)")
     p.add_argument("--coords", type=str, default=None,
@@ -338,9 +340,15 @@ class GCode:
 
         # 2. Light pipe holes
         self.emit()
+        self.emit("(=== LIGHT PIPE RECESSES (1mm deep) ===)")
+        for i, (x, y) in enumerate(LIGHT_PIPES):
+            self.circular_pocket(x, y, a.lightpipe_dia, a.recess_depth,
+                                 f"Light pipe {i+1} recess")
+
+        self.emit()
         self.emit("(=== LIGHT PIPE HOLES ===)")
         for i, (x, y) in enumerate(LIGHT_PIPES):
-            self.circular_profile(x, y, a.lightpipe_dia, f"Light pipe {i+1}")
+            self.circular_profile(x, y, a.lightpipe_through_dia, f"Light pipe {i+1}")
 
         # 3. Button/encoder holes
         self.emit()
