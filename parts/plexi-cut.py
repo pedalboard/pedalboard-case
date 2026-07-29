@@ -33,6 +33,17 @@ extra_depth = 0.5       # mm — cut well past material on final pass
 plexi_thickness = 2.0   # mm
 total_depth = plexi_thickness + extra_depth
 
+def through_depths():
+    """Z depths for through-cuts: passes at 0.5mm increments, skipping 2.0mm,
+    final pass goes directly to -2.5mm for clean separation."""
+    depths = []
+    z = 0
+    while z > -(plexi_thickness - depth_per_pass):
+        z -= depth_per_pass
+        depths.append(z)
+    depths.append(-total_depth)
+    return depths
+
 # Part dimensions
 led_ring_od = 24.0
 led_ring_step_od = 22.0
@@ -75,24 +86,27 @@ def rapid_to(x, y):
     emit(f"G0 X{x:.3f} Y{y:.3f}")
 
 def circle_at(cx, cy, diameter, depth):
-    """Cut a circular contour to depth."""
+    """Cut a circular internal contour to depth."""
     cut_r = (diameter - tool_dia) / 2.0
     if cut_r <= 0:
         # Peck drill
         rapid_to(cx, cy)
-        z = 0
-        while z > -depth:
-            z = max(z - depth_per_pass * 2, -depth)
+        for z in through_depths():
             emit(f"G1 Z{z:.3f} F{feed_z}")
             emit(f"G0 Z{safe_z}")
         return
 
     start_x = cx + cut_r
     rapid_to(start_x, cy)
-    z = 0
-    n_passes = math.ceil(depth / depth_per_pass)
-    for i in range(n_passes):
-        z = max(z - depth_per_pass, -depth)
+    if depth >= plexi_thickness:
+        depths = through_depths()
+    else:
+        depths = []
+        z = 0
+        while z > -depth:
+            z = max(z - depth_per_pass, -depth)
+            depths.append(z)
+    for z in depths:
         emit(f"G1 Z{z:.3f} F{feed_z}")
         emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
     # Spring pass
@@ -150,10 +164,7 @@ def cut_led_ring(cx, cy):
     cut_r = (led_ring_od + tool_dia) / 2.0
     start_x = cx + cut_r
     rapid_to(start_x, cy)
-    z = 0
-    n_passes = math.ceil(total_depth / depth_per_pass)
-    for i in range(n_passes):
-        z = max(z - depth_per_pass, -total_depth)
+    for z in through_depths():
         emit(f"G1 Z{z:.3f} F{feed_z}")
         emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
     emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
@@ -169,10 +180,16 @@ def rect_external_at(cx, cy, width, height, depth):
     start_y = cy - hh
     rapid_to(start_x, start_y)
 
-    z = 0
-    n_passes = math.ceil(depth / depth_per_pass)
-    for i in range(n_passes):
-        z = max(z - depth_per_pass, -depth)
+    if depth >= plexi_thickness:
+        depths = through_depths()
+    else:
+        depths = []
+        z = 0
+        while z > -depth:
+            z = max(z - depth_per_pass, -depth)
+            depths.append(z)
+
+    for z in depths:
         emit(f"G1 Z{z:.3f} F{feed_z}")
         emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{feed_xy}")
         emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
@@ -207,10 +224,7 @@ def cut_lightpipe_disc(cx, cy):
     cut_r = (lightpipe_d + tool_dia) / 2.0  # tool center radius outside disc
     start_x = cx + cut_r
     rapid_to(start_x, cy)
-    z = 0
-    n_passes = math.ceil(total_depth / depth_per_pass)
-    for i in range(n_passes):
-        z = max(z - depth_per_pass, -total_depth)
+    for z in through_depths():
         emit(f"G1 Z{z:.3f} F{feed_z}")
         emit(f"G2 X{start_x:.3f} Y{cy:.3f} I{-cut_r:.3f} J0 F{feed_xy}")
     # Spring pass
