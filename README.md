@@ -113,6 +113,16 @@ The parts are created with openscad 2021.01
     </td>
     <td><img src="./generated/led-ring-flush.png"/></td>
 </tr>
+<tr>
+    <td><a href="./parts/display-window-flush.scad">Display Window (flush mount)</a></td>
+    <td>
+       2mm plexiglass stepped rectangle for flush-mounted OLED display.
+       36.5×38.7mm top lip (1mm) sits in case recess, 34.1×36.3mm bottom (1mm) drops into
+       display cutout. Solid window — display visible through plexiglass.
+       2mm corner radius (4mm endmill). CNC cut from plexiglass sheet.
+    </td>
+    <td><img src="./generated/display-window-flush.png"/></td>
+</tr>
 </table>
 
 ## 3D printable files
