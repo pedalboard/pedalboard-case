@@ -111,7 +111,7 @@ The parts are created with openscad 2021.01
        ø14mm center hole for actuator. Acts as light diffuser for SK6805-EC15 LEDs.
        CNC cut from plexiglass sheet with 4mm downcut endmill.
     </td>
-    <td></td>
+    <td><img src="./generated/led-ring-flush.png"/></td>
 </tr>
 </table>
 
