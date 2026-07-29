@@ -249,36 +249,39 @@ if __name__ == "__main__":
     emit(f"G0 Z{safe_z}")
     emit("G0 X0 Y0")
 
-    # Layout parts in rows
-    x_cursor = 0
-    y_cursor = 0
+    # Layout parts optimally — fit within ~200mm x ~150mm sheet
+    # Row 1: LED rings (up to 4 per row)
+    rings_per_row = 4
+    ring_pitch = led_ring_od + part_gap  # 34mm
 
-    # LED rings
     for i in range(n_rings):
-        cx = x_cursor + led_ring_od / 2.0
-        cy = y_cursor
+        row = i // rings_per_row
+        col = i % rings_per_row
+        cx = col * ring_pitch + led_ring_od / 2.0
+        cy = -(row * (led_ring_od + part_gap))
         cut_led_ring(cx, cy)
-        x_cursor += led_ring_od + part_gap
 
-    # Next row for display windows
-    x_cursor = 0
-    y_cursor -= (led_ring_od / 2.0 + display_top_h / 2.0 + part_gap)
+    # Calculate Y start for next section
+    ring_rows = math.ceil(n_rings / rings_per_row)
+    y_after_rings = -(ring_rows * (led_ring_od + part_gap))
+
+    # Display windows row
+    window_pitch = display_top_w + part_gap  # 46.5mm
+    y_windows = y_after_rings - display_top_h / 2.0
 
     for i in range(n_windows):
-        cx = x_cursor + display_top_w / 2.0
-        cy = y_cursor
+        cx = i * window_pitch + display_top_w / 2.0
+        cy = y_windows
         cut_display_window(cx, cy)
-        x_cursor += display_top_w + part_gap
 
-    # Next row for light pipe discs
-    x_cursor = 0
-    y_cursor -= (display_top_h / 2.0 + lightpipe_d / 2.0 + part_gap)
+    # Light pipe discs — fit next to or below windows
+    y_discs = y_windows - display_top_h / 2.0 - part_gap - lightpipe_d / 2.0
+    disc_pitch = lightpipe_d + part_gap  # 16mm
 
     for i in range(n_discs):
-        cx = x_cursor + lightpipe_d / 2.0
-        cy = y_cursor
+        cx = i * disc_pitch + lightpipe_d / 2.0
+        cy = y_discs
         cut_lightpipe_disc(cx, cy)
-        x_cursor += lightpipe_d + part_gap
 
     emit()
     emit("M5")
