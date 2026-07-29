@@ -1,4 +1,4 @@
-(Test cut: 1x LED ring, 1x display window, 1x light pipe disc)
+(1x ring, 1x window, 1x disc)
 (Tool: 4.0mm single flute downcut)
 (Material: 2.0mm plexiglass)
 (Feed: 500mm/min XY, 100mm/min Z, 0.5mm/pass)

@@ -52,6 +52,12 @@ part_gap = 5.0          # mm between parts
 
 def parse_args():
     p = argparse.ArgumentParser(description="Plexiglass parts G-code")
+    p.add_argument("--rings", type=int, default=1,
+                   help="Number of LED rings (default: 1)")
+    p.add_argument("--windows", type=int, default=1,
+                   help="Number of display windows (default: 1)")
+    p.add_argument("--discs", type=int, default=1,
+                   help="Number of light pipe discs (default: 1)")
     p.add_argument("--production", action="store_true",
                    help="Production quantities: 8 rings, 2 windows, 2 discs")
     return p.parse_args()
@@ -160,14 +166,14 @@ if __name__ == "__main__":
         n_rings = 8
         n_windows = 2
         n_discs = 2
-        job_name = "Production"
     else:
-        n_rings = 1
-        n_windows = 1
-        n_discs = 1
-        job_name = "Test cut"
+        n_rings = args.rings
+        n_windows = args.windows
+        n_discs = args.discs
 
-    emit(f"({job_name}: {n_rings}x LED ring, {n_windows}x display window, {n_discs}x light pipe disc)")
+    job_name = f"{n_rings}x ring, {n_windows}x window, {n_discs}x disc"
+
+    emit(f"({job_name})")
     emit(f"(Tool: {tool_dia}mm single flute downcut)")
     emit(f"(Material: {plexi_thickness}mm plexiglass)")
     emit(f"(Feed: {feed_xy}mm/min XY, {feed_z}mm/min Z, {depth_per_pass}mm/pass)")

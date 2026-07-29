@@ -1,4 +1,4 @@
-(Production: 8x LED ring, 2x display window, 2x light pipe disc)
+(8x ring, 2x window, 2x disc)
 (Tool: 4.0mm single flute downcut)
 (Material: 2.0mm plexiglass)
 (Feed: 500mm/min XY, 100mm/min Z, 0.5mm/pass)
