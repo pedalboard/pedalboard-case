@@ -29,7 +29,7 @@ feed_z = 100            # mm/min
 spindle_rpm = 15000
 safe_z = 15.0           # mm
 depth_per_pass = 0.5    # mm
-extra_depth = 0.3       # mm
+extra_depth = 0.5       # mm — cut well past material on final pass
 plexi_thickness = 2.0   # mm
 total_depth = plexi_thickness + extra_depth
 
