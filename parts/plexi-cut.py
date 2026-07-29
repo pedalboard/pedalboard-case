@@ -46,8 +46,8 @@ display_step_h = 36.3
 
 lightpipe_d = 6.0
 
-# Spacing
-part_gap = 5.0          # mm between parts
+# Spacing (must account for tool radius on external contours)
+part_gap = 10.0         # mm between part edges (includes tool clearance)
 
 
 def parse_args():
