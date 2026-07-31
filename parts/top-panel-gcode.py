@@ -369,7 +369,7 @@ class GCode:
             self.rectangular_profile(x, y, a.display_w, a.display_h, f"Display {i+1}")
 
         self.footer()
-        return "\n".join(self.lines)
+        return "\n".join(line for line in self.lines if line)
 
 
 if __name__ == "__main__":
