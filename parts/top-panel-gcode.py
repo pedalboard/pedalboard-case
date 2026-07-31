@@ -330,13 +330,7 @@ class GCode:
         a = self.args
         self.header()
 
-        # 1. Bezel mounting holes (smallest, least stress on part)
-        self.emit()
-        self.emit("(=== BEZEL MOUNTING HOLES ===)")
-        for i, (x, y) in enumerate(BEZEL_HOLES):
-            self.circular_profile(x, y, a.bezel_hole_dia, f"Bezel hole {i+1}")
-
-        # 2. Light pipe holes (ø6mm through, plexiglass disc press-fits in)
+        # 1. Light pipe holes (ø6mm through, plexiglass disc press-fits in)
         self.emit()
         self.emit("(=== LIGHT PIPE HOLES ===)")
         for i, (x, y) in enumerate(LIGHT_PIPES):
