@@ -174,12 +174,12 @@ class GCode:
             current_z -= a.depth_per_pass
             if current_z < -self.total_depth:
                 current_z = -self.total_depth
-            # Full circle with Z descent (helical)
+            # Full circle with Z descent (helical) — omit XY for full circle
             self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
-            self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
 
         # Final full-depth pass (spring cut)
-        self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 F{a.feed_xy}")
+        self.emit(f"G2 I{-cut_r:.3f} J0 F{a.feed_xy}")
 
         # Retract
         self.emit(f"G0 Z{a.safe_z}")
@@ -280,10 +280,10 @@ class GCode:
             if current_z < -depth:
                 current_z = -depth
             self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
-            self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
 
         # Spring pass
-        self.emit(f"G2 X{start_x:.3f} Y{start_y:.3f} I{-cut_r:.3f} J0 F{a.feed_xy}")
+        self.emit(f"G2 I{-cut_r:.3f} J0 F{a.feed_xy}")
         self.emit(f"G0 Z{a.safe_z}")
 
     def rectangular_pocket(self, cx, cy, width, height, depth, label=""):
