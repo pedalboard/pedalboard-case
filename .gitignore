@@ -3,3 +3,4 @@
 parts/__pycache__/
 parts/*.nc
 *.nc
+z-offsets.json

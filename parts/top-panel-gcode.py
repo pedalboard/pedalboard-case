@@ -42,8 +42,8 @@ def parse_args():
                    help="Spindle speed in RPM (default: 10000)")
 
     # Depths
-    p.add_argument("--stock-thickness", type=float, default=2.5,
-                   help="Case wall thickness in mm (default: 2.5)")
+    p.add_argument("--stock-thickness", type=float, default=3.5,
+                   help="Case wall thickness in mm (default: 3.5)")
     p.add_argument("--depth-per-pass", type=float, default=0.3,
                    help="Depth of cut per pass in mm (default: 0.3)")
     p.add_argument("--extra-depth", type=float, default=0.2,
