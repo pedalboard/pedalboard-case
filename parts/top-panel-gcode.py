@@ -404,6 +404,10 @@ if __name__ == "__main__":
             errors.append(f"  Line {i}: non-ASCII character: {repr(line)}")
         if line.strip() == "":
             errors.append(f"  Line {i}: empty line")
+        if line.startswith("("):
+            errors.append(f"  Line {i}: comment line (may cause error:1 on grblHAL)")
+        if len(line) > 70:
+            errors.append(f"  Line {i}: line too long ({len(line)} chars): {line[:50]}...")
     if errors:
         print("G-code validation FAILED:", file=sys.stderr)
         for e in errors:
