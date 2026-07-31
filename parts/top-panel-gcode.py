@@ -82,6 +82,9 @@ def parse_args():
                    help="Fixture rotation angle in degrees CCW (default: 0.0). "
                         "Measure by probing two points on the same edge: "
                         "angle = atan2(y2-y1, x2-x1) in degrees.")
+    p.add_argument("--z-offsets", type=str, default=None,
+                   help="JSON file with per-feature Z offsets from probe-setup.py. "
+                        "Compensates for surface curvature on cast cases.")
 
     return p.parse_args()
 
@@ -106,14 +109,28 @@ BEZEL_HOLES = []
 # === G-CODE GENERATION ===
 
 class GCode:
-    def __init__(self, args):
+    def __init__(self, args, z_offsets=None):
         self.args = args
         self.tool_r = args.tool_dia / 2.0
         self.total_depth = args.stock_thickness + args.extra_depth
         self.lines = []
+        self.z_offsets = z_offsets or {}  # {"buttons": [0.0, -0.1, ...], "encoders": [...], ...}
+        self._current_z_offset = 0.0
 
     def emit(self, line=""):
         self.lines.append(line)
+
+    def set_z_offset(self, feature_type, index):
+        """Set the current Z offset for a feature from the offsets table."""
+        offsets = self.z_offsets.get(feature_type, [])
+        if index < len(offsets):
+            self._current_z_offset = offsets[index]
+        else:
+            self._current_z_offset = 0.0
+
+    def z(self, depth):
+        """Apply current Z offset to a depth value."""
+        return depth + self._current_z_offset
 
     def header(self):
         a = self.args
@@ -175,7 +192,7 @@ class GCode:
             if next_z < -self.total_depth:
                 next_z = -self.total_depth
             # Helical entry: circle while descending to next depth
-            self.emit(f"G2 I{-cut_r:.3f} J0 Z{next_z:.3f} F{a.feed_xy}")
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{self.z(next_z):.3f} F{a.feed_xy}")
             current_z = next_z
 
         # Final full-depth pass (spring cut, no Z change)
@@ -210,7 +227,7 @@ class GCode:
             if current_z < -self.total_depth:
                 current_z = -self.total_depth
 
-            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
+            self.emit(f"G1 Z{self.z(current_z):.3f} F{a.feed_z}")
 
             # Rectangle path: CCW from bottom-center
             # → bottom-right corner
@@ -248,11 +265,11 @@ class GCode:
             current_z -= peck
             if current_z < -self.total_depth:
                 current_z = -self.total_depth
-            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
+            self.emit(f"G1 Z{self.z(current_z):.3f} F{a.feed_z}")
             self.emit(f"G0 Z{a.retract_z}")
 
         # Final plunge
-        self.emit(f"G1 Z{-self.total_depth:.3f} F{a.feed_z}")
+        self.emit(f"G1 Z{self.z(-self.total_depth):.3f} F{a.feed_z}")
         self.emit(f"G0 Z{a.safe_z}")
 
     def circular_pocket(self, cx, cy, diameter, depth, label=""):
@@ -280,7 +297,7 @@ class GCode:
             if next_z < -depth:
                 next_z = -depth
             # Helical entry: circle while descending
-            self.emit(f"G2 I{-cut_r:.3f} J0 Z{next_z:.3f} F{a.feed_xy}")
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{self.z(next_z):.3f} F{a.feed_xy}")
             current_z = next_z
 
         # Spring pass
@@ -311,7 +328,7 @@ class GCode:
             if current_z < -depth:
                 current_z = -depth
 
-            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
+            self.emit(f"G1 Z{self.z(current_z):.3f} F{a.feed_z}")
             self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
             self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
             self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
@@ -332,41 +349,38 @@ class GCode:
         self.header()
 
         # 1. Light pipe holes (dia 6mm through, plexiglass disc press-fits in)
-        self.emit()
-        self.emit("(=== LIGHT PIPE HOLES ===)")
         for i, (x, y) in enumerate(LIGHT_PIPES):
+            self.set_z_offset("single_leds", i)
             self.circular_profile(x, y, a.lightpipe_dia, f"Light pipe {i+1}")
 
-        # 3. Button/encoder holes
-        self.emit()
-        self.emit("(=== BUTTON LED RING RECESSES (1mm deep) ===)")
+        # 2. Button/encoder recesses
         for i, (x, y) in enumerate(BUTTONS):
+            self.set_z_offset("buttons", i)
             self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
                                  f"Button {i+1} recess")
         for i, (x, y) in enumerate(ENCODERS):
+            self.set_z_offset("encoders", i)
             self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
                                  f"Encoder {i+1} recess")
 
-        self.emit()
-        self.emit("(=== BUTTON HOLES ===)")
+        # 3. Button/encoder through-holes
         for i, (x, y) in enumerate(BUTTONS):
+            self.set_z_offset("buttons", i)
             self.circular_profile(x, y, a.button_dia, f"Button {i+1}")
 
-        self.emit()
-        self.emit("(=== ENCODER HOLES ===)")
         for i, (x, y) in enumerate(ENCODERS):
+            self.set_z_offset("encoders", i)
             self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
 
-        # 4. Display cutouts (largest, do last)
-        self.emit()
-        self.emit("(=== DISPLAY RECESSES (1mm deep) ===)")
+        # 4. Display recesses
         for i, (x, y) in enumerate(DISPLAYS):
+            self.set_z_offset("displays", i)
             self.rectangular_pocket(x, y, a.display_recess_w, a.display_recess_h,
                                     a.recess_depth, f"Display {i+1} recess")
 
-        self.emit()
-        self.emit("(=== DISPLAY CUTOUTS ===)")
+        # 5. Display through-cutouts
         for i, (x, y) in enumerate(DISPLAYS):
+            self.set_z_offset("displays", i)
             self.rectangular_profile(x, y, a.display_w, a.display_h, f"Display {i+1}")
 
         self.footer()
@@ -395,7 +409,15 @@ if __name__ == "__main__":
         print(f"WARNING: Tool dia {args.tool_dia}mm > bezel hole dia {args.bezel_hole_dia}mm, "
               f"will plunge (hole = tool diameter)", file=sys.stderr)
 
-    gc = GCode(args)
+    # Load Z offsets if provided
+    z_offsets = {}
+    if args.z_offsets:
+        import json as json_mod
+        with open(args.z_offsets) as f:
+            z_offsets = json_mod.load(f)
+        print(f"Loaded Z offsets from {args.z_offsets}", file=sys.stderr)
+
+    gc = GCode(args, z_offsets=z_offsets)
     output = gc.generate()
 
     # Validate G-code for grblHAL compatibility
