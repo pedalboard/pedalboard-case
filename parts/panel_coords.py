@@ -47,6 +47,8 @@ def cnc_coords(data, origin="corner", angle_deg=0.0):
                    Measured by probing two points on the same edge.
                    Applied as a counter-rotation to all toolpath coordinates.
 
+    Case mounted with long axis along Y, short axis along X.
+    PCB layout has long axis as X — we swap X↔Y in the transform.
     X+ = right, Y+ = toward rear. Z=0 = top surface.
     """
     case = data["case"]
@@ -55,24 +57,28 @@ def cnc_coords(data, origin="corner", angle_deg=0.0):
     positions = data["positions"]
 
     # PCB centered in case top surface
-    pcb_offset_x = (case["top_surface_width"] - pcb["width"]) / 2.0
-    pcb_offset_y = (case["top_surface_height"] - pcb["height"]) / 2.0
+    # Note: PCB "width" is along the long axis (becomes Y on machine)
+    #       PCB "height" is along the short axis (becomes X on machine)
+    pcb_offset_long = (case["top_surface_width"] - pcb["width"]) / 2.0
+    pcb_offset_short = (case["top_surface_height"] - pcb["height"]) / 2.0
 
     if origin == "center":
         # Origin at case center (probe both sides, compute midpoint)
         def to_cnc(kicad_x, kicad_y):
             pcb_x = kicad_x - pcb["kicad_origin_x"]
             pcb_y = kicad_y - pcb["kicad_origin_y"]
-            cnc_x = pcb_x - pcb["width"] / 2.0
-            cnc_y = pcb_y - pcb["height"] / 2.0
+            # Swap: PCB X (long) → CNC Y, PCB Y (short) → CNC X
+            cnc_x = pcb_y - pcb["height"] / 2.0
+            cnc_y = pcb_x - pcb["width"] / 2.0
             return rotate_point(cnc_x, cnc_y, angle_deg)
     else:
         # Origin at front-left corner of flat surface
         def to_cnc(kicad_x, kicad_y):
             pcb_x = kicad_x - pcb["kicad_origin_x"]
             pcb_y = kicad_y - pcb["kicad_origin_y"]
-            cnc_x = pcb_offset_x + pcb_x
-            cnc_y = pcb_offset_y + pcb_y
+            # Swap: PCB X (long) → CNC Y, PCB Y (short) → CNC X
+            cnc_x = pcb_offset_short + pcb_y
+            cnc_y = pcb_offset_long + pcb_x
             return rotate_point(cnc_x, cnc_y, angle_deg)
 
     result = {
