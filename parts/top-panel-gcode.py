@@ -158,7 +158,7 @@ class GCode:
             return
 
         self.emit()
-        self.emit(f"({label}: circle ø{diameter}mm at X{cx:.1f} Y{cy:.1f})")
+        self.emit(f"({label}: circle dia {diameter}mm at X{cx:.1f} Y{cy:.1f})")
 
         # Rapid to start position (3 o'clock)
         start_x = cx + cut_r
@@ -194,7 +194,7 @@ class GCode:
         hh = height / 2.0 - self.tool_r  # half-height of toolpath
 
         self.emit()
-        self.emit(f"({label}: rect {width}×{height}mm at X{cx:.1f} Y{cy:.1f}, corner R{corner_r:.1f})")
+        self.emit(f"({label}: rect {width}x{height}mm at X{cx:.1f} Y{cy:.1f}, corner R{corner_r:.1f})")
 
         # Start at mid-point of bottom edge
         start_x = cx
@@ -237,7 +237,7 @@ class GCode:
         """Plunge-drill a hole equal to tool diameter."""
         a = self.args
         self.emit()
-        self.emit(f"({label}: plunge ø{a.tool_dia}mm at X{cx:.1f} Y{cy:.1f})")
+        self.emit(f"({label}: plunge dia {a.tool_dia}mm at X{cx:.1f} Y{cy:.1f})")
         self.rapid_to(cx, cy)
         self.emit(f"G0 Z{a.retract_z}")
 
@@ -265,7 +265,7 @@ class GCode:
             return  # can't pocket smaller than tool
 
         self.emit()
-        self.emit(f"({label}: circular pocket ø{diameter}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
+        self.emit(f"({label}: circular pocket dia {diameter}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
 
         start_x = cx + cut_r
         start_y = cy
@@ -295,7 +295,7 @@ class GCode:
         hh = height / 2.0 - self.tool_r
 
         self.emit()
-        self.emit(f"({label}: rect pocket {width}×{height}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
+        self.emit(f"({label}: rect pocket {width}x{height}mm, {depth}mm deep at X{cx:.1f} Y{cy:.1f})")
 
         start_x = cx
         start_y = cy - hh
@@ -330,7 +330,7 @@ class GCode:
         a = self.args
         self.header()
 
-        # 1. Light pipe holes (ø6mm through, plexiglass disc press-fits in)
+        # 1. Light pipe holes (dia 6mm through, plexiglass disc press-fits in)
         self.emit()
         self.emit("(=== LIGHT PIPE HOLES ===)")
         for i, (x, y) in enumerate(LIGHT_PIPES):
@@ -388,10 +388,10 @@ if __name__ == "__main__":
 
     # Validate
     if args.tool_dia > args.lightpipe_dia:
-        print(f"WARNING: Tool ø{args.tool_dia}mm > light pipe hole ø{args.lightpipe_dia}mm, "
+        print(f"WARNING: Tool dia {args.tool_dia}mm > light pipe hole dia {args.lightpipe_dia}mm, "
               f"will plunge (hole = tool diameter)", file=sys.stderr)
     if args.tool_dia > args.bezel_hole_dia:
-        print(f"WARNING: Tool ø{args.tool_dia}mm > bezel hole ø{args.bezel_hole_dia}mm, "
+        print(f"WARNING: Tool dia {args.tool_dia}mm > bezel hole dia {args.bezel_hole_dia}mm, "
               f"will plunge (hole = tool diameter)", file=sys.stderr)
 
     gc = GCode(args)
