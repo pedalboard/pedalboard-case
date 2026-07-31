@@ -171,14 +171,14 @@ class GCode:
 
         current_z = 0
         for i in range(n_passes):
-            current_z -= a.depth_per_pass
-            if current_z < -self.total_depth:
-                current_z = -self.total_depth
-            # Full circle with Z descent (helical) — omit XY for full circle
-            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
-            self.emit(f"G2 I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
+            next_z = current_z - a.depth_per_pass
+            if next_z < -self.total_depth:
+                next_z = -self.total_depth
+            # Helical entry: circle while descending to next depth
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{next_z:.3f} F{a.feed_xy}")
+            current_z = next_z
 
-        # Final full-depth pass (spring cut)
+        # Final full-depth pass (spring cut, no Z change)
         self.emit(f"G2 I{-cut_r:.3f} J0 F{a.feed_xy}")
 
         # Retract
@@ -276,11 +276,12 @@ class GCode:
 
         current_z = 0
         for i in range(n_passes):
-            current_z -= a.depth_per_pass
-            if current_z < -depth:
-                current_z = -depth
-            self.emit(f"G1 Z{current_z:.3f} F{a.feed_z}")
-            self.emit(f"G2 I{-cut_r:.3f} J0 Z{current_z:.3f} F{a.feed_xy}")
+            next_z = current_z - a.depth_per_pass
+            if next_z < -depth:
+                next_z = -depth
+            # Helical entry: circle while descending
+            self.emit(f"G2 I{-cut_r:.3f} J0 Z{next_z:.3f} F{a.feed_xy}")
+            current_z = next_z
 
         # Spring pass
         self.emit(f"G2 I{-cut_r:.3f} J0 F{a.feed_xy}")
