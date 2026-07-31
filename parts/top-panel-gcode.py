@@ -395,4 +395,19 @@ if __name__ == "__main__":
               f"will plunge (hole = tool diameter)", file=sys.stderr)
 
     gc = GCode(args)
-    print(gc.generate())
+    output = gc.generate()
+
+    # Validate G-code for grblHAL compatibility
+    errors = []
+    for i, line in enumerate(output.splitlines(), 1):
+        if not line.isascii():
+            errors.append(f"  Line {i}: non-ASCII character: {repr(line)}")
+        if line.strip() == "":
+            errors.append(f"  Line {i}: empty line")
+    if errors:
+        print("G-code validation FAILED:", file=sys.stderr)
+        for e in errors:
+            print(e, file=sys.stderr)
+        sys.exit(1)
+
+    print(output)
