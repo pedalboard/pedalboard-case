@@ -116,6 +116,13 @@ def svg_strip(holes, strip_length, strip_height, title, usb_slot=None):
     lines.append(f'  <text x="{margin + strip_length + 1}" y="{center_y + 1}" '
                  f'font-size="2" font-family="sans-serif" fill="gray">{strip_height/2:.1f}mm</text>')
 
+    # Center line (vertical, at middle of strip length)
+    center_x = margin + strip_length / 2.0
+    lines.append(f'  <line x1="{center_x}" y1="{margin + 15}" x2="{center_x}" y2="{margin + 15 + strip_height}" '
+                 f'stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>')
+    lines.append(f'  <text x="{center_x + 1}" y="{margin + 15 - 2}" '
+                 f'font-size="2" font-family="sans-serif" fill="gray">{strip_length/2:.0f}mm</text>')
+
     # Holes
     for dist, height, dia, label in holes:
         cx = margin + dist

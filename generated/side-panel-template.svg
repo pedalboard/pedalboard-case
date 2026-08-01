@@ -6,6 +6,8 @@
   <rect x="10" y="25" width="120.0" height="37.0" fill="none" stroke="black" stroke-width="0.3"/>
   <line x1="10" y1="43.5" x2="130.0" y2="43.5" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
   <text x="131.0" y="44.5" font-size="2" font-family="sans-serif" fill="gray">18.5mm</text>
+  <line x1="70.0" y1="25" x2="70.0" y2="62.0" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
+  <text x="71.0" y="23" font-size="2" font-family="sans-serif" fill="gray">60mm</text>
   <circle cx="39.5" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
   <line x1="33.5" y1="37.6" x2="45.5" y2="37.6" stroke="red" stroke-width="0.15"/>
   <line x1="39.5" y1="31.6" x2="39.5" y2="43.6" stroke="red" stroke-width="0.15"/>
@@ -29,6 +31,8 @@
   <rect x="10" y="25" width="120.0" height="37.0" fill="none" stroke="black" stroke-width="0.3"/>
   <line x1="10" y1="43.5" x2="130.0" y2="43.5" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
   <text x="131.0" y="44.5" font-size="2" font-family="sans-serif" fill="gray">18.5mm</text>
+  <line x1="70.0" y1="25" x2="70.0" y2="62.0" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
+  <text x="71.0" y="23" font-size="2" font-family="sans-serif" fill="gray">60mm</text>
   <circle cx="23.299999999999997" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
   <line x1="17.299999999999997" y1="37.6" x2="29.299999999999997" y2="37.6" stroke="red" stroke-width="0.15"/>
   <line x1="23.299999999999997" y1="31.6" x2="23.299999999999997" y2="43.6" stroke="red" stroke-width="0.15"/>
@@ -52,6 +56,8 @@
   <rect x="10" y="25" width="188.0" height="37.0" fill="none" stroke="black" stroke-width="0.3"/>
   <line x1="10" y1="43.5" x2="198.0" y2="43.5" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
   <text x="199.0" y="44.5" font-size="2" font-family="sans-serif" fill="gray">18.5mm</text>
+  <line x1="104.0" y1="25" x2="104.0" y2="62.0" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
+  <text x="105.0" y="23" font-size="2" font-family="sans-serif" fill="gray">94mm</text>
   <rect x="150.70000000000002" y="37.6" width="14.4" height="8.0" fill="none" stroke="red" stroke-width="0.3" stroke-dasharray="1,1"/>
   <line x1="155.9" y1="41.6" x2="159.9" y2="41.6" stroke="red" stroke-width="0.15"/>
   <line x1="157.9" y1="39.6" x2="157.9" y2="43.6" stroke="red" stroke-width="0.15"/>
