@@ -223,21 +223,17 @@ class GCode:
 
         current_z = 0
         for i in range(n_passes):
-            current_z -= a.depth_per_pass
-            if current_z < -self.total_depth:
-                current_z = -self.total_depth
+            next_z = current_z - a.depth_per_pass
+            if next_z < -self.total_depth:
+                next_z = -self.total_depth
 
-            # Rectangle path: CCW from bottom-center, ramp down on first edge
-            # → bottom-right corner (ramp Z down while cutting)
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z):.3f} F{a.feed_xy}")
-            # ↑ right side
+            # Ramp down on first edge, then flat for remaining sides
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(next_z):.3f} F{a.feed_xy}")
             self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
-            # ← top-left corner
             self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
-            # ↓ left side
             self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
-            # → back to start
             self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
+            current_z = next_z
 
         # Spring pass at full depth
         self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
