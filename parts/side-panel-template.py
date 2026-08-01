@@ -28,15 +28,18 @@ kicad_origin_x = 20.0
 kicad_origin_y = 25.0
 
 # Heights from case TOP (template aligns to top edge)
-case_wall = 3.0
-display_pcb = 1.6
-spacer = 17.0
-pcb_top_from_top = case_wall + display_pcb + spacer  # 21.6mm
+# Using tested values from 3D drill jig (case_height=37, pcb_top=16.4 from bottom)
+case_height_inner = 37.0  # mm (with bottom plate)
+pcb_top_from_bottom = 16.4  # mm (validated with jig)
 
-jack_height = pcb_top_from_top + 8       # 29.6mm -- 6.35mm jack center from top
-jack_35_height = pcb_top_from_top + 2.5  # 24.1mm -- 3.5mm jack center from top
-usb_height = pcb_top_from_top + 4        # 25.6mm -- USB-A center from top
-barrel_height = jack_height              # same as 6.35mm jacks
+jack_from_top = case_height_inner - (pcb_top_from_bottom + 8)      # 12.6mm
+jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) # 18.1mm
+usb_from_top = case_height_inner - (pcb_top_from_bottom + 4)       # 16.6mm
+
+jack_height = jack_from_top
+jack_35_height = jack_35_from_top
+usb_height = usb_from_top
+barrel_height = jack_from_top  # same as 6.35mm jacks
 
 # USB-A connector dimensions
 usb_width = 14.4   # mm
