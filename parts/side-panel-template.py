@@ -28,13 +28,13 @@ kicad_origin_x = 20.0
 kicad_origin_y = 25.0
 
 # Heights from case TOP (template aligns to top edge)
-# Using tested values from 3D drill jig
+# Using tested values from 3D drill jig, adjusted 0.5mm closer to top
 case_height_inner = 37.0  # mm (with bottom plate)
 pcb_top_from_bottom = 16.4  # mm (validated with jig)
 
-jack_from_top = case_height_inner - (pcb_top_from_bottom + 8)      # 12.6mm
-jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) # 18.1mm
-usb_from_top = case_height_inner - (pcb_top_from_bottom + 4)       # 16.6mm
+jack_from_top = case_height_inner - (pcb_top_from_bottom + 8) - 0.5      # 12.1mm
+jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) - 0.5 # 17.6mm
+usb_from_top = case_height_inner - (pcb_top_from_bottom + 4) - 0.5       # 16.1mm
 
 jack_height = jack_from_top
 jack_35_height = jack_35_from_top
