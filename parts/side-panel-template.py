@@ -85,11 +85,11 @@ left_holes = [
     (left_side[2], jack_height, 10, "J19"),
 ]
 
-# Right side (looking from outside — same reference as left: distance from back)
+# Right side (same positions as left, mirrored from back)
 right_holes = [
-    (right_side[0], jack_height, 10, "J5"),
-    (right_side[1], jack_height, 10, "J18"),
-    (right_side[2], jack_height, 10, "J22"),
+    (left_side[0], jack_height, 10, "J5"),
+    (left_side[1], jack_height, 10, "J18"),
+    (left_side[2], jack_height, 10, "J22"),
 ]
 
 # Back (looking from outside the back, left/right is mirrored from PCB)
