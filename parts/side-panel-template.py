@@ -18,8 +18,10 @@ pcb_length = 174.0   # along case long axis
 pcb_width = 111.0    # along case short axis
 
 # PCB offset from case inner wall
-offset_long = (case_length - pcb_length) / 2.0   # 7mm
-offset_short = (case_width - pcb_width) / 2.0    # 4.5mm
+# PCB sits against the back wall (no gap at back)
+offset_long = (case_length - pcb_length) / 2.0   # 7mm (centered on long axis)
+offset_short_back = 0.0                           # PCB touches back wall
+offset_short_front = case_width - pcb_width       # 9mm gap at front
 
 # KiCad PCB origin
 kicad_origin_x = 20.0
@@ -27,9 +29,10 @@ kicad_origin_y = 25.0
 
 # Heights from case bottom
 pcb_top = 16.4
-jack_height = pcb_top + 8      # 24.4mm — 6.35mm jack center
-usb_height = pcb_top + 4       # 20.4mm — USB-A center
-barrel_height = 25.5           # barrel jack center
+jack_height = pcb_top + 8      # 24.4mm -- 6.35mm jack center
+jack_35_height = pcb_top + 2.5 # 18.9mm -- 3.5mm jack center (CUI SJ1-3525N)
+usb_height = pcb_top + 4       # 20.4mm -- USB-A center
+barrel_height = pcb_top + 4    # 20.4mm -- barrel jack center
 
 # USB-A connector dimensions
 usb_width = 14.4   # mm
@@ -40,18 +43,18 @@ usb_height_dim = 8.0  # mm (vertical)
 # Back: KiCad X maps to position along the LONG side (188mm)
 
 # Left side connectors (KiCad X ≈ 34.4, angle 180 = pointing left)
-# Position along short side = offset_short + (kicad_y - kicad_origin_y)
+# Position along short side = offset_short_back + (kicad_y - kicad_origin_y)
 left_side_kicad_y = [50.0, 91.0, 111.2]  # J8, J20, J19
 left_side = []
 for ky in left_side_kicad_y:
-    pos = offset_short + (ky - kicad_origin_y)
+    pos = offset_short_back + (ky - kicad_origin_y)
     left_side.append(pos)
 
 # Right side connectors (KiCad X ≈ 175.6, angle 0 = pointing right)
 right_side_kicad_y = [33.8, 74.8, 95.0]  # J5, J18, J22
 right_side = []
 for ky in right_side_kicad_y:
-    pos = offset_short + (ky - kicad_origin_y)
+    pos = offset_short_back + (ky - kicad_origin_y)
     right_side.append(pos)
 
 # Back connectors (KiCad Y ≈ 24-31, various X)
@@ -91,7 +94,7 @@ for label, kx in back_connectors_kicad_x.items():
     elif 'PWR' in label:
         back_holes.append((pos_from_left_outside, barrel_height, 8, label))
     else:
-        back_holes.append((pos_from_left_outside, jack_height, 6, label))
+        back_holes.append((pos_from_left_outside, jack_35_height, 6, label))
 
 
 def svg_strip(holes, strip_length, strip_height, title, usb_slot=None):
