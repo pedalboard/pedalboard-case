@@ -14,10 +14,11 @@ case_recess_w = 44.5;       // mm
 case_recess_h = 38.7;       // mm
 
 // Plexiglass window dimensions — lip sits in recess
-plexi_top_w = case_recess_w;                  // 44.5mm (fills recess)
-plexi_top_h = case_recess_h;                  // 38.7mm
-plexi_step_w = case_cutout_w - 0.4;          // 42.1mm (clearance in hole)
-plexi_step_h = case_cutout_h - 0.4;          // 36.3mm
+clearance = 0.3;         // mm — per side, for press-fit
+plexi_top_w = case_recess_w - 2*clearance;    // fits in recess with clearance
+plexi_top_h = case_recess_h - 2*clearance;
+plexi_step_w = case_cutout_w - 2*clearance;   // fits in cutout with clearance
+plexi_step_h = case_cutout_h - 2*clearance;
 plexi_thickness = 2.0;      // mm total
 step_depth = 1.0;           // mm — bottom step
 corner_r = 2.0;             // mm — rounded corners (matches 4mm mill radius)

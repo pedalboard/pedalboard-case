@@ -22,10 +22,11 @@ tool_dia = 4.0
 tool_r = tool_dia / 2.0
 
 # Part dimensions (match top-panel-gcode.py display cutout/recess)
-top_w = 44.5            # mm — recess width (fills recess)
-top_h = 38.7            # mm — recess height
-step_w = 42.1           # mm — through-cut width - 0.4mm clearance
-step_h = 36.3           # mm — through-cut height - 0.4mm clearance
+clearance = 0.3         # mm — per side, for press-fit in recess/cutout
+top_w = 44.5 - 2*clearance   # mm — recess width minus clearance
+top_h = 38.7 - 2*clearance   # mm — recess height minus clearance
+step_w = 42.5 - 2*clearance  # mm — through-cut width minus clearance
+step_h = 36.7 - 2*clearance  # mm — through-cut height minus clearance
 plexi_thickness = 2.0   # mm
 step_depth = 1.0        # mm — lip is top 1mm
 
