@@ -33,18 +33,18 @@
   <text x="131.0" y="44.5" font-size="2" font-family="sans-serif" fill="gray">18.5mm</text>
   <line x1="70.0" y1="25" x2="70.0" y2="62.0" stroke="gray" stroke-width="0.15" stroke-dasharray="2,2"/>
   <text x="71.0" y="23" font-size="2" font-family="sans-serif" fill="gray">60mm</text>
-  <circle cx="35.0" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
-  <line x1="29.0" y1="37.6" x2="41.0" y2="37.6" stroke="red" stroke-width="0.15"/>
-  <line x1="35.0" y1="31.6" x2="35.0" y2="43.6" stroke="red" stroke-width="0.15"/>
-  <text x="35.0" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J5 dia 10</text>
-  <circle cx="76.0" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
-  <line x1="70.0" y1="37.6" x2="82.0" y2="37.6" stroke="red" stroke-width="0.15"/>
-  <line x1="76.0" y1="31.6" x2="76.0" y2="43.6" stroke="red" stroke-width="0.15"/>
-  <text x="76.0" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J18 dia 10</text>
-  <circle cx="96.2" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
-  <line x1="90.2" y1="37.6" x2="102.2" y2="37.6" stroke="red" stroke-width="0.15"/>
-  <line x1="96.2" y1="31.6" x2="96.2" y2="43.6" stroke="red" stroke-width="0.15"/>
-  <text x="96.2" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J22 dia 10</text>
+  <circle cx="105.0" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
+  <line x1="99.0" y1="37.6" x2="111.0" y2="37.6" stroke="red" stroke-width="0.15"/>
+  <line x1="105.0" y1="31.6" x2="105.0" y2="43.6" stroke="red" stroke-width="0.15"/>
+  <text x="105.0" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J5 dia 10</text>
+  <circle cx="64.0" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
+  <line x1="58.0" y1="37.6" x2="70.0" y2="37.6" stroke="red" stroke-width="0.15"/>
+  <line x1="64.0" y1="31.6" x2="64.0" y2="43.6" stroke="red" stroke-width="0.15"/>
+  <text x="64.0" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J18 dia 10</text>
+  <circle cx="43.8" cy="37.6" r="5.0" fill="none" stroke="red" stroke-width="0.3"/>
+  <line x1="37.8" y1="37.6" x2="49.8" y2="37.6" stroke="red" stroke-width="0.15"/>
+  <line x1="43.8" y1="31.6" x2="43.8" y2="43.6" stroke="red" stroke-width="0.15"/>
+  <text x="43.8" y="30.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J22 dia 10</text>
   <text x="9" y="66.0" font-size="2.5" font-family="sans-serif">bottom edge</text>
   <text x="9" y="23" font-size="2.5" font-family="sans-serif">top edge (align here)</text>
   <text x="10" y="70.0" font-size="2" font-family="sans-serif" fill="gray">left = front of case</text>
