@@ -221,21 +221,25 @@ class GCode:
         n_passes = math.ceil(self.total_depth / a.depth_per_pass)
         self.emit(f"G0 Z{a.retract_z}")
 
+        # Continuous spiral descent around the rectangle (like helical circles)
+        # Each full loop descends one pass depth, distributed across 4 sides
         current_z = 0
         for i in range(n_passes):
             next_z = current_z - a.depth_per_pass
             if next_z < -self.total_depth:
                 next_z = -self.total_depth
+            dz_per_side = (next_z - current_z) / 4.0
 
-            # Ramp down on first edge, then flat for remaining sides
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(next_z):.3f} F{a.feed_xy}")
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
-            self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
-            self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
-            self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z + dz_per_side * 1):.3f} F{a.feed_xy}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f} Z{self.z(current_z + dz_per_side * 2):.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f} Z{self.z(current_z + dz_per_side * 3):.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z + dz_per_side * 4):.3f}")
             current_z = next_z
 
-        # Spring pass at full depth
+        # Return to start position at final depth
+        self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+
+        # Spring pass at full depth (flat, no Z change)
         self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
         self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
         self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
@@ -316,20 +320,27 @@ class GCode:
         n_passes = math.ceil(depth / a.depth_per_pass)
         self.emit(f"G0 Z{a.retract_z}")
 
+        # Continuous spiral descent
         current_z = 0
         for i in range(n_passes):
-            current_z -= a.depth_per_pass
-            if current_z < -depth:
-                current_z = -depth
+            next_z = current_z - a.depth_per_pass
+            if next_z < -depth:
+                next_z = -depth
+            dz_per_side = (next_z - current_z) / 4.0
 
-            # Ramp down on first edge
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z):.3f} F{a.feed_xy}")
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
-            self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
-            self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
-            self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z + dz_per_side * 1):.3f} F{a.feed_xy}")
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f} Z{self.z(current_z + dz_per_side * 2):.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f} Z{self.z(current_z + dz_per_side * 3):.3f}")
+            self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z + dz_per_side * 4):.3f}")
+            current_z = next_z
 
-        # Spring pass
+        # Return to start + spring pass at full depth
+        self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+        self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f}")
+        self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
+        self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
+        self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
+        self.emit(f"G1 X{cx:.3f} Y{cy - hh:.3f}")
         self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
         self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
         self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
