@@ -69,9 +69,12 @@ for ky in right_side_kicad_y:
 # Mirror: looking at the back from outside, left/right is flipped from PCB view
 back_connectors_kicad_x = {
     'J10 USB': 53.1,
-    'J1 MIDI': 90.0,
-    'J3 MIDI': 120.0,
 }
+
+# MIDI 3.5mm jacks: symmetric ±15mm from case center (validated with jig)
+MIDI_OFFSET_FROM_CENTER = 15.0
+MIDI_1_POS_OUTSIDE = case_length / 2.0 - MIDI_OFFSET_FROM_CENTER  # 79mm from left outside
+MIDI_2_POS_OUTSIDE = case_length / 2.0 + MIDI_OFFSET_FROM_CENTER  # 109mm from left outside
 
 # Barrel jack is independent of PCB, fixed position from jig
 BARREL_POS_OUTSIDE = 39.0  # mm from left, looking from outside back
@@ -100,8 +103,10 @@ for label, kx in back_connectors_kicad_x.items():
     pos_from_left_outside = case_length - pos_from_left_inside
     if 'USB' in label:
         back_holes.append((pos_from_left_outside, usb_height, 0, label))
-    else:
-        back_holes.append((pos_from_left_outside, jack_35_height, 6, label))
+
+# MIDI jacks: symmetric from case center (validated with jig)
+back_holes.append((MIDI_1_POS_OUTSIDE, jack_35_height, 6, "J1 MIDI"))
+back_holes.append((MIDI_2_POS_OUTSIDE, jack_35_height, 6, "J3 MIDI"))
 
 # Barrel jack at fixed position (independent of PCB, same height as 6.35mm jacks)
 back_holes.append((BARREL_POS_OUTSIDE, jack_height, 8, "J7 PWR"))
