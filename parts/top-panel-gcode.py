@@ -85,6 +85,8 @@ def parse_args():
     p.add_argument("--z-offsets", type=str, default=None,
                    help="JSON file with per-feature Z offsets from probe-setup.py. "
                         "Compensates for surface curvature on cast cases.")
+    p.add_argument("--displays-only", action="store_true",
+                   help="Only generate display recesses and cutouts (for rework).")
 
     return p.parse_args()
 
@@ -354,28 +356,29 @@ class GCode:
         self.header()
 
         # 1. Light pipe holes (dia 6mm through, plexiglass disc press-fits in)
-        for i, (x, y) in enumerate(LIGHT_PIPES):
-            self.set_z_offset("single_leds", i)
-            self.circular_profile(x, y, a.lightpipe_dia, f"Light pipe {i+1}")
+        if not a.displays_only:
+            for i, (x, y) in enumerate(LIGHT_PIPES):
+                self.set_z_offset("single_leds", i)
+                self.circular_profile(x, y, a.lightpipe_dia, f"Light pipe {i+1}")
 
-        # 2. Button/encoder recesses
-        for i, (x, y) in enumerate(BUTTONS):
-            self.set_z_offset("buttons", i)
-            self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
-                                 f"Button {i+1} recess")
-        for i, (x, y) in enumerate(ENCODERS):
-            self.set_z_offset("encoders", i)
-            self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
-                                 f"Encoder {i+1} recess")
+            # 2. Button/encoder recesses
+            for i, (x, y) in enumerate(BUTTONS):
+                self.set_z_offset("buttons", i)
+                self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
+                                     f"Button {i+1} recess")
+            for i, (x, y) in enumerate(ENCODERS):
+                self.set_z_offset("encoders", i)
+                self.circular_pocket(x, y, a.button_recess_dia, a.recess_depth,
+                                     f"Encoder {i+1} recess")
 
-        # 3. Button/encoder through-holes
-        for i, (x, y) in enumerate(BUTTONS):
-            self.set_z_offset("buttons", i)
-            self.circular_profile(x, y, a.button_dia, f"Button {i+1}")
+            # 3. Button/encoder through-holes
+            for i, (x, y) in enumerate(BUTTONS):
+                self.set_z_offset("buttons", i)
+                self.circular_profile(x, y, a.button_dia, f"Button {i+1}")
 
-        for i, (x, y) in enumerate(ENCODERS):
-            self.set_z_offset("encoders", i)
-            self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
+            for i, (x, y) in enumerate(ENCODERS):
+                self.set_z_offset("encoders", i)
+                self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
 
         # 4. Display recesses (asymmetric: 5mm extra toward center, 3mm extra toward edge in X)
         for i, (x, y) in enumerate(DISPLAYS):
