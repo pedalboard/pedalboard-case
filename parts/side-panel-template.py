@@ -32,9 +32,9 @@ kicad_origin_y = 25.0
 case_height_inner = 37.0  # mm (with bottom plate)
 pcb_top_from_bottom = 16.4  # mm (validated with jig)
 
-jack_from_top = case_height_inner - (pcb_top_from_bottom + 8) - 0.5      # 12.1mm
-jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) - 0.5 # 17.6mm
-usb_from_top = case_height_inner - (pcb_top_from_bottom + 4) - 0.5       # 16.1mm
+jack_from_top = case_height_inner - (pcb_top_from_bottom + 8) - 1.0      # 11.6mm
+jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) - 1.0 # 17.1mm
+usb_from_top = case_height_inner - (pcb_top_from_bottom + 4) - 1.0       # 15.6mm
 
 jack_height = jack_from_top
 jack_35_height = jack_35_from_top
