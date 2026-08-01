@@ -28,11 +28,11 @@ kicad_origin_x = 20.0
 kicad_origin_y = 25.0
 
 # Heights from case bottom
-pcb_top = 16.4
-jack_height = pcb_top + 8      # 24.4mm -- 6.35mm jack center
-jack_35_height = pcb_top + 2.5 # 18.9mm -- 3.5mm jack center (CUI SJ1-3525N)
-usb_height = pcb_top + 4       # 20.4mm -- USB-A center
-barrel_height = pcb_top + 4    # 20.4mm -- barrel jack center
+pcb_top = 17.0
+jack_height = pcb_top + 8      # 25.0mm -- 6.35mm jack center
+jack_35_height = pcb_top + 2.5 # 19.5mm -- 3.5mm jack center (CUI SJ1-3525N)
+usb_height = pcb_top + 4       # 21.0mm -- USB-A center
+barrel_height = pcb_top + 4    # 21.0mm -- barrel jack center
 
 # USB-A connector dimensions
 usb_width = 14.4   # mm
