@@ -5,15 +5,18 @@ $fn = 100;
 // Plexiglass display window (flush mount)
 // Same step principle as LED ring — lip sits in case recess, step drops into cutout
 
-// Case cutout (through-hole in case)
-case_cutout_w = 34.5;       // mm — from top-panel-coords.json
+// Case cutout (through-hole in case) — asymmetric width (+5mm top, +3mm bottom)
+case_cutout_w = 42.5;       // mm — enlarged for OLED clearance
 case_cutout_h = 36.7;       // mm
 
-// Plexiglass window dimensions
-plexi_lip = 1.0;            // mm — lip overhang each side
-plexi_top_w = case_cutout_w + 2*plexi_lip;   // 36.5mm
-plexi_top_h = case_cutout_h + 2*plexi_lip;   // 38.7mm
-plexi_step_w = case_cutout_w - 0.4;          // 34.1mm (clearance in hole)
+// Case recess (1mm deep pocket)
+case_recess_w = 44.5;       // mm
+case_recess_h = 38.7;       // mm
+
+// Plexiglass window dimensions — lip sits in recess
+plexi_top_w = case_recess_w;                  // 44.5mm (fills recess)
+plexi_top_h = case_recess_h;                  // 38.7mm
+plexi_step_w = case_cutout_w - 0.4;          // 42.1mm (clearance in hole)
 plexi_step_h = case_cutout_h - 0.4;          // 36.3mm
 plexi_thickness = 2.0;      // mm total
 step_depth = 1.0;           // mm — bottom step

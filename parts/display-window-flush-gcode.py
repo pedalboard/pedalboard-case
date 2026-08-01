@@ -21,11 +21,11 @@ import math
 tool_dia = 4.0
 tool_r = tool_dia / 2.0
 
-# Part dimensions
-top_w = 36.5            # mm — top lip width
-top_h = 38.7            # mm — top lip height
-step_w = 34.1           # mm — bottom step width
-step_h = 36.3           # mm — bottom step height
+# Part dimensions (match top-panel-gcode.py display cutout/recess)
+top_w = 44.5            # mm — recess width (fills recess)
+top_h = 38.7            # mm — recess height
+step_w = 42.1           # mm — through-cut width - 0.4mm clearance
+step_h = 36.3           # mm — through-cut height - 0.4mm clearance
 plexi_thickness = 2.0   # mm
 step_depth = 1.0        # mm — lip is top 1mm
 
