@@ -223,9 +223,9 @@ class GCode:
 
         # Continuous spiral descent around the rectangle (like helical circles)
         # Each full loop descends one pass depth, distributed across 4 sides
-        current_z = 0
+        current_z = float(a.retract_z)  # start from retract height
         for i in range(n_passes):
-            next_z = current_z - a.depth_per_pass
+            next_z = -(i + 1) * a.depth_per_pass
             if next_z < -self.total_depth:
                 next_z = -self.total_depth
             dz_per_side = (next_z - current_z) / 4.0
