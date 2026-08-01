@@ -58,12 +58,12 @@ def parse_args():
     # Geometry overrides
     p.add_argument("--button-dia", type=float, default=22.3,
                    help="Button/encoder hole diameter (default: 22.3)")
-    p.add_argument("--display-w", type=float, default=34.5,
-                   help="Display cutout width (default: 34.5)")
+    p.add_argument("--display-w", type=float, default=42.5,
+                   help="Display cutout width (default: 42.5)")
     p.add_argument("--display-h", type=float, default=36.7,
                    help="Display cutout height (default: 36.7)")
-    p.add_argument("--display-recess-w", type=float, default=36.5,
-                   help="Display recess width for flush window (default: 36.5)")
+    p.add_argument("--display-recess-w", type=float, default=44.5,
+                   help="Display recess width for flush window (default: 44.5)")
     p.add_argument("--display-recess-h", type=float, default=38.7,
                    help="Display recess height for flush window (default: 38.7)")
     p.add_argument("--button-recess-dia", type=float, default=24.0,
@@ -372,16 +372,19 @@ class GCode:
             self.set_z_offset("encoders", i)
             self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
 
-        # 4. Display recesses
+        # 4. Display recesses (asymmetric: 5mm extra toward center, 3mm extra toward edge in X)
         for i, (x, y) in enumerate(DISPLAYS):
             self.set_z_offset("displays", i)
-            self.rectangular_pocket(x, y, a.display_recess_w, a.display_recess_h,
+            # Shift center 1mm toward X=0 (5mm center - 3mm edge = 2mm, half = 1mm)
+            x_shift = -1.0 if x > 0 else 1.0
+            self.rectangular_pocket(x + x_shift, y, a.display_recess_w, a.display_recess_h,
                                     a.recess_depth, f"Display {i+1} recess")
 
-        # 5. Display through-cutouts
+        # 5. Display through-cutouts (same asymmetric shift)
         for i, (x, y) in enumerate(DISPLAYS):
             self.set_z_offset("displays", i)
-            self.rectangular_profile(x, y, a.display_w, a.display_h, f"Display {i+1}")
+            x_shift = -1.0 if x > 0 else 1.0
+            self.rectangular_profile(x + x_shift, y, a.display_w, a.display_h, f"Display {i+1}")
 
         self.footer()
         return "\n".join(line for line in self.lines if line and not line.startswith("("))
