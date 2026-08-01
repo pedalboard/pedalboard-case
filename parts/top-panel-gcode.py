@@ -227,11 +227,9 @@ class GCode:
             if current_z < -self.total_depth:
                 current_z = -self.total_depth
 
-            self.emit(f"G1 Z{self.z(current_z):.3f} F{a.feed_z}")
-
-            # Rectangle path: CCW from bottom-center
-            # → bottom-right corner
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+            # Rectangle path: CCW from bottom-center, ramp down on first edge
+            # → bottom-right corner (ramp Z down while cutting)
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z):.3f} F{a.feed_xy}")
             # ↑ right side
             self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
             # ← top-left corner
@@ -328,8 +326,8 @@ class GCode:
             if current_z < -depth:
                 current_z = -depth
 
-            self.emit(f"G1 Z{self.z(current_z):.3f} F{a.feed_z}")
-            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} F{a.feed_xy}")
+            # Ramp down on first edge
+            self.emit(f"G1 X{cx + hw:.3f} Y{cy - hh:.3f} Z{self.z(current_z):.3f} F{a.feed_xy}")
             self.emit(f"G1 X{cx + hw:.3f} Y{cy + hh:.3f}")
             self.emit(f"G1 X{cx - hw:.3f} Y{cy + hh:.3f}")
             self.emit(f"G1 X{cx - hw:.3f} Y{cy - hh:.3f}")
