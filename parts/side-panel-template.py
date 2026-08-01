@@ -28,13 +28,13 @@ kicad_origin_x = 20.0
 kicad_origin_y = 25.0
 
 # Heights from case TOP (template aligns to top edge)
-# Split between jig values and new calculation (1mm compromise)
+# Using tested values from 3D drill jig
 case_height_inner = 37.0  # mm (with bottom plate)
-pcb_top_from_bottom = 15.4  # mm (compromise: jig=16.4, calc=14.4)
+pcb_top_from_bottom = 16.4  # mm (validated with jig)
 
-jack_from_top = case_height_inner - (pcb_top_from_bottom + 8)      # 13.6mm
-jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) # 19.1mm
-usb_from_top = case_height_inner - (pcb_top_from_bottom + 4)       # 17.6mm
+jack_from_top = case_height_inner - (pcb_top_from_bottom + 8)      # 12.6mm
+jack_35_from_top = case_height_inner - (pcb_top_from_bottom + 2.5) # 18.1mm
+usb_from_top = case_height_inner - (pcb_top_from_bottom + 4)       # 16.6mm
 
 jack_height = jack_from_top
 jack_35_height = jack_35_from_top
@@ -85,11 +85,11 @@ left_holes = [
     (left_side[2], jack_height, 10, "J19"),
 ]
 
-# Right side (mirrored — looking from outside, back is on the right end)
+# Right side (looking from outside — same reference as left: distance from back)
 right_holes = [
-    (case_width - right_side[0], jack_height, 10, "J5"),
-    (case_width - right_side[1], jack_height, 10, "J18"),
-    (case_width - right_side[2], jack_height, 10, "J22"),
+    (right_side[0], jack_height, 10, "J5"),
+    (right_side[1], jack_height, 10, "J18"),
+    (right_side[2], jack_height, 10, "J22"),
 ]
 
 # Back (looking from outside the back, left/right is mirrored from PCB)
