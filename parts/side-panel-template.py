@@ -27,12 +27,16 @@ offset_short_front = case_width - pcb_width       # 9mm gap at front
 kicad_origin_x = 20.0
 kicad_origin_y = 25.0
 
-# Heights from case bottom
-pcb_top = 17.0
-jack_height = pcb_top + 8      # 25.0mm -- 6.35mm jack center
-jack_35_height = pcb_top + 2.5 # 19.5mm -- 3.5mm jack center (CUI SJ1-3525N)
-usb_height = pcb_top + 4       # 21.0mm -- USB-A center
-barrel_height = pcb_top + 4    # 21.0mm -- barrel jack center
+# Heights from case TOP (template aligns to top edge)
+case_wall = 3.0
+display_pcb = 1.6
+spacer = 17.0
+pcb_top_from_top = case_wall + display_pcb + spacer  # 21.6mm
+
+jack_height = pcb_top_from_top + 8       # 29.6mm -- 6.35mm jack center from top
+jack_35_height = pcb_top_from_top + 2.5  # 24.1mm -- 3.5mm jack center from top
+usb_height = pcb_top_from_top + 4        # 25.6mm -- USB-A center from top
+barrel_height = jack_height              # same as 6.35mm jacks
 
 # USB-A connector dimensions
 usb_width = 14.4   # mm
@@ -132,7 +136,7 @@ def svg_strip(holes, strip_length, strip_height, title, usb_slot=None):
     # Holes
     for dist, height, dia, label in holes:
         cx = margin + dist
-        cy = margin + 15 + (strip_height - height)  # flip Y (bottom = high Y in SVG)
+        cy = margin + 15 + height  # height measured from top
 
         if dia == 0 and usb_slot:
             # USB-A rectangular slot — draw rectangle + two 8mm drill holes
@@ -171,7 +175,7 @@ def svg_strip(holes, strip_length, strip_height, title, usb_slot=None):
     lines.append(f'  <text x="{margin - 1}" y="{margin + 15 + strip_height + 4}" '
                  f'font-size="2.5" font-family="sans-serif">bottom edge</text>')
     lines.append(f'  <text x="{margin - 1}" y="{margin + 15 - 2}" '
-                 f'font-size="2.5" font-family="sans-serif">top edge</text>')
+                 f'font-size="2.5" font-family="sans-serif">top edge (align here)</text>')
     lines.append(f'  <text x="{margin}" y="{margin + 15 + strip_height + 8}" '
                  f'font-size="2" font-family="sans-serif" fill="gray">left = front of case</text>')
 
