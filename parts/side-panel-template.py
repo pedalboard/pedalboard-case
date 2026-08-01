@@ -64,8 +64,10 @@ back_connectors_kicad_x = {
     'J10 USB': 53.1,
     'J1 MIDI': 90.0,
     'J3 MIDI': 120.0,
-    'J7 PWR': 176.5,
 }
+
+# Barrel jack is independent of PCB, fixed position from jig
+BARREL_POS_OUTSIDE = 39.0  # mm from left, looking from outside back
 
 # Hole data: (distance_from_left_edge, height, diameter, label)
 # Left side (strip = 120mm wide, looking from outside)
@@ -90,11 +92,12 @@ for label, kx in back_connectors_kicad_x.items():
     # Mirror: looking from outside back, left = case_length - pos
     pos_from_left_outside = case_length - pos_from_left_inside
     if 'USB' in label:
-        back_holes.append((pos_from_left_outside, usb_height, 0, label))  # 0 = rectangular
-    elif 'PWR' in label:
-        back_holes.append((pos_from_left_outside, barrel_height, 8, label))
+        back_holes.append((pos_from_left_outside, usb_height, 0, label))
     else:
         back_holes.append((pos_from_left_outside, jack_35_height, 6, label))
+
+# Barrel jack at fixed position (independent of PCB, same height as 6.35mm jacks)
+back_holes.append((BARREL_POS_OUTSIDE, jack_height, 8, "J7 PWR"))
 
 
 def svg_strip(holes, strip_length, strip_height, title, usb_slot=None):

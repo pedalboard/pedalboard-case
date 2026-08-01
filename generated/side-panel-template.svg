@@ -76,10 +76,10 @@
   <line x1="87.0" y1="43.1" x2="95.0" y2="43.1" stroke="red" stroke-width="0.15"/>
   <line x1="91.0" y1="39.1" x2="91.0" y2="47.1" stroke="red" stroke-width="0.15"/>
   <text x="91.0" y="38.1" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J3 MIDI dia 6</text>
-  <circle cx="34.5" cy="41.6" r="4.0" fill="none" stroke="red" stroke-width="0.3"/>
-  <line x1="29.5" y1="41.6" x2="39.5" y2="41.6" stroke="red" stroke-width="0.15"/>
-  <line x1="34.5" y1="36.6" x2="34.5" y2="46.6" stroke="red" stroke-width="0.15"/>
-  <text x="34.5" y="35.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J7 PWR dia 8</text>
+  <circle cx="49.0" cy="37.6" r="4.0" fill="none" stroke="red" stroke-width="0.3"/>
+  <line x1="44.0" y1="37.6" x2="54.0" y2="37.6" stroke="red" stroke-width="0.15"/>
+  <line x1="49.0" y1="32.6" x2="49.0" y2="42.6" stroke="red" stroke-width="0.15"/>
+  <text x="49.0" y="31.6" font-size="3" font-family="sans-serif" text-anchor="middle" fill="red">J7 PWR dia 8</text>
   <text x="9" y="66.0" font-size="2.5" font-family="sans-serif">bottom edge</text>
   <text x="9" y="23" font-size="2.5" font-family="sans-serif">top edge</text>
   <text x="10" y="70.0" font-size="2" font-family="sans-serif" fill="gray">left = front of case</text>
