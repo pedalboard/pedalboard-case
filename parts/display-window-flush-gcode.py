@@ -22,7 +22,7 @@ tool_dia = 4.0
 tool_r = tool_dia / 2.0
 
 # Part dimensions (match top-panel-gcode.py display cutout/recess)
-clearance = 0.3         # mm — per side, for press-fit in recess/cutout
+clearance = 0.15         # mm — per side, for press-fit in recess/cutout
 top_w = 44.5 - 2*clearance   # mm — recess width minus clearance
 top_h = 38.7 - 2*clearance   # mm — recess height minus clearance
 step_w = 42.5 - 2*clearance  # mm — through-cut width minus clearance
