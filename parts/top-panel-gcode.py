@@ -384,18 +384,20 @@ class GCode:
                 self.circular_profile(x, y, a.button_dia, f"Encoder {i+1}")
 
         # 4. Display recesses (asymmetric: 5mm extra toward center, 3mm extra toward edge in X)
+        #    + 2.6mm shift toward back (positive X) for connector clearance
+        display_offset_x = 2.6  # mm toward back for connector clearance
         for i, (x, y) in enumerate(DISPLAYS):
             self.set_z_offset("displays", i)
-            # Shift center 1mm toward X=0 (5mm center - 3mm edge = 2mm, half = 1mm)
+            # Asymmetric enlargement shift (1mm toward center)
             x_shift = -1.0 if x > 0 else 1.0
-            self.rectangular_pocket(x + x_shift, y, a.display_recess_w, a.display_recess_h,
+            self.rectangular_pocket(x + x_shift + display_offset_x, y, a.display_recess_w, a.display_recess_h,
                                     a.recess_depth, f"Display {i+1} recess")
 
-        # 5. Display through-cutouts (same asymmetric shift)
+        # 5. Display through-cutouts (same shifts)
         for i, (x, y) in enumerate(DISPLAYS):
             self.set_z_offset("displays", i)
             x_shift = -1.0 if x > 0 else 1.0
-            self.rectangular_profile(x + x_shift, y, a.display_w, a.display_h, f"Display {i+1}")
+            self.rectangular_profile(x + x_shift + display_offset_x, y, a.display_w, a.display_h, f"Display {i+1}")
 
         self.footer()
         return "\n".join(line for line in self.lines if line and not line.startswith("("))
