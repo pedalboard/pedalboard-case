@@ -165,9 +165,10 @@ class GCode:
         self.emit(f"G0 Z{self.args.safe_z}")
         self.emit(f"G0 X{x:.3f} Y{y:.3f}")
 
-    def circular_profile(self, cx, cy, diameter, label=""):
+    def circular_profile(self, cx, cy, diameter, label="", extra_depth=0.0):
         """Cut a circular through-hole using helical interpolation."""
         a = self.args
+        total_depth = self.total_depth + extra_depth
         r = diameter / 2.0
         cut_r = r - self.tool_r  # toolpath radius
 
@@ -185,14 +186,14 @@ class GCode:
         self.rapid_to(start_x, start_y)
 
         # Helical descent
-        n_passes = math.ceil(self.total_depth / a.depth_per_pass)
+        n_passes = math.ceil(total_depth / a.depth_per_pass)
         self.emit(f"G0 Z{a.retract_z}")
 
         current_z = 0
         for i in range(n_passes):
             next_z = current_z - a.depth_per_pass
-            if next_z < -self.total_depth:
-                next_z = -self.total_depth
+            if next_z < -total_depth:
+                next_z = -total_depth
             # Helical entry: circle while descending to next depth
             self.emit(f"G2 I{-cut_r:.3f} J0 Z{self.z(next_z):.3f} F{a.feed_xy}")
             current_z = next_z
@@ -374,7 +375,9 @@ class GCode:
             # 3. Button/encoder through-holes
             for i, (x, y) in enumerate(BUTTONS):
                 self.set_z_offset("buttons", i)
-                self.circular_profile(x, y, a.button_dia, f"Button {i+1}")
+                # Button 4 (index 3) cuts 3mm deeper to clear center screw post
+                extra = 3.0 if i == 3 else 0.0
+                self.circular_profile(x, y, a.button_dia, f"Button {i+1}", extra_depth=extra)
 
             for i, (x, y) in enumerate(ENCODERS):
                 self.set_z_offset("encoders", i)
