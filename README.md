@@ -156,55 +156,21 @@ cd parts && make panel
 The top panel is milled on the SRcnc machine (Hammond 1590DD die cast aluminium,
 4mm single flute downcut, open-side-down fixture).
 
-**Setup:**
+See [cnc/README.md](./cnc/README.md) for full setup instructions, probing geometry,
+and testing.
+
+**Quick start:**
 
 ```bash
 cd cnc
-python3 probe-setup.py
+python3 probe-setup.py     # automated setup (close gSender first)
+# then open gSender, load top-panel.nc, dial 1, WD-40, run at 150% feed
 ```
 
-The setup script:
-1. Homes the machine (Z first for safety)
-2. Probes the spoilboard reference Z
-3. Probes 5 case edges (X- at two Y positions, X+, Y-, Y+)
-4. Computes case center and rotation angle
-5. Sets G54 X0 Y0 at case center
-6. Probes case top surface with 3D probe
-7. Probes Z at each feature center (per-feature surface compensation)
-8. Swaps to cutting tool, probes Z with touch plate
-9. Generates `top-panel.nc` with angle + Z offsets
-
-**For rework** (case already has holes):
+**Manual G-code generation:**
 
 ```bash
-python3 cnc/probe-setup.py --skip-feature-probing --z-probe-offset 10 0
-```
-
-**Manual G-code generation** (if angle is known):
-
-```bash
-# Default: center origin, no rotation
-python3 parts/top-panel-gcode.py > top-panel.nc
-
-# With measured rotation angle and Z offsets
 python3 parts/top-panel-gcode.py --angle -0.23 --z-offsets z-offsets.json > top-panel.nc
-
-# Displays only (rework)
-python3 parts/top-panel-gcode.py --displays-only --angle -0.23 --z-offsets z-offsets.json > top-panel.nc
-```
-
-**Cutting parameters:**
-- Tool: 4mm single flute downcut
-- Spindle: 10,000 RPM (Makita dial 1)
-- Feed: 300 mm/min (override to 150% = 450 mm/min in gSender)
-- Depth/pass: 0.3mm (helical/spiral entry, no straight plunges)
-- Lubricant: WD-40
-
-**Testing:**
-
-```bash
-cd cnc && make test    # run probe-setup against mock machine
-make test              # validate G-code output (from repo root)
 ```
 
 **Origin modes:**
