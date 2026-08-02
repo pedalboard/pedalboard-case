@@ -385,7 +385,7 @@ class GCode:
 
         # 4. Display recesses (asymmetric: 5mm extra toward center, 3mm extra toward edge in X)
         #    + 2.6mm shift toward back (positive X) for connector clearance
-        display_offset_x = 2.6  # mm toward back for connector clearance
+        display_offset_x = -2.6  # mm toward back (negative X) for connector clearance
         for i, (x, y) in enumerate(DISPLAYS):
             self.set_z_offset("displays", i)
             # Asymmetric enlargement shift (1mm toward center)
