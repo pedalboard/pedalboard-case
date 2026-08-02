@@ -38,7 +38,7 @@ The parts are created with openscad 2021.01
        300mm/min feed, 0.3mm depth/pass. Origin: case center (probe both sides).
        Regenerate with <code>python3 parts/top-panel-gcode.py</code>.
     </td>
-    <td></td>
+    <td><img src="./generated/fixture-plate.png" width="200"/></td>
 </tr>
 <tr>
 <tr>
