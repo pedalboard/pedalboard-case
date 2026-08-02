@@ -41,13 +41,6 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
 </tr>
 <tr>
-    <td><a href="./generated/top-panel.dxf">CNC Shop DXF</a></td>
-    <td>
-       2D DXF with all cut profiles for sending to a CNC shop.
-       Layers: CUT (through-cut profiles), DRILL (bezel holes), OUTLINE (reference).
-    </td>
-    <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
-</tr>
 <tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
     <td>
