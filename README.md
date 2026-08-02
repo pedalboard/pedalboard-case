@@ -32,7 +32,7 @@ The parts are created with openscad 2021.01
     <td><img src="./generated/display-cutout-template.svg" width="200"/></td>
 </tr>
 <tr>
-    <td><a href="./generated/top-panel.nc">CNC G-code</a></td>
+    <td><a href="./parts/top-panel-gcode.py">CNC G-code</a></td>
     <td>
        G-code for CNC milling the top panel. Default: 4mm single flute downcut,
        300mm/min feed, 0.3mm depth/pass. Origin: case center (probe both sides).
