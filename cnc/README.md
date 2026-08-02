@@ -84,6 +84,24 @@ After XY is established:
 2. 3D probe measures Z at each of 12 feature centers (surface compensation)
 3. Cutting tool + touch plate (19.25mm) measures Z for G54 Z0
 
+### Per-Feature Z Compensation
+
+Die-cast Hammond cases have a crowned surface — up to 1mm variation across
+the panel. Without compensation, recesses end up too shallow at the edges
+and too deep at the center.
+
+The script probes Z at each feature center (2 LEDs, 6 buttons, 2 encoders,
+2 displays = 12 points) and saves the offsets to `z-offsets.json`. The G-code
+generator then shifts each feature's Z commands by its local offset.
+
+The feature probing stays 3mm above the known surface between moves (no full
+Z retract), making it fast (~30 seconds for all 12 points).
+
+To skip feature probing on rework (holes already cut through):
+```bash
+python3 probe-setup.py --skip-feature-probing --z-probe-offset 10 0
+```
+
 **Safety features:**
 - Feed hold on any error
 - Probe trigger confirmation (touch-and-release) before probing
