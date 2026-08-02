@@ -26,14 +26,34 @@ def parse_args():
 def main():
     args = parse_args()
     data = load_coords(args.coords)
-    coords = cnc_coords(data)
-    features = coords["features"]
-    case = coords["case"]
+
+    # Template uses original (non-swapped) coordinates — top-down paper view
+    # Long axis = width on paper, short axis = height
+    case = data["case"]
+    pcb = data["pcb"]
+    features = data["features"]
+    positions = data["positions"]
+
+    surface_w = case["top_surface_width"]   # 181.8mm (long axis = paper width)
+    surface_h = case["top_surface_height"]  # 113.8mm (short axis = paper height)
+
+    pcb_offset_x = (surface_w - pcb["width"]) / 2.0
+    pcb_offset_y = (surface_h - pcb["height"]) / 2.0
+
+    def to_template(kicad_x, kicad_y):
+        """Convert KiCad coords to template coords (no swap, corner origin)."""
+        pcb_x = kicad_x - pcb["kicad_origin_x"]
+        pcb_y = kicad_y - pcb["kicad_origin_y"]
+        return (pcb_offset_x + pcb_x, pcb_offset_y + pcb_y)
+
+    buttons = [to_template(p["x"], p["y"]) for p in positions["buttons"]]
+    encoders = [to_template(p["x"], p["y"]) for p in positions["encoders"]]
+    displays = [to_template(p["x"], p["y"]) for p in positions["displays"]]
+    single_leds = [to_template(p["x"], p["y"]) for p in positions["single_leds"]]
+    bezel_holes = [to_template(p["x"], p["y"]) for p in positions["bezel_holes"]]
 
     page_w = 297
     page_h = 210
-    surface_w = case["top_surface_width"]
-    surface_h = case["top_surface_height"]
 
     margin_x = (page_w - surface_w) / 2
     margin_y = (page_h - surface_h) / 2
@@ -73,21 +93,21 @@ def main():
     e.append(f'<text x="{sx(surface_w/2)}" y="{sy(-2.5)}" text-anchor="middle" font-family="sans-serif" font-size="2" fill="#aaa">Case surface {surface_w} × {surface_h} mm</text>')
 
     # Buttons
-    for i, (bx, by) in enumerate(coords["buttons"]):
+    for i, (bx, by) in enumerate(buttons):
         e.append(f'<circle cx="{sx(bx)}" cy="{sy(by)}" r="{button_dia/2}" fill="none" stroke="red" stroke-width="0.4"/>')
         e.append(f'<circle cx="{sx(bx)}" cy="{sy(by)}" r="{led_ring_od/2}" fill="none" stroke="orange" stroke-width="0.3" stroke-dasharray="1.5,1"/>')
         e.append(f'<circle cx="{sx(bx)}" cy="{sy(by)}" r="0.4" fill="red"/>')
         e.append(f'<text x="{sx(bx)}" y="{sy(by - led_ring_od/2 - 2)}" text-anchor="middle" font-family="sans-serif" font-size="2" fill="red">B{i+1}</text>')
 
     # Encoders
-    for i, (ex, ey) in enumerate(coords["encoders"]):
+    for i, (ex, ey) in enumerate(encoders):
         e.append(f'<circle cx="{sx(ex)}" cy="{sy(ey)}" r="{encoder_dia/2}" fill="none" stroke="red" stroke-width="0.4"/>')
         e.append(f'<circle cx="{sx(ex)}" cy="{sy(ey)}" r="{led_ring_od/2}" fill="none" stroke="orange" stroke-width="0.3" stroke-dasharray="1.5,1"/>')
         e.append(f'<circle cx="{sx(ex)}" cy="{sy(ey)}" r="0.4" fill="red"/>')
         e.append(f'<text x="{sx(ex)}" y="{sy(ey - led_ring_od/2 - 2)}" text-anchor="middle" font-family="sans-serif" font-size="2" fill="red">E{i+1}</text>')
 
     # Displays (asymmetric: shifted toward case center in X)
-    for i, (dx, dy) in enumerate(coords["displays"]):
+    for i, (dx, dy) in enumerate(displays):
         # Shift display center toward case X center
         x_shift = -display_x_shift if dx > surface_w/2 else display_x_shift
         ddx = dx + x_shift
@@ -101,13 +121,13 @@ def main():
         e.append(f'<text x="{sx(ddx)}" y="{sy(dy - display_recess_h/2 - 3)}" text-anchor="middle" font-family="sans-serif" font-size="2.2" fill="red" font-weight="bold">D{i+1}</text>')
 
     # Light pipes
-    for i, (lx, ly) in enumerate(coords["single_leds"]):
+    for i, (lx, ly) in enumerate(single_leds):
         e.append(f'<circle cx="{sx(lx)}" cy="{sy(ly)}" r="{lightpipe_dia/2}" fill="none" stroke="red" stroke-width="0.4"/>')
         e.append(f'<circle cx="{sx(lx)}" cy="{sy(ly)}" r="0.3" fill="red"/>')
         e.append(f'<text x="{sx(lx)}" y="{sy(ly - lightpipe_dia/2 - 2)}" text-anchor="middle" font-family="sans-serif" font-size="1.8" fill="red">LP{i+1}</text>')
 
     # Bezel holes
-    for i, (hx, hy) in enumerate(coords["bezel_holes"]):
+    for i, (hx, hy) in enumerate(bezel_holes):
         e.append(f'<circle cx="{sx(hx)}" cy="{sy(hy)}" r="{bezel_dia/2}" fill="none" stroke="green" stroke-width="0.25"/>')
 
     # Legend
