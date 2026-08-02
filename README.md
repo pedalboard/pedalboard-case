@@ -38,7 +38,7 @@ The parts are created with openscad 2021.01
        300mm/min feed, 0.3mm depth/pass. Origin: case center (probe both sides).
        Regenerate with <code>python3 parts/top-panel-gcode.py</code>.
     </td>
-    <td><img src="./generated/fixture-plate.png" width="200"/></td>
+    <td></td>
 </tr>
 <tr>
 <tr>
@@ -97,7 +97,7 @@ The parts are created with openscad 2021.01
        15mm MDF fixture plate for milling the top panel on the SRcnc.
        Maintained in the <a href="https://github.com/laenzlinger/cnc">cnc repo</a>.
     </td>
-    <td></td>
+    <td><img src="./generated/fixture-plate.png" width="200"/></td>
 </tr>
 <tr>
     <td><a href="./parts/led-ring-flush.scad">LED Ring (flush mount)</a></td>
