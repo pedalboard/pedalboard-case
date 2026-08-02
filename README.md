@@ -134,6 +134,21 @@ The parts are created with openscad 2021.01
 
 See [STL files](./generated)
 
+Some parts are available in two variants:
+
+| Function | 3D printed (PETG) | CNC plexiglass |
+|----------|-------------------|----------------|
+| Button LED ring | `led-ring-washer.stl` | `led-ring-flush.scad` |
+| Encoder LED ring | `led-ring-rotary-washer.stl` | `led-ring-flush.scad` |
+| Display window | `display-bezel.stl` + mounting rack | `display-window-flush.scad` |
+| Light pipe | `light-pipe.stl` | `lightpipe-disc.scad` |
+
+**3D printed** — uses transparent PETG, easier to make, rougher finish.
+Good for prototyping.
+
+**CNC plexiglass** — cut from 2mm translucent acrylic sheet, flush-mount
+with stepped profile, cleaner look. Requires CNC and `plexi-cut.py`.
+
 ## Top panel generation
 
 All top panel machining outputs are derived from the [pedalboard-display](https://github.com/pedalboard/pedalboard-display) KiCad PCB:
