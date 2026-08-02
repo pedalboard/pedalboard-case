@@ -142,7 +142,6 @@ All top panel machining outputs are derived from the [pedalboard-display](https:
 pedalboard-display.kicad_pcb
   → extract-coords.py → top-panel-coords.json
   → top-panel-gcode.py → top-panel.nc
-  → top-panel-dxf.py   → top-panel.dxf
   → top-panel-template.py → display-cutout-template.svg/.pdf
 ```
 
@@ -157,22 +156,29 @@ cd parts && make panel
 The top panel is milled on the SRcnc machine (Hammond 1590DD die cast aluminium,
 4mm single flute downcut, open-side-down fixture).
 
-**Setup** (from the [cnc repo](https://github.com/laenzlinger/cnc)):
+**Setup:**
 
 ```bash
-cd ~/projects/gh/laenzlinger/cnc/probe
+cd cnc
 python3 probe-setup.py
 ```
 
 The setup script:
-1. Homes the machine
+1. Homes the machine (Z first for safety)
 2. Probes the spoilboard reference Z
-3. Finds the case center and rotation angle from 4 edge probes
-4. Sets G54 X0 Y0 at case center
-5. Probes the case top surface
-6. Probes Z with touch plate (cross-checks against 3D probe)
-7. Regenerates `top-panel.nc` with rotation correction applied
-8. Launches UGS for job execution
+3. Probes 5 case edges (X- at two Y positions, X+, Y-, Y+)
+4. Computes case center and rotation angle
+5. Sets G54 X0 Y0 at case center
+6. Probes case top surface with 3D probe
+7. Probes Z at each feature center (per-feature surface compensation)
+8. Swaps to cutting tool, probes Z with touch plate
+9. Generates `top-panel.nc` with angle + Z offsets
+
+**For rework** (case already has holes):
+
+```bash
+python3 cnc/probe-setup.py --skip-feature-probing --z-probe-offset 10 0
+```
 
 **Manual G-code generation** (if angle is known):
 
@@ -180,16 +186,27 @@ The setup script:
 # Default: center origin, no rotation
 python3 parts/top-panel-gcode.py > top-panel.nc
 
-# With measured rotation angle
-python3 parts/top-panel-gcode.py --angle 0.37 > top-panel.nc
+# With measured rotation angle and Z offsets
+python3 parts/top-panel-gcode.py --angle -0.23 --z-offsets z-offsets.json > top-panel.nc
 
-# Corner origin (simpler fixture, no center probing needed)
-python3 parts/top-panel-gcode.py --origin corner > top-panel.nc
+# Displays only (rework)
+python3 parts/top-panel-gcode.py --displays-only --angle -0.23 --z-offsets z-offsets.json > top-panel.nc
+```
 
-# Custom tool or feeds
-python3 parts/top-panel-gcode.py --tool-dia 3 --feed-xy 200 > top-panel.nc
+**Cutting parameters:**
+- Tool: 4mm single flute downcut
+- Spindle: 10,000 RPM (Makita dial 1)
+- Feed: 300 mm/min (override to 150% = 450 mm/min in gSender)
+- Depth/pass: 0.3mm (helical/spiral entry, no straight plunges)
+- Lubricant: WD-40
+
+**Testing:**
+
+```bash
+cd cnc && make test    # run probe-setup against mock machine
+make test              # validate G-code output (from repo root)
 ```
 
 **Origin modes:**
-- `center` (default) — G54 X0 Y0 at case center, requires probing both X edges
+- `center` (default) — G54 X0 Y0 at case center, requires probing edges
 - `corner` — G54 X0 Y0 at front-left corner of case top surface
