@@ -24,6 +24,8 @@ gcode: ## Generate all CNC G-code
 	python3 parts/display-window-flush-gcode.py > $(GEN)/display-window-flush.nc
 	python3 parts/led-ring-flush-gcode.py > $(GEN)/led-ring-flush.nc
 	python3 parts/lightpipe-disc-gcode.py > $(GEN)/lightpipe-disc.nc
+	python3 parts/plexi-cut.py --production > $(GEN)/plexi-production.nc
+	python3 parts/plexi-cut.py > $(GEN)/plexi-cut.nc
 
 templates: ## Generate printable templates (SVG + PDF)
 	python3 parts/top-panel-template.py --output $(GEN)/display-cutout-template.svg

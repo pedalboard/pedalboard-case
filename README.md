@@ -176,3 +176,25 @@ python3 parts/top-panel-gcode.py --angle -0.23 --z-offsets z-offsets.json > top-
 **Origin modes:**
 - `center` (default) — G54 X0 Y0 at case center, requires probing edges
 - `corner` — G54 X0 Y0 at front-left corner of case top surface
+
+## Plexiglass parts
+
+All flush-mount plexiglass parts (LED rings, display windows, light pipe discs)
+are cut from 2mm acrylic sheet (translucent black tea / smoke).
+
+**Generate G-code:**
+
+```bash
+# Test cut (1 of each part)
+python3 parts/plexi-cut.py > generated/plexi-cut.nc
+
+# Production (8 rings, 2 windows, 2 discs)
+python3 parts/plexi-cut.py --production > generated/plexi-production.nc
+```
+
+**Cutting parameters:**
+- Tool: 4mm single flute downcut
+- Spindle: Makita dial 3 (~17,000 RPM)
+- Feed: 500 mm/min
+- Depth/pass: 0.25mm
+- Fixture: double-sided tape, leave protective film on
