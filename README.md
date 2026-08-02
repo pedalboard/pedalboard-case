@@ -13,11 +13,14 @@ The parts are created with openscad 2021.01
     <th>Image</th>
 </tr>
 <tr>
-    <td><a href="./generated/drill-jig.stl">Drill Jig</a></td>
+    <td><a href="./generated/side-panel-template.pdf">Side Panel Drill Template</a></td>
     <td>
-        3d model for a drill jig for a - <a href="https://www.hammfg.com/part/1590DD">Hammond Manufacturing 1590DD</a> case.
+       1:1 printable PDF for marking all side panel and back panel holes:
+       6 jack holes (10mm), 2 MIDI/3.5mm holes (6mm), USB-A slot (8mm drill),
+       and barrel jack (8mm). Align to top edge of case.
+       Regenerate with <code>python3 parts/side-panel-template.py</code>.
     </td>
-    <td><img src="./generated/drill-jig.png"/></td>
+    <td><img src="./generated/side-panel-template.svg" width="200"/></td>
 </tr>
 <tr>
     <td><a href="./generated/display-cutout-template.pdf">Front Panel Cutting Template</a></td>
