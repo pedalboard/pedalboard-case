@@ -119,6 +119,15 @@ The parts are created with openscad 2021.01
     </td>
     <td><img src="./generated/display-window-flush.png"/></td>
 </tr>
+<tr>
+    <td><a href="./parts/lightpipe-disc.scad">Light Pipe Disc (flush mount)</a></td>
+    <td>
+       2mm plexiglass disc for flush-mounted light pipe.
+       6mm diameter, press-fits into light pipe hole.
+       CNC cut from plexiglass sheet with 4mm downcut endmill.
+    </td>
+    <td><img src="./generated/lightpipe-disc.png"/></td>
+</tr>
 </table>
 
 ## 3D printable files
