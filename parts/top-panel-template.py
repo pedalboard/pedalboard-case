@@ -43,8 +43,12 @@ def main():
 
     button_dia = features["button_hole_diameter"]
     encoder_dia = features["encoder_hole_diameter"]
-    display_w = features["display_cutout_width"]
-    display_h = features["display_cutout_height"]
+    # Display cutout enlarged: +5mm toward center, +3mm toward edge (in X/width)
+    display_w = 42.5   # was 34.5, enlarged for OLED clearance
+    display_h = features["display_cutout_height"]  # 36.7mm unchanged
+    display_recess_w = 44.5
+    display_recess_h = 38.7
+    display_x_shift = 1.0  # mm toward case center (asymmetric)
     lightpipe_dia = features["lightpipe_hole_diameter"]
     bezel_dia = features["bezel_hole_diameter"]
     led_ring_od = features["led_ring_outer_diameter"]
@@ -82,14 +86,19 @@ def main():
         e.append(f'<circle cx="{sx(ex)}" cy="{sy(ey)}" r="0.4" fill="red"/>')
         e.append(f'<text x="{sx(ex)}" y="{sy(ey - led_ring_od/2 - 2)}" text-anchor="middle" font-family="sans-serif" font-size="2" fill="red">E{i+1}</text>')
 
-    # Displays
+    # Displays (asymmetric: shifted toward case center in X)
     for i, (dx, dy) in enumerate(coords["displays"]):
-        e.append(f'<rect x="{sx(dx - display_w/2)}" y="{sy(dy - display_h/2)}" width="{display_w}" height="{display_h}" fill="none" stroke="red" stroke-width="0.5"/>')
+        # Shift display center toward case X center
+        x_shift = -display_x_shift if dx > surface_w/2 else display_x_shift
+        ddx = dx + x_shift
+        e.append(f'<rect x="{sx(ddx - display_w/2)}" y="{sy(dy - display_h/2)}" width="{display_w}" height="{display_h}" fill="none" stroke="red" stroke-width="0.5"/>')
+        # Recess outline (dashed)
+        e.append(f'<rect x="{sx(ddx - display_recess_w/2)}" y="{sy(dy - display_recess_h/2)}" width="{display_recess_w}" height="{display_recess_h}" fill="none" stroke="orange" stroke-width="0.3" stroke-dasharray="1.5,1"/>')
         for cx, cy in [(-1,-1), (1,-1), (-1,1), (1,1)]:
-            e.append(f'<circle cx="{sx(dx + cx*display_w/2)}" cy="{sy(dy + cy*display_h/2)}" r="{corner_drill/2}" fill="none" stroke="blue" stroke-width="0.3"/>')
-        e.append(f'<line x1="{sx(dx-4)}" y1="{sy(dy)}" x2="{sx(dx+4)}" y2="{sy(dy)}" stroke="red" stroke-width="0.15"/>')
-        e.append(f'<line x1="{sx(dx)}" y1="{sy(dy-4)}" x2="{sx(dx)}" y2="{sy(dy+4)}" stroke="red" stroke-width="0.15"/>')
-        e.append(f'<text x="{sx(dx)}" y="{sy(dy - display_h/2 - 3)}" text-anchor="middle" font-family="sans-serif" font-size="2.2" fill="red" font-weight="bold">D{i+1}</text>')
+            e.append(f'<circle cx="{sx(ddx + cx*display_w/2)}" cy="{sy(dy + cy*display_h/2)}" r="{corner_drill/2}" fill="none" stroke="blue" stroke-width="0.3"/>')
+        e.append(f'<line x1="{sx(ddx-4)}" y1="{sy(dy)}" x2="{sx(ddx+4)}" y2="{sy(dy)}" stroke="red" stroke-width="0.15"/>')
+        e.append(f'<line x1="{sx(ddx)}" y1="{sy(dy-4)}" x2="{sx(ddx)}" y2="{sy(dy+4)}" stroke="red" stroke-width="0.15"/>')
+        e.append(f'<text x="{sx(ddx)}" y="{sy(dy - display_recess_h/2 - 3)}" text-anchor="middle" font-family="sans-serif" font-size="2.2" fill="red" font-weight="bold">D{i+1}</text>')
 
     # Light pipes
     for i, (lx, ly) in enumerate(coords["single_leds"]):
