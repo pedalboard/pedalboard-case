@@ -19,8 +19,11 @@ $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
 	$(DISPLAY_WRAPPER) openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
 
-gcode: ## Generate CNC G-code for top panel
+gcode: ## Generate all CNC G-code
 	python3 parts/top-panel-gcode.py --origin center > $(GEN)/top-panel.nc
+	python3 parts/display-window-flush-gcode.py > $(GEN)/display-window-flush.nc
+	python3 parts/led-ring-flush-gcode.py > $(GEN)/led-ring-flush.nc
+	python3 parts/lightpipe-disc-gcode.py > $(GEN)/lightpipe-disc.nc
 
 templates: ## Generate printable templates (SVG + PDF)
 	python3 parts/top-panel-template.py --output $(GEN)/display-cutout-template.svg
