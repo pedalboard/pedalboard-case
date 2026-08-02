@@ -11,13 +11,22 @@ SRCS    := $(wildcard $(SRC)/*.scad)
 STLS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.stl,$(SRCS))
 PNGS    := $(patsubst $(SRC)/%.scad,$(GEN)/%.png,$(SRCS))
 
-all: $(STLS) $(PNGS) ## generate all parts
+all: $(STLS) $(PNGS) gcode templates ## generate all parts
 
 $(GEN)/%.stl: $(SRC)/%.scad | $(GEN)
 	openscad -o $@ $<
 
 $(GEN)/%.png: $(SRC)/%.scad | $(GEN)
 	$(DISPLAY_WRAPPER) openscad -o $@ --autocenter --viewall --colorscheme=Nature --imgsize=1200,800 $<
+
+gcode: ## Generate CNC G-code for top panel
+	python3 parts/top-panel-gcode.py --origin center > $(GEN)/top-panel.nc
+
+templates: ## Generate printable templates (SVG + PDF)
+	python3 parts/top-panel-template.py --output $(GEN)/display-cutout-template.svg
+	rsvg-convert -f pdf $(GEN)/display-cutout-template.svg > $(GEN)/display-cutout-template.pdf
+	python3 parts/side-panel-template.py > $(GEN)/side-panel-template.svg
+	rsvg-convert -f pdf $(GEN)/side-panel-template.svg > $(GEN)/side-panel-template.pdf
 
 clean:
 	rm -f $(STLS)
