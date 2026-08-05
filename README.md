@@ -42,6 +42,18 @@ The parts are created with openscad 2021.01
 </tr>
 <tr>
 <tr>
+    <td><a href="./parts/top-panel-engraving.yaml">Engraving Design</a></td>
+    <td>
+       Panel label engraving for the powder-coated top surface.
+       Button labels A–F, encoder labels Vol/Gain, LED labels Mode/Mon,
+       and I/O labels on all four edges. V-bit engraving with surface
+       height map compensation via <a href="https://github.com/laenzlinger/plates">plates</a>.
+       Run <code>python3 cnc/engrave-setup.py</code> to probe the surface
+       and generate <code>engraving.nc</code>.
+    </td>
+    <td><img src="./generated/top-panel-engraving.svg" width="200"/></td>
+</tr>
+<tr>
     <td><a href="./generated/actuator-assembly.stl">Switch Actuator</a></td>
     <td>
        <a href="https://www.cliffuk.co.uk/products/switches/FC7125.pdf">Manufactured by Cliff</a>.
