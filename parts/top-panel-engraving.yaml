@@ -51,7 +51,7 @@ features:
   - type: text
     text: "D"
     x: 22.0
-    y: 52.9
+    y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -60,7 +60,7 @@ features:
   - type: text
     text: "E"
     x: 90.9
-    y: 52.9
+    y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -69,7 +69,7 @@ features:
   - type: text
     text: "F"
     x: 159.8
-    y: 52.9
+    y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -78,7 +78,7 @@ features:
   - type: text
     text: "A"
     x: 22.0
-    y: 29.9
+    y: 27.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -87,7 +87,7 @@ features:
   - type: text
     text: "B"
     x: 90.9
-    y: 29.9
+    y: 27.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -96,7 +96,7 @@ features:
   - type: text
     text: "C"
     x: 159.8
-    y: 29.9
+    y: 27.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -109,7 +109,7 @@ features:
 
   - type: text
     text: "Mode"
-    x: 70.4
+    x: 73.4
     y: 84.4
     align: left
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -118,7 +118,7 @@ features:
 
   - type: text
     text: "Mon"
-    x: 111.4
+    x: 108.4
     y: 84.4
     align: right
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -133,7 +133,7 @@ features:
 
   - type: text
     text: "Vol"
-    x: 38.4
+    x: 41.4
     y: 98.4
     align: right
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -142,7 +142,7 @@ features:
 
   - type: text
     text: "Gain"
-    x: 144.4
+    x: 141.4
     y: 98.4
     align: left
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -172,16 +172,16 @@ features:
 
   - type: rounded_rect
     x: 3.0
-    y: 51.40
+    y: 48.15
     width: 12.0
     height: 5.5
-    sharp_corner: top-left
+    sharp_corner: bottom-left
     corner_radius: 2.5
 
   - type: text
     text: "Out 1"
     x: 9.0
-    y: 54.15
+    y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
@@ -226,16 +226,16 @@ features:
 
   - type: rounded_rect
     x: 166.8
-    y: 51.40
+    y: 48.15
     width: 12.0
     height: 5.5
-    sharp_corner: top-right
+    sharp_corner: bottom-right
     corner_radius: 2.5
 
   - type: text
     text: "In 1"
     x: 172.8
-    y: 54.15
+    y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
