@@ -10,9 +10,9 @@
 DISPLAY_PCB := ../../pedalboard-display/pedalboard-display.kicad_pcb
 COORDS := top-panel-coords.json
 
-.PHONY: panel coords gcode dxf template clean
+.PHONY: panel coords gcode dxf template overlay clean
 
-panel: coords gcode dxf template ## generate all panel outputs
+panel: coords gcode dxf template overlay ## generate all panel outputs
 
 coords: $(COORDS) ## extract positions from KiCad PCB
 
@@ -28,6 +28,9 @@ dxf: $(COORDS) ## generate DXF for CNC shop
 template: $(COORDS) ## generate printable SVG/PDF cutting template
 	python3 top-panel-template.py --output ../generated/display-cutout-template.svg
 	rsvg-convert -f pdf ../generated/display-cutout-template.svg -o ../generated/display-cutout-template.pdf
+
+overlay: ## overlay engraving design on cutting template for visual alignment check
+	python3 engraving-overlay.py --output ../generated/engraving-overlay.svg
 
 clean: ## remove generated panel files
 	rm -f $(COORDS)
