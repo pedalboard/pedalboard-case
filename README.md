@@ -169,20 +169,35 @@ cd parts && make panel
 ## CNC milling workflow
 
 The top panel is milled on the SRcnc machine (Hammond 1590DD die cast aluminium,
-4mm single flute downcut, open-side-down fixture).
+open-side-down fixture). Two separate operations: hole cutting, then engraving.
 
 See [cnc/README.md](./cnc/README.md) for full setup instructions, probing geometry,
 and testing.
 
-**Quick start:**
+### 1. Cut holes
 
 ```bash
 cd cnc
-python3 probe-setup.py     # automated setup (close gSender first)
-# then open gSender, load top-panel.nc, dial 1, WD-40, run at 150% feed
+python3 probe-setup.py    # close gSender first — script owns the serial port
+# → generates top-panel.nc
+# Open gSender, load top-panel.nc, dial 1, WD-40, run at 150% feed
 ```
 
-**Manual G-code generation:**
+Tool: 4mm single flute downcut, 300mm/min, 0.3mm depth/pass.
+
+### 2. Engrave labels
+
+```bash
+python3 engrave-setup.py  # close gSender first
+# → probes 6×10 surface height map, generates engraving.nc
+# Open gSender, load engraving.nc, run
+```
+
+Tool: 60° V-bit, 150mm/min. The height map compensates for powder coat
+variation and panel crown so the V-bit follows the actual surface.
+`engrave-setup.py` runs independently — no need to run `probe-setup.py` first.
+
+**Manual G-code generation (without height map):**
 
 ```bash
 python3 parts/top-panel-gcode.py --angle -0.23 --z-offsets z-offsets.json > top-panel.nc
