@@ -154,7 +154,7 @@ features:
   # Shared Y rows: Exp row=87.5, Out1/In1 row=56.9, Out2/In2 row=26.3
 
   - type: rounded_rect
-    x: 1.0
+    x: 3.0
     y: 89.15
     width: 12.0
     height: 5.5
@@ -163,7 +163,7 @@ features:
 
   - type: text
     text: "Exp 2"
-    x: 7.0
+    x: 9.0
     y: 91.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -171,7 +171,7 @@ features:
     strategy: vcarve
 
   - type: rounded_rect
-    x: 1.0
+    x: 3.0
     y: 48.15
     width: 12.0
     height: 5.5
@@ -180,7 +180,7 @@ features:
 
   - type: text
     text: "Out 1"
-    x: 7.0
+    x: 9.0
     y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -188,7 +188,7 @@ features:
     strategy: vcarve
 
   - type: rounded_rect
-    x: 1.0
+    x: 3.0
     y: 27.95
     width: 12.0
     height: 5.5
@@ -197,7 +197,7 @@ features:
 
   - type: text
     text: "Out 2"
-    x: 7.0
+    x: 9.0
     y: 30.7
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -208,7 +208,7 @@ features:
   # Same Y rows as left edge.
 
   - type: rounded_rect
-    x: 168.8
+    x: 166.8
     y: 89.15
     width: 12.0
     height: 5.5
@@ -217,7 +217,7 @@ features:
 
   - type: text
     text: "Exp 1"
-    x: 174.8
+    x: 172.8
     y: 91.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -225,7 +225,7 @@ features:
     strategy: vcarve
 
   - type: rounded_rect
-    x: 168.8
+    x: 166.8
     y: 48.15
     width: 12.0
     height: 5.5
@@ -234,7 +234,7 @@ features:
 
   - type: text
     text: "In 1"
-    x: 174.8
+    x: 172.8
     y: 50.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -242,7 +242,7 @@ features:
     strategy: vcarve
 
   - type: rounded_rect
-    x: 168.8
+    x: 166.8
     y: 27.95
     width: 12.0
     height: 5.5
@@ -251,7 +251,7 @@ features:
 
   - type: text
     text: "In 2"
-    x: 174.8
+    x: 172.8
     y: 30.7
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
@@ -264,7 +264,7 @@ features:
 
   - type: rounded_rect
     x: 75.9
-    y: 107.3
+    y: 105.3
     width: 14.0
     height: 5.5
     sharp_corner: top-left
@@ -273,7 +273,7 @@ features:
   - type: text
     text: "MIDI Out"
     x: 82.9
-    y: 110.05
+    y: 108.05
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
@@ -281,7 +281,7 @@ features:
 
   - type: rounded_rect
     x: 91.9
-    y: 107.3
+    y: 105.3
     width: 14.0
     height: 5.5
     sharp_corner: top-right
@@ -290,7 +290,7 @@ features:
   - type: text
     text: "MIDI In"
     x: 98.9
-    y: 110.05
+    y: 108.05
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
