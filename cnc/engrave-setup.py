@@ -149,8 +149,8 @@ def _build_hole_list(angle_deg: float) -> list:
         holes.append(("bezel", x, y,
                       feats["bezel_hole_diameter"] / 2 + _HOLE_MARGIN, None, None))
 
-    # Rectangular display cutouts — use recess size (larger) + margin
-    dw = feats["display_cutout_width"]  / 2 + 5.0 + _HOLE_MARGIN  # recess ~5mm wider
+    # Rectangular display cutouts — use actual cut width (42.5mm) + probe margin
+    dw = 42.5 / 2 + _HOLE_MARGIN
     dh = feats["display_cutout_height"] / 2 + _HOLE_MARGIN
     for x, y in coords["displays"]:
         holes.append(("display", x, y, None, dw, dh))

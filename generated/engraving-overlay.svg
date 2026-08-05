@@ -126,24 +126,24 @@
     <circle cx="3.000" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="28.114" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="53.229" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="78.343" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="103.457" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="128.571" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
     <circle cx="153.686" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="3.000" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="28.114" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="53.229" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="78.343" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="103.457" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="128.571" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
     <circle cx="153.686" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="3.000" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="28.114" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="53.229" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="78.343" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="103.457" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="128.571" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
     <circle cx="153.686" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
@@ -165,6 +165,6 @@
   <text x="10" y="196" font-family="sans-serif" font-size="2.5" fill="#555">
     Dark brown: engraving labels  |  Red/green circles: hole cuts
   </text>
-  <circle cx="10.0" cy="202" r="1.5" fill="#00aacc"/><text x="13.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Grid probe points (42 probed)</text><circle cx="70.0" cy="202" r="1.5" fill="#aaaaaa"/><text x="73.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Skipped — over hole (14)</text><circle cx="130.0" cy="202" r="1.5" fill="#00aa00"/><text x="133.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Z reference probe (+20,0)</text>
+  <circle cx="10.0" cy="202" r="1.5" fill="#00aacc"/><text x="13.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Grid probe points (48 probed)</text><circle cx="70.0" cy="202" r="1.5" fill="#aaaaaa"/><text x="73.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Skipped — over hole (8)</text><circle cx="130.0" cy="202" r="1.5" fill="#00aa00"/><text x="133.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Z reference probe (+20,0)</text>
 
 </svg>

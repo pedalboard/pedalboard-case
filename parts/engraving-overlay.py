@@ -85,8 +85,8 @@ def build_hole_list() -> list:
         holes.append(("led",     oy, H - ox, feats["lightpipe_hole_diameter"]/ 2, None, None))
     for ox, oy in coords["bezel_holes"]:
         holes.append(("bezel",   oy, H - ox, feats["bezel_hole_diameter"]   / 2, None, None))
-    dw = feats["display_cutout_width"]  / 2 + 5.0 + HOLE_MARGIN
-    dh = feats["display_cutout_height"] / 2       + HOLE_MARGIN
+    dw = 42.5 / 2 + HOLE_MARGIN
+    dh = feats["display_cutout_height"] / 2 + HOLE_MARGIN
     for ox, oy in coords["displays"]:
         holes.append(("display", oy, H - ox, None, dw, dh))
     return holes
