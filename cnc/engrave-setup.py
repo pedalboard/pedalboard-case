@@ -112,7 +112,7 @@ _HOLE_MARGIN = PROBE_TIP_RADIUS + 1.0   # 3.0mm extra
 # Paths
 SCRIPT_DIR     = Path(__file__).parent
 REPO_ROOT      = SCRIPT_DIR.parent
-ENGRAVING_YAML = SCRIPT_DIR / "top-panel-engraving.yaml"
+ENGRAVING_YAML = REPO_ROOT / "parts" / "top-panel-engraving.yaml"
 HEIGHTMAP_FILE = REPO_ROOT / "heightmap.json"
 ENGRAVING_NC   = REPO_ROOT / "engraving.nc"
 COORDS_JSON    = REPO_ROOT / "parts" / "top-panel-coords.json"
