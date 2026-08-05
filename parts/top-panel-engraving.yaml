@@ -51,7 +51,7 @@ features:
   - type: text
     text: "D"
     x: 22.0
-    y: 50.9
+    y: 49.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -60,7 +60,7 @@ features:
   - type: text
     text: "E"
     x: 90.9
-    y: 50.9
+    y: 49.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -69,7 +69,7 @@ features:
   - type: text
     text: "F"
     x: 159.8
-    y: 50.9
+    y: 49.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -78,7 +78,7 @@ features:
   - type: text
     text: "A"
     x: 22.0
-    y: 27.9
+    y: 28.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -87,7 +87,7 @@ features:
   - type: text
     text: "B"
     x: 90.9
-    y: 27.9
+    y: 28.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -96,7 +96,7 @@ features:
   - type: text
     text: "C"
     x: 159.8
-    y: 27.9
+    y: 28.9
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 4.0
@@ -109,18 +109,18 @@ features:
 
   - type: text
     text: "Mode"
-    x: 73.4
-    y: 84.4
-    align: left
+    x: 78.4
+    y: 89.9
+    align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.5
     strategy: vcarve
 
   - type: text
     text: "Mon"
-    x: 108.4
-    y: 84.4
-    align: right
+    x: 103.4
+    y: 89.9
+    align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.5
     strategy: vcarve
@@ -133,18 +133,18 @@ features:
 
   - type: text
     text: "Vol"
-    x: 41.4
-    y: 98.4
-    align: right
+    x: 53.9
+    y: 82.9
+    align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 3.5
     strategy: vcarve
 
   - type: text
     text: "Gain"
-    x: 141.4
-    y: 98.4
-    align: left
+    x: 128.9
+    y: 82.9
+    align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 3.5
     strategy: vcarve
@@ -172,16 +172,16 @@ features:
 
   - type: rounded_rect
     x: 3.0
-    y: 48.15
+    y: 46.90
     width: 12.0
     height: 5.5
-    sharp_corner: bottom-left
+    sharp_corner: top-left
     corner_radius: 2.5
 
   - type: text
     text: "Out 1"
     x: 9.0
-    y: 50.9
+    y: 49.65
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
@@ -226,16 +226,16 @@ features:
 
   - type: rounded_rect
     x: 166.8
-    y: 48.15
+    y: 46.90
     width: 12.0
     height: 5.5
-    sharp_corner: bottom-right
+    sharp_corner: top-right
     corner_radius: 2.5
 
   - type: text
     text: "In 1"
     x: 172.8
-    y: 50.9
+    y: 49.65
     align: center
     font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
     size: 2.2
