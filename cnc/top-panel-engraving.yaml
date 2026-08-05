@@ -1,0 +1,339 @@
+# top-panel-engraving.yaml — Engraving for Hammond 1590DD top panel
+#
+# Panel: 181.8 × 113.8 mm (long axis = Y on machine, short axis = X)
+# Origin: front-left corner of case top surface (plates default, origin=corner)
+# Coordinate system: X=0 front-left, Y=0 front, Y=181.8 back
+#
+# Connector locations (from drilling template, validated with jig):
+#   Left edge  (X=0)    — outputs: Exp 2 (X=21.9), Out 1 (X=62.9), Out 2 (X=83.1)
+#   Right edge (X=113.8)— inputs:  In 2 (X=30.7),  In 1 (X=50.9),  Exp 1 (X=91.9)
+#   Back edge  (Y=181.8)— rear:    USB (Y=37.0), MIDI Out (Y=75.9), MIDI In (Y=105.9), PWR (Y=145.9)
+#
+# I/O label style: rounded rectangle with one sharp corner pointing toward the
+# nearest panel edge (matching the OLED display UI graphical language).
+# Boxes sit 1mm inside the edge, run parallel to it, centred on the connector.
+#
+# Usage:
+#   cd plates/
+#   python3 plates.py ../pedalboard-case/cnc/top-panel-engraving.yaml \
+#     --output-dir ../pedalboard-case/generated
+#
+# With height map compensation (after running engrave-setup.py):
+#   python3 plates.py ../pedalboard-case/cnc/top-panel-engraving.yaml \
+#     --heightmap ../pedalboard-case/heightmap.json \
+#     --output-dir ../pedalboard-case/generated
+
+plate:
+  width: 113.8      # short axis = CNC X
+  height: 181.8     # long axis  = CNC Y
+  material: alu
+
+tool:
+  vbit_angle: 60
+  vbit_depth_max: 0.3   # powder coat ~0.1mm thick, bare alu underneath
+  end_mill_dia: 3.0
+  depth_per_pass: 0.1
+  safe_z: 5.0
+  retract_z: 1.0
+  spindle_rpm: 10000
+
+feeds:
+  xy: 150
+  z: 50
+
+features:
+
+  # ── BUTTON LABELS ─────────────────────────────────────────────────────────
+  # A and B (Y=15.9): LED ring top at Y=3.9 — too close to front edge for label
+  # above. Labels go below: Y = 15.9 + 12.0 + 2.5 = 30.4
+
+  - type: text
+    text: "A"
+    x: 48.4
+    y: 30.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  - type: text
+    text: "B"
+    x: 100.4
+    y: 30.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  # C and D (Y=90.9): labels above — Y = 90.9 - 12.0 - 2.5 = 76.4
+  - type: text
+    text: "C"
+    x: 48.4
+    y: 76.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  - type: text
+    text: "D"
+    x: 100.4
+    y: 76.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  # E and F (Y=165.9): labels above — Y = 165.9 - 12.0 - 2.5 = 151.4
+  - type: text
+    text: "E"
+    x: 48.4
+    y: 151.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  - type: text
+    text: "F"
+    x: 100.4
+    y: 151.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 4.0
+    strategy: vcarve
+
+  # ── ENCODER LABELS ────────────────────────────────────────────────────────
+  # Above hole: Y = hole_Y - 12.0 - 2.5
+
+  - type: text
+    text: "Vol"
+    x: 15.4
+    y: 39.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 3.5
+    strategy: vcarve
+
+  - type: text
+    text: "Gain"
+    x: 15.4
+    y: 114.4
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 3.5
+    strategy: vcarve
+
+  # ── SINGLE LED LABELS (light pipes) ──────────────────────────────────────
+  # Mode (Y=78.4) and Mon (Y=103.4): above hole, Y = hole_Y - 3.0 - 2.5
+
+  - type: text
+    text: "Mode"
+    x: 29.4
+    y: 72.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.5
+    strategy: vcarve
+
+  - type: text
+    text: "Mon"
+    x: 29.4
+    y: 97.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.5
+    strategy: vcarve
+
+  # ── LEFT EDGE — OUTPUTS ───────────────────────────────────────────────────
+  # Boxes: x=1.0, width=5.5 (perpendicular), height=label_width (along edge)
+  # sharp_corner=bottom-left — sharp corner at (1.0, y_bottom), pointing to X=0
+  # Text centred inside box at (x + width/2, connector_CNC_X)
+
+  # Exp 2 — J8, connector at CNC X=21.9
+  - type: rounded_rect
+    x: 1.0
+    y: 16.9
+    width: 5.5
+    height: 10.0
+    sharp_corner: bottom-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "Exp 2"
+    x: 3.75
+    y: 21.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # Out 1 — J20, connector at CNC X=62.9
+  - type: rounded_rect
+    x: 1.0
+    y: 56.9
+    width: 5.5
+    height: 12.0
+    sharp_corner: bottom-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "Out 1"
+    x: 3.75
+    y: 62.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # Out 2 — J19, connector at CNC X=83.1
+  - type: rounded_rect
+    x: 1.0
+    y: 77.1
+    width: 5.5
+    height: 12.0
+    sharp_corner: bottom-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "Out 2"
+    x: 3.75
+    y: 83.1
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # ── RIGHT EDGE — INPUTS ───────────────────────────────────────────────────
+  # Boxes: x=107.3, width=5.5, sharp_corner=bottom-right → points to X=113.8
+  # Text centred at (107.3 + 5.5/2, connector_CNC_X) = (110.05, connector_CNC_X)
+
+  # In 2 — J22, connector at CNC X=30.7
+  - type: rounded_rect
+    x: 107.3
+    y: 25.7
+    width: 5.5
+    height: 10.0
+    sharp_corner: bottom-right
+    corner_radius: 2.5
+
+  - type: text
+    text: "In 2"
+    x: 110.05
+    y: 30.7
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # In 1 — J18, connector at CNC X=50.9
+  - type: rounded_rect
+    x: 107.3
+    y: 45.9
+    width: 5.5
+    height: 10.0
+    sharp_corner: bottom-right
+    corner_radius: 2.5
+
+  - type: text
+    text: "In 1"
+    x: 110.05
+    y: 50.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # Exp 1 — J5, connector at CNC X=91.9
+  - type: rounded_rect
+    x: 107.3
+    y: 86.9
+    width: 5.5
+    height: 10.0
+    sharp_corner: bottom-right
+    corner_radius: 2.5
+
+  - type: text
+    text: "Exp 1"
+    x: 110.05
+    y: 91.9
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # ── BACK EDGE — REAR CONNECTORS ───────────────────────────────────────────
+  # Boxes: y=175.3, height=5.5, sharp_corner=top-left → top face points to Y=181.8
+  # Text centred at (connector_CNC_Y, 175.3 + 5.5/2) = (connector_CNC_Y, 178.05)
+
+  # USB — J10, connector at CNC Y=37.0
+  - type: rounded_rect
+    x: 32.0
+    y: 175.3
+    width: 10.0
+    height: 5.5
+    sharp_corner: top-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "USB"
+    x: 37.0
+    y: 178.05
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # MIDI Out — J3, connector at CNC Y=75.9
+  - type: rounded_rect
+    x: 68.9
+    y: 175.3
+    width: 14.0
+    height: 5.5
+    sharp_corner: top-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "MIDI Out"
+    x: 75.9
+    y: 178.05
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # MIDI In — J1, connector at CNC Y=105.9
+  - type: rounded_rect
+    x: 98.9
+    y: 175.3
+    width: 14.0
+    height: 5.5
+    sharp_corner: top-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "MIDI In"
+    x: 105.9
+    y: 178.05
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
+
+  # PWR — J7, connector at CNC Y=145.9
+  - type: rounded_rect
+    x: 140.9
+    y: 175.3
+    width: 10.0
+    height: 5.5
+    sharp_corner: top-left
+    corner_radius: 2.5
+
+  - type: text
+    text: "PWR"
+    x: 145.9
+    y: 178.05
+    align: center
+    font: /usr/share/fonts/TTF/RobotoCondensed-Bold.ttf
+    size: 2.2
+    strategy: vcarve
