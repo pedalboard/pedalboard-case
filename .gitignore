@@ -4,3 +4,6 @@ parts/__pycache__/
 parts/*.nc
 *.nc
 z-offsets.json
+cnc/__pycache__/
+cnc/top-panel-engraving.svg
+heightmap.json
