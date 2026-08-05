@@ -123,37 +123,66 @@ COORDS_JSON    = REPO_ROOT / "parts" / "top-panel-coords.json"
 def _build_hole_list(angle_deg: float) -> list:
     """Return list of (type, cx, cy, radius_or_None, half_w_or_None, half_h_or_None).
 
-    All coordinates in G54 work coords (origin at case centre).
+    All coordinates in G54 work coords (origin at case centre, Y+ = toward back).
     Applies angle correction to match the probed case orientation.
+
+    Coordinate conversion from panel_coords (origin=corner, landscape):
+      work_x = panel_x - PANEL_W/2
+      work_y = panel_y - PANEL_H/2   (panel Y=0=front, work Y- = front)
     """
     sys.path.insert(0, str(REPO_ROOT / "parts"))
     from panel_coords import load_coords, cnc_coords
 
     data   = load_coords(str(COORDS_JSON))
-    coords = cnc_coords(data, origin="center", angle_deg=angle_deg)
+    # Use origin=corner to get landscape panel coords, then convert to work coords
+    coords = cnc_coords(data, origin="corner", angle_deg=angle_deg)
     feats  = data["features"]
+
+    PANEL_W = data["case"]["top_surface_width"]   # 181.8
+    PANEL_H = data["case"]["top_surface_height"]  # 113.8
+
+    def to_work(px, py):
+        """Panel coords (origin=front-left, landscape) -> work coords (G54, origin=centre).
+
+        Empirically verified (from panel_coords origin=center cross-check):
+          work_x = -(panel_y - PANEL_H/2)   (machine X = short axis = panel Y direction)
+          work_y =   panel_x - PANEL_W/2    (machine Y = long axis  = panel X direction)
+        """
+        return -(py - PANEL_H / 2), px - PANEL_W / 2
 
     holes = []
 
-    # Circular holes
-    for x, y in coords["buttons"]:
-        holes.append(("button", x, y,
+    # Circular holes — convert landscape panel coords to work coords
+    for ox, oy in coords["buttons"]:
+        # coords["buttons"] gives (portrait_cnc_x, portrait_cnc_y)
+        # landscape: panel_x = portrait_cnc_y, panel_y = PANEL_H - portrait_cnc_x
+        panel_x, panel_y = oy, PANEL_H - ox
+        wx, wy = to_work(panel_x, panel_y)
+        holes.append(("button", wx, wy,
                       feats["button_hole_diameter"] / 2 + _HOLE_MARGIN, None, None))
-    for x, y in coords["encoders"]:
-        holes.append(("encoder", x, y,
+    for ox, oy in coords["encoders"]:
+        panel_x, panel_y = oy, PANEL_H - ox
+        wx, wy = to_work(panel_x, panel_y)
+        holes.append(("encoder", wx, wy,
                       feats["encoder_hole_diameter"] / 2 + _HOLE_MARGIN, None, None))
-    for x, y in coords["single_leds"]:
-        holes.append(("led", x, y,
+    for ox, oy in coords["single_leds"]:
+        panel_x, panel_y = oy, PANEL_H - ox
+        wx, wy = to_work(panel_x, panel_y)
+        holes.append(("led", wx, wy,
                       feats["lightpipe_hole_diameter"] / 2 + _HOLE_MARGIN, None, None))
-    for x, y in coords["bezel_holes"]:
-        holes.append(("bezel", x, y,
+    for ox, oy in coords["bezel_holes"]:
+        panel_x, panel_y = oy, PANEL_H - ox
+        wx, wy = to_work(panel_x, panel_y)
+        holes.append(("bezel", wx, wy,
                       feats["bezel_hole_diameter"] / 2 + _HOLE_MARGIN, None, None))
 
-    # Rectangular display cutouts — use actual cut width (42.5mm) + probe margin
+    # Rectangular display cutouts
     dw = 42.5 / 2 + _HOLE_MARGIN
     dh = feats["display_cutout_height"] / 2 + _HOLE_MARGIN
-    for x, y in coords["displays"]:
-        holes.append(("display", x, y, None, dw, dh))
+    for ox, oy in coords["displays"]:
+        panel_x, panel_y = oy, PANEL_H - ox
+        wx, wy = to_work(panel_x, panel_y)
+        holes.append(("display", wx, wy, None, dw, dh))
 
     return holes
 

@@ -35,10 +35,12 @@ MARGIN_X = (PAGE_W - PANEL_W) / 2   # 57.6mm
 MARGIN_Y = (PAGE_H - PANEL_H) / 2   # 48.1mm
 
 # Grid parameters (from engrave-setup.py)
+# Work coords: X = short axis (±CASE_HALF_WIDTH-margin = ±53.9)
+#              Y = long axis  (±CASE_HALF_HEIGHT-margin = ±87.9)
 GRID_COLS   = 8
 GRID_ROWS   = 7
-GRID_X_HALF = PANEL_W / 2 - 3.0   # 53.9mm  (3mm margin)
-GRID_Y_HALF = PANEL_H / 2 - 3.0   # 53.9mm  (3mm margin)
+GRID_X_HALF = PANEL_H / 2 - 3.0   # 53.9mm — short axis (work X = machine X)
+GRID_Y_HALF = PANEL_W / 2 - 3.0   # 87.9mm — long axis  (work Y = machine Y)
 
 # Probe tip radius for hole avoidance
 PROBE_TIP = 2.0
@@ -78,13 +80,13 @@ def build_hole_list() -> list:
     H = PANEL_H
     holes = []
     for ox, oy in coords["buttons"]:
-        holes.append(("button",  oy, H - ox, feats["button_hole_diameter"]  / 2, None, None))
+        holes.append(("button",  oy, H - ox, feats["button_hole_diameter"]  / 2 + HOLE_MARGIN, None, None))
     for ox, oy in coords["encoders"]:
-        holes.append(("encoder", oy, H - ox, feats["encoder_hole_diameter"] / 2, None, None))
+        holes.append(("encoder", oy, H - ox, feats["encoder_hole_diameter"] / 2 + HOLE_MARGIN, None, None))
     for ox, oy in coords["single_leds"]:
-        holes.append(("led",     oy, H - ox, feats["lightpipe_hole_diameter"]/ 2, None, None))
+        holes.append(("led",     oy, H - ox, feats["lightpipe_hole_diameter"]/ 2 + HOLE_MARGIN, None, None))
     for ox, oy in coords["bezel_holes"]:
-        holes.append(("bezel",   oy, H - ox, feats["bezel_hole_diameter"]   / 2, None, None))
+        holes.append(("bezel",   oy, H - ox, feats["bezel_hole_diameter"]   / 2 + HOLE_MARGIN, None, None))
     dw = 42.5 / 2 + HOLE_MARGIN
     dh = feats["display_cutout_height"] / 2 + HOLE_MARGIN
     for ox, oy in coords["displays"]:
@@ -104,25 +106,70 @@ def point_in_hole(px, py, holes) -> bool:
 
 
 def grid_points(holes) -> list:
-    """Return list of (x, y, skipped) in panel coords (origin=front-left)."""
-    xs = [-GRID_X_HALF + i * 2 * GRID_X_HALF / (GRID_COLS - 1)
-          for i in range(GRID_COLS)]
-    ys = [-GRID_Y_HALF + j * 2 * GRID_Y_HALF / (GRID_ROWS - 1)
-          for j in range(GRID_ROWS)]
-    # Grid is in work coords (origin=centre); convert to panel coords
+    """Return list of (panel_x, panel_y, skipped).
+
+    Computes grid in work coords (same as engrave-setup.py), checks holes
+    in work coords, then converts to panel display coords for rendering.
+
+    Work coord mapping (from panel_coords origin=center empirical check):
+      panel_x = work_y + PANEL_W/2
+      panel_y = -work_x + PANEL_H/2
+    """
+    sys.path.insert(0, str(Path(__file__).parent))
+    from panel_coords import load_coords, cnc_coords as _cnc
+    _data   = load_coords(str(Path(__file__).parent / "top-panel-coords.json"))
+    _feats  = _data["features"]
+    _coords = _cnc(_data, origin="center", angle_deg=0.0)
+
+    # Build hole list in work coords (same as engrave-setup._build_hole_list)
+    work_holes = []
+    for x, y in _coords["buttons"]:
+        work_holes.append((x, y, _feats["button_hole_diameter"]  / 2 + HOLE_MARGIN, None, None))
+    for x, y in _coords["encoders"]:
+        work_holes.append((x, y, _feats["encoder_hole_diameter"] / 2 + HOLE_MARGIN, None, None))
+    for x, y in _coords["single_leds"]:
+        work_holes.append((x, y, _feats["lightpipe_hole_diameter"]/ 2 + HOLE_MARGIN, None, None))
+    for x, y in _coords["bezel_holes"]:
+        work_holes.append((x, y, _feats["bezel_hole_diameter"]   / 2 + HOLE_MARGIN, None, None))
+    _dw = 42.5 / 2 + HOLE_MARGIN
+    _dh = _feats["display_cutout_height"] / 2 + HOLE_MARGIN
+    for x, y in _coords["displays"]:
+        work_holes.append((x, y, None, _dw, _dh))
+
+    def _in_hole(gx, gy):
+        for hx, hy, r, hw, hh in work_holes:
+            if r is not None:
+                if math.hypot(gx - hx, gy - hy) < r:
+                    return True
+            else:
+                if abs(gx - hx) < hw and abs(gy - hy) < hh:
+                    return True
+        return False
+
+    xs = [-GRID_X_HALF + i * 2 * GRID_X_HALF / (GRID_COLS - 1) for i in range(GRID_COLS)]
+    ys = [-GRID_Y_HALF + j * 2 * GRID_Y_HALF / (GRID_ROWS - 1) for j in range(GRID_ROWS)]
+
     points = []
     for gy in ys:
         for gx in xs:
-            px = PANEL_CX + gx   # panel X
-            py = PANEL_CY - gy   # panel Y (SVG Y flip: work Y+ = back = larger panel Y)
-            skip = point_in_hole(px, py, holes)
+            skip = _in_hole(gx, gy)
+            # Convert work coords to landscape panel display coords:
+            # panel_x = work_y + PANEL_W/2
+            # panel_y = -work_x + PANEL_H/2
+            px = gy + PANEL_W / 2
+            py = -gx + PANEL_H / 2
             points.append((px, py, skip))
+
+    n_probe = sum(1 for _, _, s in points if not s)
+    n_skip  = sum(1 for _, _, s in points if s)
+    print(f"    Grid: {GRID_COLS}×{GRID_ROWS} = {len(points)} points  "
+          f"({n_probe} probed, {n_skip} skipped)")
     return points
 
 
 def probe_marker(x, y, r, color, label="") -> str:
     """SVG crosshair + circle at panel coords (x,y). r=radius of circle."""
-    # In SVG inside the panel transform: svg_y = PANEL_H - panel_y
+    # SVG Y is flipped: svg_y = PANEL_H - panel_y
     sx, sy = x, PANEL_H - y
     lines = []
     lines.append(f'<circle cx="{sx:.3f}" cy="{sy:.3f}" r="{r:.2f}" '
@@ -140,6 +187,7 @@ def probe_marker(x, y, r, color, label="") -> str:
 
 
 def dot(x, y, r, color) -> str:
+    # SVG Y is flipped: svg_y = PANEL_H - panel_y
     sx, sy = x, PANEL_H - y
     return (f'<circle cx="{sx:.3f}" cy="{sy:.3f}" r="{r:.2f}" '
             f'fill="{color}" stroke="none"/>')
@@ -166,9 +214,11 @@ def main():
     n_probed  = sum(1 for _, _, s in points if not s)
     n_skipped = sum(1 for _, _, s in points if s)
 
-    # Z reference probe point (work +20,0 -> panel X=90.9+20=110.9, Y=56.9)
-    z_ref_px = PANEL_CX + Z_REF_OFFSET_X
-    z_ref_py = PANEL_CY + Z_REF_OFFSET_Y   # Y=0 in work = panel centre Y
+    # Z reference probe point: work (+20, 0)
+    # panel_x = work_y + PANEL_W/2 = 0 + 90.9 = 90.9
+    # panel_y = -work_x + PANEL_H/2 = -20 + 56.9 = 36.9
+    z_ref_px = Z_REF_OFFSET_Y + PANEL_W / 2
+    z_ref_py = -Z_REF_OFFSET_X + PANEL_H / 2
 
     # Build probe markers (all in panel coords, rendered inside panel transform)
     probe_svg_parts = []
