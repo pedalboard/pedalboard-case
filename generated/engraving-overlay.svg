@@ -100,64 +100,60 @@
   <!-- Probe points (same panel transform) -->
   <g transform="translate(57.600,48.100)">
     <circle cx="3.000" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="73.320" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="78.343" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="128.571" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="153.686" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="3.000" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="73.320" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="178.800" cy="14.978" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="73.320" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="178.800" cy="26.956" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="3.000" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="20.967" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="128.571" cy="20.967" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="153.686" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="178.800" cy="20.967" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="3.000" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="73.320" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="78.343" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="128.571" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="153.686" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="38.933" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="50.911" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="50.911" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="73.320" cy="50.911" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="50.911" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="50.911" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="178.800" cy="50.911" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="62.889" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="62.889" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="73.320" cy="62.889" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="108.480" cy="62.889" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="143.640" cy="62.889" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="178.800" cy="62.889" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="3.000" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="103.457" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="128.571" cy="56.900" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="153.686" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="178.800" cy="56.900" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="3.000" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="73.320" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="108.480" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="143.640" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="28.114" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="103.457" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="128.571" cy="74.867" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="153.686" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="74.867" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="86.844" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="86.844" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="73.320" cy="86.844" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="108.480" cy="86.844" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="143.640" cy="86.844" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="178.800" cy="86.844" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="3.000" cy="98.822" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="98.822" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="73.320" cy="98.822" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="108.480" cy="98.822" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="143.640" cy="98.822" r="0.80" fill="#aaaaaa" stroke="none"/>
-    <circle cx="178.800" cy="98.822" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="3.000" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="78.343" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="103.457" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="128.571" cy="92.833" r="0.80" fill="#aaaaaa" stroke="none"/>
+    <circle cx="153.686" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="178.800" cy="92.833" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="3.000" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="38.160" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="73.320" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="108.480" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
-    <circle cx="143.640" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="28.114" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="53.229" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="78.343" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="103.457" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="128.571" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
+    <circle cx="153.686" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="178.800" cy="110.800" r="1.00" fill="#00aacc" stroke="none"/>
     <circle cx="110.900" cy="56.900" r="2.50" fill="none" stroke="#00aa00" stroke-width="0.4"/>
     <line x1="107.150" y1="56.900" x2="114.650" y2="56.900" stroke="#00aa00" stroke-width="0.3"/>
@@ -169,6 +165,6 @@
   <text x="10" y="196" font-family="sans-serif" font-size="2.5" fill="#555">
     Dark brown: engraving labels  |  Red/green circles: hole cuts
   </text>
-  <circle cx="10.0" cy="202" r="1.5" fill="#00aacc"/><text x="13.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Grid probe points (42 probed)</text><circle cx="70.0" cy="202" r="1.5" fill="#aaaaaa"/><text x="73.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Skipped — over hole (18)</text><circle cx="130.0" cy="202" r="1.5" fill="#00aa00"/><text x="133.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Z reference probe (+20,0)</text>
+  <circle cx="10.0" cy="202" r="1.5" fill="#00aacc"/><text x="13.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Grid probe points (42 probed)</text><circle cx="70.0" cy="202" r="1.5" fill="#aaaaaa"/><text x="73.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Skipped — over hole (14)</text><circle cx="130.0" cy="202" r="1.5" fill="#00aa00"/><text x="133.0" y="203" font-family="sans-serif" font-size="2.8" fill="#333">Z reference probe (+20,0)</text>
 
 </svg>

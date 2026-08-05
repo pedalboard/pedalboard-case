@@ -103,8 +103,8 @@ GRID_X_HALF = CASE_HALF_WIDTH  - GRID_MARGIN   # 53.9mm
 GRID_Y_HALF = CASE_HALF_HEIGHT - GRID_MARGIN   # 87.9mm
 
 # ~20mm spacing → 6 cols x 10 rows = 60 points (38 probed after hole avoidance)
-GRID_COLS = 6
-GRID_ROWS = 10
+GRID_COLS = 8
+GRID_ROWS = 7
 
 # Hole avoidance: probe tip radius + 1mm safety margin
 _HOLE_MARGIN = PROBE_TIP_RADIUS + 1.0   # 3.0mm extra

@@ -35,8 +35,8 @@ MARGIN_X = (PAGE_W - PANEL_W) / 2   # 57.6mm
 MARGIN_Y = (PAGE_H - PANEL_H) / 2   # 48.1mm
 
 # Grid parameters (from engrave-setup.py)
-GRID_COLS   = 6
-GRID_ROWS   = 10
+GRID_COLS   = 8
+GRID_ROWS   = 7
 GRID_X_HALF = PANEL_W / 2 - 3.0   # 53.9mm  (3mm margin)
 GRID_Y_HALF = PANEL_H / 2 - 3.0   # 53.9mm  (3mm margin)
 
