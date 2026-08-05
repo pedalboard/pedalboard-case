@@ -1,0 +1,14 @@
+[project]
+name = "pedalboard-cnc"
+version = "0.1.0"
+description = "CNC setup scripts for pedalboard case top panel"
+requires-python = ">=3.13"
+dependencies = [
+    "pyserial==3.5",
+    "plates",
+]
+
+# Dependencies are installed into the plates project venv.
+# Run: make install
+# This installs pyserial into the plates venv so both can be imported together.
+# The plates package (shapely, pygeoops, etc.) is already installed there.

@@ -33,7 +33,6 @@ Preconditions:
 import argparse
 import json
 import math
-import subprocess
 import sys
 from pathlib import Path
 
@@ -47,6 +46,12 @@ from grbl import (
     probe_z_double,
     probe_z_surface,
 )
+
+# Add plates project to path (editable install doesn't expose top-level modules)
+_PLATES_DIR = Path(__file__).parent / "../../../laenzlinger/plates"
+_PLATES_DIR = _PLATES_DIR.resolve()
+if _PLATES_DIR.exists() and str(_PLATES_DIR) not in sys.path:
+    sys.path.insert(0, str(_PLATES_DIR))
 
 # === MACHINE CONFIGURATION ===
 
@@ -107,7 +112,6 @@ _HOLE_MARGIN = PROBE_TIP_RADIUS + 1.0   # 3.0mm extra
 # Paths
 SCRIPT_DIR     = Path(__file__).parent
 REPO_ROOT      = SCRIPT_DIR.parent
-PLATES_PY      = Path.home() / "projects" / "gh" / "laenzlinger" / "plates" / "plates.py"
 ENGRAVING_YAML = SCRIPT_DIR / "top-panel-engraving.yaml"
 HEIGHTMAP_FILE = REPO_ROOT / "heightmap.json"
 ENGRAVING_NC   = REPO_ROOT / "engraving.nc"
@@ -387,24 +391,39 @@ def run(args):
 
         # [8] Generate engraving G-code
         print("\n[8/9] Generating engraving G-code...")
-        plates_venv = PLATES_PY.parent / ".venv" / "bin" / "python3"
-        python_bin  = str(plates_venv) if plates_venv.exists() else sys.executable
-
-        cmd = [
-            python_bin,
-            str(PLATES_PY),
-            str(ENGRAVING_YAML),
-            "--heightmap", str(HEIGHTMAP_FILE),
-            "--stdout",
-        ]
-        print(f"    Running: {' '.join(cmd)}")
         if not args.dry_run:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            if result.returncode != 0:
-                print(f"ERROR generating engraving G-code:\n{result.stderr}", file=sys.stderr)
+            import plates as plates_mod
+            import config as plates_config
+            import preview as plates_preview
+
+            print(f"    Loading {ENGRAVING_YAML}...")
+            conf = plates_config.load(str(ENGRAVING_YAML))
+
+            # Apply angle to all features — plates uses origin=corner by default
+            # but the engraving YAML uses landscape coords already baked in.
+            # We just need to pass the heightmap.
+            hm_data = json.loads(HEIGHTMAP_FILE.read_text())
+            from toolpath.heightmap import HeightMap
+            heightmap = HeightMap(
+                x_min=hm_data["x_min"], x_max=hm_data["x_max"],
+                y_min=hm_data["y_min"], y_max=hm_data["y_max"],
+                grid=hm_data["grid"],
+            )
+            print(f"    Height map: {heightmap.rows}×{heightmap.cols} points  "
+                  f"max deviation {heightmap.max_deviation:.3f}mm")
+
+            layouts = plates_preview.resolve_layouts(conf)
+            gcode   = plates_mod.generate_gcode(conf, layouts, heightmap=heightmap)
+            errors  = plates_mod.validate_gcode(gcode)
+            if errors:
+                print("ERROR: G-code validation failed:", file=sys.stderr)
+                for e in errors:
+                    print(f"  {e}", file=sys.stderr)
                 sys.exit(1)
-            ENGRAVING_NC.write_text(result.stdout)
+            ENGRAVING_NC.write_text(gcode)
             print(f"    Written: {ENGRAVING_NC}")
+        else:
+            print("    [dry-run: skipping G-code generation]")
 
         # [9] Tool change: remove 3D probe, install V-bit
         print("\n[9/9] Tool change and Z probe...")

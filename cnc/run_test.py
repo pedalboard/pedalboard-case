@@ -12,6 +12,12 @@ import os
 import subprocess
 import sys
 import time
+from pathlib import Path
+
+# Use the plates venv Python so both pyserial and plates are available
+_SCRIPT_DIR  = Path(__file__).parent
+_PLATES_VENV = _SCRIPT_DIR / "../../../laenzlinger/plates/.venv/bin/python3"
+PYTHON = str(_PLATES_VENV) if _PLATES_VENV.exists() else sys.executable
 
 
 def main():
@@ -33,7 +39,7 @@ def main():
         crown    = args.crown if args.crown is not None else 0.0
 
     # Start mock machine
-    mock_cmd = ["python3", "mock-machine.py",
+    mock_cmd = [PYTHON, "mock-machine.py",
                 "--angle", str(args.angle),
                 "--crown", str(crown)]
     mock = subprocess.Popen(
@@ -59,7 +65,7 @@ def main():
 
     # Run setup script against simulator
     setup = subprocess.Popen(
-        ["python3", script, "--port", "/tmp/cnc-sim"],
+        [PYTHON, script, "--port", "/tmp/cnc-sim"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
