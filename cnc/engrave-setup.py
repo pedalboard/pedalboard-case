@@ -299,10 +299,17 @@ def run(args):
         grbl.send("G10 L20 P1 X0 Y0")
         print("    G54 X0 Y0 set at case centre")
 
-        # [6] Reference surface Z at centre
-        print("\n[6/9] Probing reference surface Z at centre...")
-        z_probe_x = center_x + (args.z_probe_offset[0] if args.z_probe_offset else 0.0)
-        z_probe_y = center_y + (args.z_probe_offset[1] if args.z_probe_offset else 0.0)
+        # [6] Reference surface Z
+        # Default offset (+20, 0): avoids the E button hole at centre (r=11.15mm).
+        # 10mm clearance from nearest hole edge.
+        if args.z_probe_offset:
+            z_probe_x = center_x + args.z_probe_offset[0]
+            z_probe_y = center_y + args.z_probe_offset[1]
+            print(f"\n[6/9] Probing reference surface Z at offset ({args.z_probe_offset[0]}, {args.z_probe_offset[1]})...")
+        else:
+            z_probe_x = center_x + 20.0
+            z_probe_y = center_y + 0.0
+            print("\n[6/9] Probing reference surface Z at offset (+20, 0) (avoids centre button hole)...")
         grbl.send("G53 G0 Z0")
         grbl.send(f"G53 G0 X{z_probe_x:.3f} Y{z_probe_y:.3f}")
         grbl.send(f"G53 G0 Z-{SAFE_Z:.3f}")
@@ -479,8 +486,9 @@ def parse_args():
                    help="Print commands without connecting to machine")
     p.add_argument("--z-probe-offset", type=float, nargs=2, default=None,
                    metavar=("X", "Y"),
-                   help="Work coords for reference Z probe (default: case centre). "
-                        "Use if centre has a hole.")
+                   help="Work coords offset from case centre for reference Z probe. "
+                        "Default: (+20, 0) — solid surface clear of centre button hole. "
+                        "Override if that spot is also cut through.")
     return p.parse_args()
 
 
