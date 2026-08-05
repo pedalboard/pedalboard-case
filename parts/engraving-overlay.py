@@ -37,8 +37,8 @@ MARGIN_Y = (PAGE_H - PANEL_H) / 2   # 48.1mm
 # Grid parameters (from engrave-setup.py)
 # Work coords: X = short axis (±CASE_HALF_WIDTH-margin = ±53.9)
 #              Y = long axis  (±CASE_HALF_HEIGHT-margin = ±87.9)
-GRID_COLS   = 8
-GRID_ROWS   = 7
+GRID_COLS   = 7
+GRID_ROWS   = 8
 GRID_X_HALF = PANEL_H / 2 - 3.0   # 53.9mm — short axis (work X = machine X)
 GRID_Y_HALF = PANEL_W / 2 - 3.0   # 87.9mm — long axis  (work Y = machine Y)
 
