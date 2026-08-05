@@ -6,24 +6,21 @@ Combines the display-cutout-template.svg (hole positions) with the
 top-panel-engraving.svg (label positions) so you can visually verify
 that labels don't overlap with holes.
 
+Also marks all probe points used by engrave-setup.py:
+  - Blue cross: spoilboard Z reference (machine coords, off-panel)
+  - Green cross + circle: Z reference probe (work offset +20,0)
+  - Cyan dots: height map grid probe points (38 probed, 22 skipped)
+  - Grey dots: skipped grid points (over holes)
+
 Usage:
     python3 parts/engraving-overlay.py
     python3 parts/engraving-overlay.py --output generated/engraving-overlay.svg
-
-The cutting template uses A4 landscape (297×210mm viewBox) with the panel
-centered at margin_x=57.6, margin_y=48.1.
-
-The engraving SVG uses panel coordinates directly (181.8×113.8mm viewBox,
-Y=0=front, Y=113.8=back). The SVG Y axis is flipped (Y increases downward)
-so the front of the case appears at the bottom of the SVG.
-
-To align them, the engraving content is placed inside a <g> transform that:
-  1. Translates to the panel origin in the template coordinate system
-  2. No rotation needed — both use the same landscape orientation
 """
 
 import argparse
+import math
 import re
+import sys
 from pathlib import Path
 
 GENERATED  = Path(__file__).parent.parent / "generated"
@@ -31,33 +28,128 @@ TEMPLATE   = GENERATED / "display-cutout-template.svg"
 ENGRAVING  = GENERATED / "top-panel-engraving.svg"
 OUTPUT     = GENERATED / "engraving-overlay.svg"
 
-# Panel position in the A4 cutting template (from top-panel-template.py)
+# Panel position in the A4 cutting template
 PAGE_W, PAGE_H = 297.0, 210.0
 PANEL_W, PANEL_H = 181.8, 113.8
 MARGIN_X = (PAGE_W - PANEL_W) / 2   # 57.6mm
 MARGIN_Y = (PAGE_H - PANEL_H) / 2   # 48.1mm
 
+# Grid parameters (from engrave-setup.py)
+GRID_COLS   = 6
+GRID_ROWS   = 10
+GRID_X_HALF = PANEL_W / 2 - 3.0   # 53.9mm  (3mm margin)
+GRID_Y_HALF = PANEL_H / 2 - 3.0   # 53.9mm  (3mm margin)
+
+# Probe tip radius for hole avoidance
+PROBE_TIP = 2.0
+HOLE_MARGIN = PROBE_TIP + 1.0
+
+# Z reference probe offset from case centre (work coords)
+Z_REF_OFFSET_X = 20.0
+Z_REF_OFFSET_Y =  0.0
+
+# Panel centre in panel coords (origin=front-left)
+PANEL_CX = PANEL_W / 2   # 90.9
+PANEL_CY = PANEL_H / 2   # 56.9
+
 
 def extract_svg_content(path: Path) -> str:
-    """Extract everything inside the <svg> tag (strip the outer svg element)."""
     text = path.read_text()
-    # Remove XML declaration
     text = re.sub(r'<\?xml[^?]*\?>', '', text).strip()
-    # Extract content between <svg ...> and </svg>
     m = re.search(r'<svg[^>]*>(.*)</svg>', text, re.DOTALL)
     if not m:
         raise ValueError(f"No <svg> content found in {path}")
     return m.group(1).strip()
 
 
+def build_hole_list() -> list:
+    """Return holes in panel coords (origin=front-left, Y=0=front)."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    sys.path.insert(0, str(Path(__file__).parent.parent / "cnc"))
+    from panel_coords import load_coords, cnc_coords
+
+    data   = load_coords(str(Path(__file__).parent / "top-panel-coords.json"))
+    # origin=corner gives landscape panel coords directly
+    coords = cnc_coords(data, origin="corner", angle_deg=0.0)
+    feats  = data["features"]
+
+    # Convert portrait CNC coords to landscape panel coords
+    # landscape_x = portrait_cnc_y, landscape_y = PANEL_H - portrait_cnc_x
+    H = PANEL_H
+    holes = []
+    for ox, oy in coords["buttons"]:
+        holes.append(("button",  oy, H - ox, feats["button_hole_diameter"]  / 2, None, None))
+    for ox, oy in coords["encoders"]:
+        holes.append(("encoder", oy, H - ox, feats["encoder_hole_diameter"] / 2, None, None))
+    for ox, oy in coords["single_leds"]:
+        holes.append(("led",     oy, H - ox, feats["lightpipe_hole_diameter"]/ 2, None, None))
+    for ox, oy in coords["bezel_holes"]:
+        holes.append(("bezel",   oy, H - ox, feats["bezel_hole_diameter"]   / 2, None, None))
+    dw = feats["display_cutout_width"]  / 2 + 5.0 + HOLE_MARGIN
+    dh = feats["display_cutout_height"] / 2       + HOLE_MARGIN
+    for ox, oy in coords["displays"]:
+        holes.append(("display", oy, H - ox, None, dw, dh))
+    return holes
+
+
+def point_in_hole(px, py, holes) -> bool:
+    for _, hx, hy, r, hw, hh in holes:
+        if r is not None:
+            if math.hypot(px - hx, py - hy) < r:
+                return True
+        else:
+            if abs(px - hx) < hw and abs(py - hy) < hh:
+                return True
+    return False
+
+
+def grid_points(holes) -> list:
+    """Return list of (x, y, skipped) in panel coords (origin=front-left)."""
+    xs = [-GRID_X_HALF + i * 2 * GRID_X_HALF / (GRID_COLS - 1)
+          for i in range(GRID_COLS)]
+    ys = [-GRID_Y_HALF + j * 2 * GRID_Y_HALF / (GRID_ROWS - 1)
+          for j in range(GRID_ROWS)]
+    # Grid is in work coords (origin=centre); convert to panel coords
+    points = []
+    for gy in ys:
+        for gx in xs:
+            px = PANEL_CX + gx   # panel X
+            py = PANEL_CY - gy   # panel Y (SVG Y flip: work Y+ = back = larger panel Y)
+            skip = point_in_hole(px, py, holes)
+            points.append((px, py, skip))
+    return points
+
+
+def probe_marker(x, y, r, color, label="") -> str:
+    """SVG crosshair + circle at panel coords (x,y). r=radius of circle."""
+    # In SVG inside the panel transform: svg_y = PANEL_H - panel_y
+    sx, sy = x, PANEL_H - y
+    lines = []
+    lines.append(f'<circle cx="{sx:.3f}" cy="{sy:.3f}" r="{r:.2f}" '
+                 f'fill="none" stroke="{color}" stroke-width="0.4"/>')
+    lines.append(f'<line x1="{sx-r*1.5:.3f}" y1="{sy:.3f}" '
+                 f'x2="{sx+r*1.5:.3f}" y2="{sy:.3f}" '
+                 f'stroke="{color}" stroke-width="0.3"/>')
+    lines.append(f'<line x1="{sx:.3f}" y1="{sy-r*1.5:.3f}" '
+                 f'x2="{sx:.3f}" y2="{sy+r*1.5:.3f}" '
+                 f'stroke="{color}" stroke-width="0.3"/>')
+    if label:
+        lines.append(f'<text x="{sx+r+0.5:.3f}" y="{sy+1:.3f}" '
+                     f'font-family="sans-serif" font-size="2.5" fill="{color}">{label}</text>')
+    return "\n    ".join(lines)
+
+
+def dot(x, y, r, color) -> str:
+    sx, sy = x, PANEL_H - y
+    return (f'<circle cx="{sx:.3f}" cy="{sy:.3f}" r="{r:.2f}" '
+            f'fill="{color}" stroke="none"/>')
+
+
 def parse_args():
     p = argparse.ArgumentParser(description="Overlay engraving design on cutting template")
-    p.add_argument("--output", default=str(OUTPUT),
-                   help=f"Output SVG path (default: {OUTPUT})")
-    p.add_argument("--template", default=str(TEMPLATE),
-                   help=f"Cutting template SVG (default: {TEMPLATE})")
-    p.add_argument("--engraving", default=str(ENGRAVING),
-                   help=f"Engraving SVG (default: {ENGRAVING})")
+    p.add_argument("--output",   default=str(OUTPUT))
+    p.add_argument("--template", default=str(TEMPLATE))
+    p.add_argument("--engraving",default=str(ENGRAVING))
     return p.parse_args()
 
 
@@ -66,12 +158,45 @@ def main():
 
     template_content  = extract_svg_content(Path(args.template))
     engraving_content = extract_svg_content(Path(args.engraving))
+    engraving_content = re.sub(r'<rect[^/]*/>', '', engraving_content, count=1).strip()
 
-    # The engraving SVG has a background rect — skip it so template shows through
-    # Remove the first <rect> element (background) from engraving content
-    engraving_content = re.sub(
-        r'<rect[^/]*/>', '', engraving_content, count=1
-    ).strip()
+    holes  = build_hole_list()
+    points = grid_points(holes)
+
+    n_probed  = sum(1 for _, _, s in points if not s)
+    n_skipped = sum(1 for _, _, s in points if s)
+
+    # Z reference probe point (work +20,0 -> panel X=90.9+20=110.9, Y=56.9)
+    z_ref_px = PANEL_CX + Z_REF_OFFSET_X
+    z_ref_py = PANEL_CY + Z_REF_OFFSET_Y   # Y=0 in work = panel centre Y
+
+    # Build probe markers (all in panel coords, rendered inside panel transform)
+    probe_svg_parts = []
+
+    # Grid points
+    for px, py, skip in points:
+        if skip:
+            probe_svg_parts.append(dot(px, py, 0.8, "#aaaaaa"))
+        else:
+            probe_svg_parts.append(dot(px, py, 1.0, "#00aacc"))
+
+    # Z reference probe
+    probe_svg_parts.append(probe_marker(z_ref_px, z_ref_py, 2.5, "#00aa00", "Z ref"))
+
+    probe_svg = "\n    ".join(probe_svg_parts)
+
+    legend_items = [
+        ("#00aacc", f"Grid probe points ({n_probed} probed)"),
+        ("#aaaaaa", f"Skipped — over hole ({n_skipped})"),
+        ("#00aa00", "Z reference probe (+20,0)"),
+    ]
+    legend_svg = ""
+    lx = 10.0
+    for color, label in legend_items:
+        legend_svg += (f'<circle cx="{lx:.1f}" cy="202" r="1.5" fill="{color}"/>'
+                       f'<text x="{lx+3:.1f}" y="203" font-family="sans-serif" '
+                       f'font-size="2.8" fill="#333">{label}</text>')
+        lx += 60.0
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -81,25 +206,29 @@ def main():
   <!-- Cutting template (holes, bezel holes, display cutouts) -->
   {template_content}
 
-  <!-- Engraving labels overlay
-       Transform: translate to panel origin in template coords.
-       The engraving SVG uses panel coords (0,0)=front-left, same as template panel origin.
-  -->
-  <g transform="translate({MARGIN_X:.3f},{MARGIN_Y:.3f})"
-     opacity="0.85">
+  <!-- Engraving labels + probe points overlay -->
+  <g transform="translate({MARGIN_X:.3f},{MARGIN_Y:.3f})" opacity="0.85">
     {engraving_content}
   </g>
 
+  <!-- Probe points (same panel transform) -->
+  <g transform="translate({MARGIN_X:.3f},{MARGIN_Y:.3f})">
+    {probe_svg}
+  </g>
+
   <!-- Legend -->
-  <text x="10" y="205" font-family="sans-serif" font-size="3" fill="#333">
-    Red/green: hole cuts  |  Dark brown: engraving labels  |  Verify no label overlaps a hole
+  <text x="10" y="196" font-family="sans-serif" font-size="2.5" fill="#555">
+    Dark brown: engraving labels  |  Red/green circles: hole cuts
   </text>
+  {legend_svg}
 
 </svg>'''
 
     out = Path(args.output)
     out.write_text(svg)
+    n_total = GRID_COLS * GRID_ROWS
     print(f"Written: {out}")
+    print(f"Grid: {GRID_COLS}×{GRID_ROWS} = {n_total} points  ({n_probed} probed, {n_skipped} skipped)")
 
 
 if __name__ == "__main__":
