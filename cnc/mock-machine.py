@@ -65,6 +65,10 @@ class MockMachine:
         # Spoilboard is at -MACHINE_Z_MAX, case sits on spoilboard
         self.case_surface_z = SPOILBOARD_Z_MACHINE + args.case_height
 
+        # Crown: sinusoidal surface variation (highest at centre, zero at edges)
+        # z_surface(x, y) = case_surface_z + crown * cos(pi*x/(2*hw)) * cos(pi*y/(2*hh))
+        self.crown = args.crown
+
         # Touch plate: placed on top of case surface during Z probing
         # Simulated as always present for Z probes when over the case
         self.touch_plate_thickness = args.touch_plate
@@ -79,6 +83,30 @@ class MockMachine:
 
         # WCS G54 offsets
         self.g54 = [0.0, 0.0, 0.0]
+
+    def _surface_z_at(self, machine_x, machine_y):
+        """Return the case top surface Z at a given machine XY position.
+
+        Applies sinusoidal crown: highest at centre, zero at edges.
+        """
+        if self.crown == 0.0:
+            return self.case_surface_z
+        # Position relative to case centre in case-local coords
+        dx = machine_x - self.case_center_x
+        dy = machine_y - self.case_center_y
+        cos_a = math.cos(-self.angle_rad)
+        sin_a = math.sin(-self.angle_rad)
+        local_x = dx * cos_a - dy * sin_a
+        local_y = dx * sin_a + dy * cos_a
+        # Normalised position (0 at centre, 1 at edge)
+        nx = local_x / DEFAULT_CASE_HALF_WIDTH
+        ny = local_y / DEFAULT_CASE_HALF_HEIGHT
+        # Clamp to case bounds
+        nx = max(-1.0, min(1.0, nx))
+        ny = max(-1.0, min(1.0, ny))
+        # Cosine crown: positive Z = higher surface = probe triggers earlier
+        z_offset = self.crown * math.cos(math.pi * nx / 2.0) * math.cos(math.pi * ny / 2.0)
+        return self.case_surface_z + z_offset
 
     def _rotated_edge(self, nominal_x, nominal_y, probe_axis, direction):
         """Compute where a probe along probe_axis/direction contacts the case edge.
@@ -199,10 +227,10 @@ class MockMachine:
                              abs(local_y) < DEFAULT_CASE_HALF_HEIGHT)
 
                 if over_case:
-                    surfaces.append(self.case_surface_z)
+                    surfaces.append(self._surface_z_at(self.pos[0], self.pos[1]))
                     # Touch plate sits on top of case surface when active
                     if self.touch_plate_active:
-                        surfaces.append(self.case_surface_z + self.touch_plate_thickness)
+                        surfaces.append(self._surface_z_at(self.pos[0], self.pos[1]) + self.touch_plate_thickness)
 
                 # Check surfaces from top to bottom
                 for surface_z in sorted(surfaces, reverse=True):
@@ -404,6 +432,10 @@ def main():
                    help="Case wall height in mm (default: 30.0)")
     p.add_argument("--touch-plate", type=float, default=19.25,
                    help="Touch plate thickness in mm (default: 19.25)")
+    p.add_argument("--crown", type=float, default=0.0,
+                   help="Surface crown height in mm — sinusoidal Z variation, "
+                        "highest at case centre, zero at edges (default: 0.0). "
+                        "Typical powder-coated die-cast case: 0.3–0.5mm.")
     p.add_argument("--symlink", default=SYMLINK,
                    help=f"Virtual port symlink path (default: {SYMLINK})")
     p.add_argument("--save-gcode", type=str, default=None,
@@ -429,6 +461,7 @@ def main():
     print(f"  Case center:  X={machine.case_center_x:.1f} Y={machine.case_center_y:.1f}")
     print(f"  Angle:        {args.angle:.3f}°")
     print(f"  Case height:  {args.case_height}mm")
+    print(f"  Crown:        {args.crown}mm")
     if args.save_gcode:
         print(f"  Recording to: {args.save_gcode}")
         with open(args.save_gcode, "w") as f:
